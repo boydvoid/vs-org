@@ -24,8 +24,29 @@
     "keybindings": [
       {
         "command": "extension.sayHello",
-        "key": "tab",
+        "key": "ctrl+shift+alt+space",
         "when": "editorTextFocus"
+      }
+    ],
+    "languages": [
+      {
+        "id": "vso",
+        "aliases": [
+          "VSOrg",
+          "vsorg",
+          "vso"
+        ],
+        "extensions": [
+          ".vsorg",
+          ".vso"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "vso",
+        "scopeName": "source.vso",
+        "path": "vso.tmLanguage"
       }
     ]
   },
