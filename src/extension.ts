@@ -26,6 +26,13 @@ export function activate(context: vscode.ExtensionContext) {
       //set the tag
       let tag = getTag();
       function getTag() {
+        if (currentLineText.indexOf("\u233e")) {
+          for (var i = 0; i < currentLineText.length; i++) {
+            if (currentLineText[i] === "\u233e") {
+              return "#";
+            }
+          }
+        }
         if (currentLineText.indexOf("#") !== -1) {
           for (var i = 0; i < currentLineText.length; i++) {
             if (currentLineText[i + 3] === "#") {
@@ -40,6 +47,17 @@ export function activate(context: vscode.ExtensionContext) {
             return "h1";
           }
         }
+      }
+      //turn back into markdown
+      if (tag === "\u233e") {
+        const edit = new vscode.WorkspaceEdit();
+        edit.delete(document.uri, getCurrentLine.range);
+        edit.insert(
+          document.uri,
+          getCurrentLine.range.start,
+          "#" + formattedText
+        );
+        return vscode.workspace.applyEdit(edit);
       }
       //h1
       if (tag === "h1") {
