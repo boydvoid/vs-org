@@ -15,11 +15,16 @@
   ],
   "main": "./out/extension",
   "contributes": {
-    "commands": [],
+    "commands": [
+      {
+        "command": "extension.addTodo",
+        "title": "VS-Org: Mark Todo"
+      }
+    ],
     "keybindings": [
       {
-        "command": "extension.sayHello",
-        "key": "ctrl+enter",
+        "command": "extension.addTodo",
+        "key": "shift+right",
         "when": "editorTextFocus"
       }
     ],
