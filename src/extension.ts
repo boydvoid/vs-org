@@ -62,42 +62,52 @@ export function activate(ctx: vscode.ExtensionContext): void {
 
   //commands
   vscode.commands.registerCommand("extension.addTodo", () => {
-    const { activeTextEditor } = vscode.window;
+    
+    addKeyword("⊖", "TODO");
+    addKeyword(" ⊙", "TODO");
+    addKeyword("   ✪", "TODO");
+    addKeyword("⊖", "DONE");
+    addKeyword(" ⊙", "DONE");
+    addKeyword("   ✪", "DONE");
+    
+    });
+    
+    // add TODO and DONE keywords
+    
+    function addKeyword(char: string, keyword: string) {
+      const { activeTextEditor } = vscode.window;
+      if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
+        const { document } = activeTextEditor;
+        //active text editor
+    //get the current line
+    let position = activeTextEditor.selection.active.line;
+    const getCurrentLine = document.lineAt(position);
+    //get the text of the current line
+    let currentLineText = getCurrentLine.text;
+    //remove leading spaces
+    let trimmedText = currentLineText.trim();
+    //remove special characters
+    let formattedText = trimmedText.replace(/[^\w\s!?]/g, "");
 
-    if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
-      //active text editor
-      const { document } = activeTextEditor;
-      //get the current line
-      let position = activeTextEditor.selection.active.line;
-      const getCurrentLine = document.lineAt(position);
-      //get the text of the current line
-      let currentLineText = getCurrentLine.text;
-      //remove leading spaces
-      let trimmedText = currentLineText.trim();
-      //remove special characters
-      let formattedText = trimmedText.replace(/[^\w\s!?]/g, "");
-      console.log(formattedText);
-      //set the tag
-      addTodo("⊖");
-      addTodo(" ⊙");
-      addTodo("   ✪");
-      function addTodo(char: string) {
-        //need to see if there is a header character
-        //add TODO after header character and before text
-        
-        if (currentLineText.includes(char)) {
-          let edit = new vscode.WorkspaceEdit();
-          edit.delete(document.uri, getCurrentLine.range);
-
-          edit.insert(
-            document.uri,
-            getCurrentLine.range.start,
-            char + " TODO " + formattedText
-          );
-
-          return vscode.workspace.applyEdit(edit);
-        }
+    if (currentLineText.includes(char)) {
+      let edit = new vscode.WorkspaceEdit();
+      edit.delete(document.uri, getCurrentLine.range);
+          
+      edit.insert(
+        document.uri,
+        getCurrentLine.range.start,
+        char + " " + keyword + " " + formattedText
+      );
+      
+      //check to see if keyword exists if not return it
+      if (keyword === "TODO" && !currentLineText.includes("TODO")) {
+        return vscode.workspace.applyEdit(edit);
+      } else if (keyword === "DONE" && !currentLineText.includes("DONE")) {
+        return vscode.workspace.applyEdit(edit);
+      } else {
+        return console.log('already todo');
       }
     }
-  });
+  }
+  
 }
