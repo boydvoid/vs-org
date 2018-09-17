@@ -19,52 +19,55 @@ export function activate(context: vscode.ExtensionContext) {
       //get the text of the current line
       let currentLineText = getCurrentLine.text;
       //remove special characters
-      let formattedText = currentLineText.replace(/[^a-zA-Z0-9]/g, "");
+      let formattedText = currentLineText.replace(/\*/g, '');;
       //set the tag
       let tag = getTag();
       function getTag() {
-        if (currentLineText.indexOf("\u233e")) {
-          for (var i = 0; i < currentLineText.length; i++) {
-            if (currentLineText[i] === "\u233e") {
-              return "#";
-            }
-          }
+        if (currentLineText.indexOf("Ⓐ") > -1) {
+      
+              return "Ⓐ";
+            
+          
         }
-        if (currentLineText.indexOf("#") !== -1) {
-          for (var i = 0; i < currentLineText.length; i++) {
-            if (currentLineText[i + 3] === "#") {
+        console.log(currentLineText.indexOf("*"))
+        if (currentLineText.indexOf("*") !== -1) {
+          for (var i = currentLineText.indexOf("*"); i < currentLineText.length; i++) {
+            if (currentLineText[i + 3] === "*") {
               return "h4";
             }
-            if (currentLineText[i + 2] === "#") {
+            if (currentLineText[i + 2] === "*") {
               return "h3";
             }
-            if (currentLineText[i + 1] === "#") {
+            if (currentLineText[i + 1] === "*") {
               return "h2";
+            } else {
+              return "h1";
             }
-            return "h1";
           }
         }
       }
 
       //turn back into markdown
-      if (tag === "\u233e") {
+      if (tag === "Ⓐ") {
         const edit = new vscode.WorkspaceEdit();
+        let replaceText = formattedText.replace(/\Ⓐ/g, '*');
         edit.delete(document.uri, getCurrentLine.range);
         edit.insert(
           document.uri,
           getCurrentLine.range.start,
-          "#" + formattedText
+          replaceText
         );
         return vscode.workspace.applyEdit(edit);
       }
       //h1
       if (tag === "h1") {
         const edit = new vscode.WorkspaceEdit();
+        let replaceText = formattedText.replace(/\*/g, 'Ⓐ');
         edit.delete(document.uri, getCurrentLine.range);
         edit.insert(
           document.uri,
           getCurrentLine.range.start,
-          "\u2300" + formattedText
+          "Ⓐ" + replaceText
         );
         return vscode.workspace.applyEdit(edit);
       }
@@ -75,10 +78,21 @@ export function activate(context: vscode.ExtensionContext) {
         edit.insert(
           document.uri,
           getCurrentLine.range.start,
-          "\u233e" + formattedText
+          " Ⓑ" + formattedText
         );
+      
         return vscode.workspace.applyEdit(edit);
       }
+        //h3
+        if (tag === "h3") {
+          const edit = new vscode.WorkspaceEdit();
+          edit.delete(document.uri, getCurrentLine.range);
+          edit.insert(
+            document.uri,
+            getCurrentLine.range.start,
+            "   Ⓒ" + formattedText
+          );
+          return vscode.workspace.applyEdit(edit);
     }
   });
 }

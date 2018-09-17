@@ -5,13 +5,10 @@
 <dict>
   <key>fileTypes</key>
   <array> 
-    <array>
-            <string>vso</string>
-            <string>vsorg</string>
-        </array>
+    <string>vso</string>
    </array>
   <key>name</key>
-  <string>vsorg</string>
+  <string>vso</string>
   <key>patterns</key>
   <array> 
     <dict>
@@ -33,40 +30,6 @@
           <key>include</key>
           <string>#numeric</string>
         </dict>
-        
-        <dict>
-          <key>include</key>
-          <string>#h1</string>
-        </dict>
-        <dict>
-          <key>begin</key>
-          <string>(\{)</string>
-          <key>beginCaptures</key>
-          <dict>
-            <key>1</key>
-            <dict>
-              <key>name</key>
-              <string>punctuation.vso</string>
-            </dict>
-          </dict>
-          <key>patterns</key>
-          <array> 
-            <dict>
-              <key>include</key>
-              <string>#main__1</string>
-            </dict>
-           </array>
-          <key>end</key>
-          <string>(\})</string>
-          <key>endCaptures</key>
-          <dict>
-            <key>1</key>
-            <dict>
-              <key>name</key>
-              <string>punctuation.vso</string>
-            </dict>
-          </dict>
-        </dict>
         <dict>
           <key>include</key>
           <string>#multi_line_comment</string>
@@ -79,44 +42,59 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>([^\s])</string>
+          <string>(\*{3}(.*))</string>
           <key>name</key>
-          <string>text.vso</string>
+          <string>keyword.operator.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(.[\x{002a}]{3}(.*))</string>
+          <string>(\*{2}(.*))</string>
           <key>name</key>
-          <string>keyword.vso</string>
+          <string>keyword.other.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(.[\x{002a}]{2}(.*))</string>
+          <string>(\*{1}(.*))</string>
+          <key>name</key>
+          <string>markup.heading.vso</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>([\x{24b6}](.*))</string>
+          <key>name</key>
+         <string>markup.heading.vso</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>([\x{24b7}](.*))</string>
+          <key>name</key>
+          <string>keyword.other.vso</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>([\x{24b8}]{1}(.*))</string>
+          <key>name</key>
+          <string>keyword.operator.vso</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>([\x{24b9}]{1}(.*))</string>
+          <key>name</key>
+         <string>entity.name.type.vso</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>([\x{24ba}]{1}(.*))</string>
           <key>name</key>
           <string>entity.name.function.vso</string>
         </dict>
-       <dict>
-          <key>match</key>
-          <string>(.[\x{002a}]{1}(.*))</string>
-          <key>name</key>
-          <string>punctuation.mysample</string>
-        </dict>
         <dict>
           <key>match</key>
-          <string>(.[\x{24b8}]{1}(.*))</string>
+          <string>([\x{24bb}]{1}(.*))</string>
           <key>name</key>
-          <string>entity.name.function.vso</string>
+          <string>entity.name.tag.vso</string>
         </dict>
-       </array>
-    </dict>
-    <key>main__1</key>
-    <dict>
-      <key>patterns</key>
-      <array> 
-        <dict>
-          <key>include</key>
-          <string>#main</string>
-        </dict>
+        
        </array>
     </dict>
     <key>multi_line_comment</key>

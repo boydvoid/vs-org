@@ -11,7 +11,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello"
+    "onCommand:extension.sayHello",
+    "onLanguage:vsorg"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -24,7 +25,7 @@
     "keybindings": [
       {
         "command": "extension.sayHello",
-        "key": "ctrl+shift+alt+space",
+        "key": "ctrl+enter",
         "when": "editorTextFocus"
       }
     ],
@@ -47,6 +48,12 @@
         "language": "vso",
         "scopeName": "source.vso",
         "path": "vso.tmLanguage"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "vso",
+        "path": "./snippets/vso.json"
       }
     ]
   },
