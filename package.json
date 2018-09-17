@@ -11,14 +11,10 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello",
-    "onLanguage:vsorg"
+    "onLanguage:vso"
   ],
   "main": "./out/extension",
   "contributes": {
-    "activationEvents": [
-      "onLanguage:vso"
-    ],
     "commands": [],
     "keybindings": [
       {

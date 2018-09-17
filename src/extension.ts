@@ -15,36 +15,36 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     token: vscode.CancellationToken
   ): Thenable<vscode.TextEdit[]> {
     return new Promise((resolve, reject) => {
-      console.log("anything");
+      let currentLine = document.lineAt(position);
+      if (currentLine.text.indexOf("*") > -1) {
+        for (var i = 0; i < currentLine.text.length; i++) {
+          if (!currentLine.text.includes("⊖")) {
+            if (currentLine.text === "* ") {
+              const getRange = document.lineAt(position).range;
+              let removeText = vscode.TextEdit.delete(getRange);
+              let insertText = vscode.TextEdit.insert(position, "⊖ ");
+              resolve([removeText, insertText]);
+            }
+          }
+          if (!currentLine.text.includes("⊙")) {
+            if (currentLine.text === "** ") {
+              const getRange = document.lineAt(position).range;
+              let removeText = vscode.TextEdit.delete(getRange);
+              let insertText = vscode.TextEdit.insert(position, "  ⊙ ");
+              resolve([removeText, insertText]);
+            }
+          }
 
-      const { activeTextEditor } = vscode.window;
-      if (activeTextEditor) {
-        let currentLine = activeTextEditor.selection.active.line;
-        let line = document.lineAt(currentLine);
-
-        const tEdit = [new vscode.TextEdit(line.range, "hi")];
-        // if (activeTextEditor) {
-
-        //   let text = line.text;
-        //   if (line.text.startsWith("*")) {
-        //     for (var i = 0; i < text.length; i++) {
-        //       if (text[i + 2] === "*" && text[i + 3] === "*") {
-        //         edit.delete(document.uri, line.range);
-        //         edit.insert(document.uri, line.range.start, "    ✪ ");
-        //         format = vscode.workspace.applyEdit(edit)
-        //       }
-        //       if (text[i + 1] === "*" && text[i + 2] === "*") {
-        //         edit.delete(document.uri, line.range);
-        //         edit.insert(document.uri, line.range.start, "    ✪ ");
-        //       }
-        //       if (text[i + 1] === "*") {
-        //         edit.delete(document.uri, line.range);
-        //         edit.insert(document.uri, line.range.start, "    ✪ ");
-        //       }
-        //     }
-        //   }
-        // }
-        resolve(tEdit);
+          //check to see if its already been formatted
+          if (!currentLine.text.includes("✪")) {
+            if (currentLine.text.includes("*** ")) {
+              const getRange = document.lineAt(position).range;
+              let removeText = vscode.TextEdit.delete(getRange);
+              let insertText = vscode.TextEdit.insert(position, "    ✪ ");
+              resolve([removeText, insertText]);
+            }
+          }
+        }
       }
     });
   }
@@ -55,7 +55,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
     vscode.languages.registerOnTypeFormattingEditProvider(
       GO_MODE,
       new GoOnTypingFormatter(),
-      "*hi"
+      " "
     )
   );
 }
