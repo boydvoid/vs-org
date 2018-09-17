@@ -1,0 +1,17 @@
+{
+  "section_header": {
+    "prefix": "* ",
+    "body": ["⊖ "],
+    "description": "Section Header"
+  },
+  "secondary_header": {
+    "prefix": "** ",
+    "body": ["⊙ "],
+    "description": "Section Header"
+  },
+  "tertiary_header": {
+    "prefix": "*** ",
+    "body": ["✪ "],
+    "description": "Section Header"
+  }
+}

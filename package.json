@@ -11,21 +11,43 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello"
+    "onLanguage:vso"
   ],
   "main": "./out/extension",
   "contributes": {
-    "commands": [
-      {
-        "command": "extension.sayHello",
-        "title": "Wassup"
-      }
-    ],
+    "commands": [],
     "keybindings": [
       {
         "command": "extension.sayHello",
-        "key": "tab",
+        "key": "ctrl+enter",
         "when": "editorTextFocus"
+      }
+    ],
+    "languages": [
+      {
+        "id": "vso",
+        "aliases": [
+          "VSOrg",
+          "vsorg",
+          "vso"
+        ],
+        "extensions": [
+          ".vsorg",
+          ".vso"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "vso",
+        "scopeName": "source.vso",
+        "path": "vso.tmLanguage"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "vso",
+        "path": "./snippets/vso.json"
       }
     ]
   },
