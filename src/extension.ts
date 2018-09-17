@@ -2,100 +2,60 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-var fs = require("fs");
-var path = require("path");
+
+const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-  vscode.commands.registerCommand("extension.sayHello", () => {
-    const { activeTextEditor } = vscode.window;
-    if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
-      //active text editor
-      const { document } = activeTextEditor;
+class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
+  public provideOnTypeFormattingEdits(
+    document: vscode.TextDocument,
+    position: vscode.Position,
+    ch: string,
+    options: vscode.FormattingOptions,
+    token: vscode.CancellationToken
+  ): Thenable<vscode.TextEdit[]> {
+    return new Promise((resolve, reject) => {
+      console.log("anything");
 
-      //get the current line
-      let setCurrentLine = activeTextEditor.selection.active.line;
-      const getCurrentLine = document.lineAt(setCurrentLine);
-      //get the text of the current line
-      let currentLineText = getCurrentLine.text;
-      //remove special characters
-      let formattedText = currentLineText.replace(/\*/g, '');;
-      //set the tag
-      let tag = getTag();
-      function getTag() {
-        if (currentLineText.indexOf("Ⓐ") > -1) {
-      
-              return "Ⓐ";
-            
-          
-        }
-        console.log(currentLineText.indexOf("*"))
-        if (currentLineText.indexOf("*") !== -1) {
-          for (var i = currentLineText.indexOf("*"); i < currentLineText.length; i++) {
-            if (currentLineText[i + 3] === "*") {
-              return "h4";
-            }
-            if (currentLineText[i + 2] === "*") {
-              return "h3";
-            }
-            if (currentLineText[i + 1] === "*") {
-              return "h2";
-            } else {
-              return "h1";
-            }
-          }
-        }
-      }
+      const { activeTextEditor } = vscode.window;
+      if (activeTextEditor) {
+        let currentLine = activeTextEditor.selection.active.line;
+        let line = document.lineAt(currentLine);
 
-      //turn back into markdown
-      if (tag === "Ⓐ") {
-        const edit = new vscode.WorkspaceEdit();
-        let replaceText = formattedText.replace(/\Ⓐ/g, '*');
-        edit.delete(document.uri, getCurrentLine.range);
-        edit.insert(
-          document.uri,
-          getCurrentLine.range.start,
-          replaceText
-        );
-        return vscode.workspace.applyEdit(edit);
+        const tEdit = [new vscode.TextEdit(line.range, "hi")];
+        // if (activeTextEditor) {
+
+        //   let text = line.text;
+        //   if (line.text.startsWith("*")) {
+        //     for (var i = 0; i < text.length; i++) {
+        //       if (text[i + 2] === "*" && text[i + 3] === "*") {
+        //         edit.delete(document.uri, line.range);
+        //         edit.insert(document.uri, line.range.start, "    ✪ ");
+        //         format = vscode.workspace.applyEdit(edit)
+        //       }
+        //       if (text[i + 1] === "*" && text[i + 2] === "*") {
+        //         edit.delete(document.uri, line.range);
+        //         edit.insert(document.uri, line.range.start, "    ✪ ");
+        //       }
+        //       if (text[i + 1] === "*") {
+        //         edit.delete(document.uri, line.range);
+        //         edit.insert(document.uri, line.range.start, "    ✪ ");
+        //       }
+        //     }
+        //   }
+        // }
+        resolve(tEdit);
       }
-      //h1
-      if (tag === "h1") {
-        const edit = new vscode.WorkspaceEdit();
-        let replaceText = formattedText.replace(/\*/g, 'Ⓐ');
-        edit.delete(document.uri, getCurrentLine.range);
-        edit.insert(
-          document.uri,
-          getCurrentLine.range.start,
-          "Ⓐ" + replaceText
-        );
-        return vscode.workspace.applyEdit(edit);
-      }
-      //h2
-      if (tag === "h2") {
-        const edit = new vscode.WorkspaceEdit();
-        edit.delete(document.uri, getCurrentLine.range);
-        edit.insert(
-          document.uri,
-          getCurrentLine.range.start,
-          " Ⓑ" + formattedText
-        );
-      
-        return vscode.workspace.applyEdit(edit);
-      }
-        //h3
-        if (tag === "h3") {
-          const edit = new vscode.WorkspaceEdit();
-          edit.delete(document.uri, getCurrentLine.range);
-          edit.insert(
-            document.uri,
-            getCurrentLine.range.start,
-            "   Ⓒ" + formattedText
-          );
-          return vscode.workspace.applyEdit(edit);
-    }
-  });
+    });
+  }
 }
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+export function activate(ctx: vscode.ExtensionContext): void {
+  ctx.subscriptions.push(
+    vscode.languages.registerOnTypeFormattingEditProvider(
+      GO_MODE,
+      new GoOnTypingFormatter(),
+      "*hi"
+    )
+  );
+}

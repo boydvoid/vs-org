@@ -16,12 +16,10 @@
   ],
   "main": "./out/extension",
   "contributes": {
-    "commands": [
-      {
-        "command": "extension.sayHello",
-        "title": "Wassup"
-      }
+    "activationEvents": [
+      "onLanguage:vso"
     ],
+    "commands": [],
     "keybindings": [
       {
         "command": "extension.sayHello",
