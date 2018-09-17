@@ -60,19 +60,19 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{24b6}](.*))</string>
+          <string>([\x{2295}](.*))</string>
           <key>name</key>
          <string>markup.heading.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{24b7}](.*))</string>
+          <string>([\x{2299}](.*))</string>
           <key>name</key>
           <string>keyword.other.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{24b8}]{1}(.*))</string>
+          <string>([\x{272A}]{1}(.*))</string>
           <key>name</key>
           <string>keyword.operator.vso</string>
         </dict>
