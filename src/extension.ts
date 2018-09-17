@@ -84,7 +84,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
       function addTodo(char: string) {
         //need to see if there is a header character
         //add TODO after header character and before text
-
+        
         if (currentLineText.includes(char)) {
           let edit = new vscode.WorkspaceEdit();
           edit.delete(document.uri, getCurrentLine.range);
