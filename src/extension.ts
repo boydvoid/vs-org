@@ -61,62 +61,118 @@ export function activate(ctx: vscode.ExtensionContext): void {
   );
 
   //commands
-  vscode.commands.registerCommand("extension.addTodo", () => {
-    
-    addKeyword("⊖", "TODO");
-    addKeyword(" ⊙", "TODO");
-    addKeyword("   ✪", "TODO");
-    addKeyword("⊖", "DONE");
-    addKeyword(" ⊙", "DONE");
-    addKeyword("   ✪", "DONE");
-    
-    });
-    
-    // add TODO and DONE keywords
-    
-    function addKeyword(char: string, keyword: string) {
-      const { activeTextEditor } = vscode.window;
-      if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
-        const { document } = activeTextEditor;
-        //active text editor
-    //get the current line
-    let position = activeTextEditor.selection.active.line;
-    const getCurrentLine = document.lineAt(position);
-    //get the text of the current line
-    let currentLineText = getCurrentLine.text;
-    //remove leading spaces
-    let trimmedText = currentLineText.trim();
-    //remove special characters
-    let formattedText = trimmedText.replace(/[^\w\s!?]/g, "");
-     let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "");
-    if (currentLineText.includes(char)) {
-      let edit = new vscode.WorkspaceEdit();
-      let removeEdit = new vscode.WorkspaceEdit();
-      edit.delete(document.uri, getCurrentLine.range);
-          
-      edit.insert(
-        document.uri,
-        getCurrentLine.range.start,
-        char + " " + keyword + " " + formattedText
-      );
-      //remove the keyword 
-      removeEdit.delete(document.uri, getCurrentLine.range);
-          
-      removeEdit.insert(
-        document.uri,
-        getCurrentLine.range.start,
-        char + removedKeyword
-      );
-      //check to see if keyword exists if not return it
-      if (keyword === "TODO" && !currentLineText.includes("TODO")) {
+  vscode.commands.registerCommand("extension.toggleStatusRight", () => {
+    addKeywordRight("⊖");
+    addKeywordRight(" ⊙");
+    addKeywordRight("   ✪");
+  });
+
+  // add TODO and DONE keywords
+
+  function addKeywordRight(char: string) {
+    const { activeTextEditor } = vscode.window;
+    if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
+      const { document } = activeTextEditor;
+      //active text editor
+      //get the current line
+      let position = activeTextEditor.selection.active.line;
+      const getCurrentLine = document.lineAt(position);
+      //get the text of the current line
+      let currentLineText = getCurrentLine.text;
+      //remove special characters
+      let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
+      if (currentLineText.includes(char)) {
+        let edit = new vscode.WorkspaceEdit();
+        let removeEdit = new vscode.WorkspaceEdit();
+        edit.delete(document.uri, getCurrentLine.range);
+        if (currentLineText.includes("DONE")) {
+          //remove the keyword
+          let removedKeyword = formattedText
+            .replace(/\b(DONE|TODO)\b/gi, "")
+            .trim();
+          console.log(removedKeyword);
+          removeEdit.delete(document.uri, getCurrentLine.range);
+          removeEdit.insert(
+            document.uri,
+            getCurrentLine.range.start,
+            char + removedKeyword
+          );
+
+          return vscode.workspace.applyEdit(removeEdit);
+        } else if (!currentLineText.includes("TODO")) {
+          edit.insert(
+            document.uri,
+            getCurrentLine.range.start,
+            char + " " + "TODO" + " " + formattedText
+          );
+        } else if (!currentLineText.includes("DONE")) {
+          let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
+          edit.insert(
+            document.uri,
+            getCurrentLine.range.start,
+            char + " " + "DONE" + " " + removeTodo
+          );
+        }
         return vscode.workspace.applyEdit(edit);
-      } else if (keyword === "DONE" && !currentLineText.includes("DONE")) {
-        return vscode.workspace.applyEdit(edit);
-      } else {
-       
-        return vscode.workspace.applyEdit(removeEdit);
       }
     }
   }
-  
+}
+
+vscode.commands.registerCommand("extension.toggleStatusLeft", () => {
+    addKeywordLeft("⊖");
+    addKeywordLeft(" ⊙");
+    addKeywordLeft("   ✪");
+  });
+
+  // add TODO and DONE keywords
+
+  function addKeywordLeft(char: string) {
+    const { activeTextEditor } = vscode.window;
+    if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
+      const { document } = activeTextEditor;
+      //active text editor
+      //get the current line
+      let position = activeTextEditor.selection.active.line;
+      const getCurrentLine = document.lineAt(position);
+      //get the text of the current line
+      let currentLineText = getCurrentLine.text;
+      //remove special characters
+      let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
+      if (currentLineText.includes(char)) {
+        let edit = new vscode.WorkspaceEdit();
+        let removeEdit = new vscode.WorkspaceEdit();
+        edit.delete(document.uri, getCurrentLine.range);
+        if (currentLineText.includes("DONE")) {
+          //remove the keyword
+          let removedKeyword = formattedText
+            .replace(/\b(DONE|TODO)\b/gi, "")
+            .trim();
+          console.log(removedKeyword);
+          removeEdit.delete(document.uri, getCurrentLine.range);
+          removeEdit.insert(
+            document.uri,
+            getCurrentLine.range.start,
+            char + removedKeyword
+          );
+
+          return vscode.workspace.applyEdit(removeEdit);
+        } else if (!currentLineText.includes("TODO")) {
+          edit.insert(
+            document.uri,
+            getCurrentLine.range.start,
+            char + " " + "TODO" + " " + formattedText
+          );
+        } else if (!currentLineText.includes("DONE")) {
+          let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
+          edit.insert(
+            document.uri,
+            getCurrentLine.range.start,
+            char + " " + "DONE" + " " + removeTodo
+          );
+        }
+        return vscode.workspace.applyEdit(edit);
+      }
+    }
+  }
 }
