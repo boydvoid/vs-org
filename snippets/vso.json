@@ -11,7 +11,7 @@
   },
   "tertiary_header": {
     "prefix": "*** ",
-    "body": ["✪ "],
+    "body": ["⊘ "],
     "description": "Section Header"
   }
 }
