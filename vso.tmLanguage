@@ -60,7 +60,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{2295}](.*))</string>
+          <string>([\x{2296}](.*))</string>
           <key>name</key>
          <string>markup.heading.vso</string>
         </dict>
@@ -91,6 +91,12 @@
         <dict>
           <key>match</key>
           <string>([\x{24bb}]{1}(.*))</string>
+          <key>name</key>
+          <string>entity.name.tag.vso</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\\bTODO\\b)</string>
           <key>name</key>
           <string>entity.name.tag.vso</string>
         </dict>
