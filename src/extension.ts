@@ -2,7 +2,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { format } from "path";
 
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 // this method is called when your extension is activated
@@ -26,36 +25,71 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
         console.log(numOfAsterisk);
         for (var i = 0; i < currentLine.text.length; i++) {
           //only format if it doesn't have the character
-          if (!currentLine.text.includes("⊖")) {
-            //check to see which character to format
-
-            if (
-              !currentLine.text.includes("⊙") ||
-              !currentLine.text.includes("✪") ||
-              !currentLine.text.includes("⊖")
-            ) {
-              if (numOfAsterisk % 2 === 0) {
-                const getRange = document.lineAt(position).range;
-                let removeText = vscode.TextEdit.delete(getRange);
-                let insertText = vscode.TextEdit.insert(position, " ⊙");
-                resolve([removeText, insertText]);
-              } else if (numOfAsterisk % 3 === 0) {
-                const getRange = document.lineAt(position).range;
-                let removeText = vscode.TextEdit.delete(getRange);
-                let insertText = vscode.TextEdit.insert(position, "   ✪");
-                resolve([removeText, insertText]);
-              } else {
-                const getRange = document.lineAt(position).range;
-                let removeText = vscode.TextEdit.delete(getRange);
-                let insertText = vscode.TextEdit.insert(position, "⊖");
-                resolve([removeText, insertText]);
-              }
+          // TODO clean this up
+          if (
+            !currentLine.text.includes("⊙") ||
+            !currentLine.text.includes("⊘") ||
+            !currentLine.text.includes("⊖")
+          ) {
+            if (numOfAsterisk % 9 === 0) {
+              resolve(
+                textEdit("⊘", position, document, numOfSpaces(numOfAsterisk))
+              );
+            } else if (numOfAsterisk % 8 === 0) {
+              resolve(
+                textEdit("⊙", position, document, numOfSpaces(numOfAsterisk))
+              );
+            } else if (numOfAsterisk % 7 === 0) {
+              resolve(
+                textEdit("⊖", position, document, numOfSpaces(numOfAsterisk))
+              );
+            } else if (numOfAsterisk % 6 === 0) {
+              resolve(
+                textEdit("⊘", position, document, numOfSpaces(numOfAsterisk))
+              );
+            } else if (numOfAsterisk % 5 === 0) {
+              resolve(
+                textEdit("⊙", position, document, numOfSpaces(numOfAsterisk))
+              );
+            } else if (numOfAsterisk % 4 === 0) {
+              resolve(
+                textEdit("⊖", position, document, numOfSpaces(numOfAsterisk))
+              );
+            } else if (numOfAsterisk % 3 === 0) {
+              resolve(
+                textEdit("⊘", position, document, numOfSpaces(numOfAsterisk))
+              );
+            } else if (numOfAsterisk % 2 === 0) {
+              resolve(
+                textEdit("⊙", position, document, numOfSpaces(numOfAsterisk))
+              );
+            } else if (numOfAsterisk % 1 === 0) {
+              resolve(
+                textEdit("⊖", position, document, numOfSpaces(numOfAsterisk))
+              );
             }
           }
         }
       }
     });
   }
+}
+
+// text edit function
+function textEdit(char: any, position: any, document: any, spaces: any) {
+  const getRange = document.lineAt(position).range;
+  let removeText = vscode.TextEdit.delete(getRange);
+  let insertText = vscode.TextEdit.insert(position, spaces + char);
+  return [removeText, insertText];
+}
+
+// number of spaces to add function
+function numOfSpaces(asterisk: number) {
+  let spacesArray = [];
+  for (let i = 0; i < asterisk; i++) {
+    spacesArray.push(" ");
+  }
+  return spacesArray.join("");
 }
 //activate function, format on space bar press
 export function activate(ctx: vscode.ExtensionContext): void {
