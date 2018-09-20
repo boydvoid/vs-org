@@ -18,33 +18,38 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     return new Promise((resolve, reject) => {
       //get the current line as a number
       let currentLine = document.lineAt(position);
-      // only format if it has a * 
+      // only format if it has a *
       if (currentLine.text.indexOf("*") > -1) {
+        //get the number of *
+
+        let numOfAsterisk = currentLine.text.split("*").length - 1;
+        console.log(numOfAsterisk);
         for (var i = 0; i < currentLine.text.length; i++) {
           //only format if it doesn't have the character
           if (!currentLine.text.includes("⊖")) {
-            //check to see which character to format 
-            if (currentLine.text === "* ") {
-              const getRange = document.lineAt(position).range;
-              let removeText = vscode.TextEdit.delete(getRange);
-              let insertText = vscode.TextEdit.insert(position, "⊖");
-              resolve([removeText, insertText]);
-            }
-          }
-          if (!currentLine.text.includes("⊙")) {
-            if (currentLine.text === "** ") {
-              const getRange = document.lineAt(position).range;
-              let removeText = vscode.TextEdit.delete(getRange);
-              let insertText = vscode.TextEdit.insert(position, " ⊙");
-              resolve([removeText, insertText]);
-            }
-          }
-          if (!currentLine.text.includes("✪")) {
-            if (currentLine.text.includes("*** ")) {
-              const getRange = document.lineAt(position).range;
-              let removeText = vscode.TextEdit.delete(getRange);
-              let insertText = vscode.TextEdit.insert(position, "   ✪");
-              resolve([removeText, insertText]);
+            //check to see which character to format
+
+            if (
+              !currentLine.text.includes("⊙") ||
+              !currentLine.text.includes("✪") ||
+              !currentLine.text.includes("⊖")
+            ) {
+              if (numOfAsterisk % 2 === 0) {
+                const getRange = document.lineAt(position).range;
+                let removeText = vscode.TextEdit.delete(getRange);
+                let insertText = vscode.TextEdit.insert(position, " ⊙");
+                resolve([removeText, insertText]);
+              } else if (numOfAsterisk % 3 === 0) {
+                const getRange = document.lineAt(position).range;
+                let removeText = vscode.TextEdit.delete(getRange);
+                let insertText = vscode.TextEdit.insert(position, "   ✪");
+                resolve([removeText, insertText]);
+              } else {
+                const getRange = document.lineAt(position).range;
+                let removeText = vscode.TextEdit.delete(getRange);
+                let insertText = vscode.TextEdit.insert(position, "⊖");
+                resolve([removeText, insertText]);
+              }
             }
           }
         }
@@ -52,7 +57,7 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     });
   }
 }
-//activate function, format on space bar press 
+//activate function, format on space bar press
 export function activate(ctx: vscode.ExtensionContext): void {
   ctx.subscriptions.push(
     vscode.languages.registerOnTypeFormattingEditProvider(
@@ -63,14 +68,14 @@ export function activate(ctx: vscode.ExtensionContext): void {
   );
 
   //---commands---------------//
-  
+
   //shift + right
   vscode.commands.registerCommand("extension.toggleStatusRight", () => {
     addKeywordRight("⊖");
     addKeywordRight(" ⊙");
     addKeywordRight("   ✪");
   });
-//add or remove TODO then DONE 
+  //add or remove TODO then DONE
   function addKeywordRight(char: string) {
     const { activeTextEditor } = vscode.window;
     if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
@@ -82,7 +87,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
       let currentLineText = getCurrentLine.text;
       //remove special characters and leading and trailing spaces
       let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
-      //make sure there is a character 
+      //make sure there is a character
       if (currentLineText.includes(char)) {
         let edit = new vscode.WorkspaceEdit();
         let removeEdit = new vscode.WorkspaceEdit();
@@ -122,14 +127,14 @@ export function activate(ctx: vscode.ExtensionContext): void {
   }
 }
 
-//shift + left 
+//shift + left
 vscode.commands.registerCommand("extension.toggleStatusLeft", () => {
   addKeywordLeft("⊖");
   addKeywordLeft(" ⊙");
   addKeywordLeft("   ✪");
 });
 
-//add or remove DONE then TODO 
+//add or remove DONE then TODO
 function addKeywordLeft(char: string) {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
