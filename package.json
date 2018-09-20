@@ -17,14 +17,23 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.addTodo",
-        "title": "VS-Org: Mark Todo"
+        "command": "extension.toggleStatusRight",
+        "title": "VS-Org: Toggle TODO or DONE"
+      },
+      {
+        "command": "extension.toggleStatus",
+        "title": "VS-Org: Toggle TODO or DONE"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.addTodo",
+        "command": "extension.toggleStatusRight",
         "key": "shift+right",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.toggleStatusLeft",
+        "key": "shift+left",
         "when": "editorTextFocus"
       }
     ],
