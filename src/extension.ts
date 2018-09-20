@@ -31,48 +31,30 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
             !currentLine.text.includes("⊘") ||
             !currentLine.text.includes("⊖")
           ) {
-            if (numOfAsterisk % 9 === 0) {
-              resolve(
-                textEdit("⊘", position, document, numOfSpaces(numOfAsterisk))
-              );
-            } else if (numOfAsterisk % 8 === 0) {
-              resolve(
-                textEdit("⊙", position, document, numOfSpaces(numOfAsterisk))
-              );
-            } else if (numOfAsterisk % 7 === 0) {
-              resolve(
-                textEdit("⊖", position, document, numOfSpaces(numOfAsterisk))
-              );
-            } else if (numOfAsterisk % 6 === 0) {
-              resolve(
-                textEdit("⊘", position, document, numOfSpaces(numOfAsterisk))
-              );
-            } else if (numOfAsterisk % 5 === 0) {
-              resolve(
-                textEdit("⊙", position, document, numOfSpaces(numOfAsterisk))
-              );
-            } else if (numOfAsterisk % 4 === 0) {
-              resolve(
-                textEdit("⊖", position, document, numOfSpaces(numOfAsterisk))
-              );
-            } else if (numOfAsterisk % 3 === 0) {
-              resolve(
-                textEdit("⊘", position, document, numOfSpaces(numOfAsterisk))
-              );
-            } else if (numOfAsterisk % 2 === 0) {
-              resolve(
-                textEdit("⊙", position, document, numOfSpaces(numOfAsterisk))
-              );
-            } else if (numOfAsterisk % 1 === 0) {
-              resolve(
-                textEdit("⊖", position, document, numOfSpaces(numOfAsterisk))
-              );
-            }
+            console.log(getChar(numOfAsterisk));
+            resolve(
+              textEdit(
+                getChar(numOfAsterisk),
+                position,
+                document,
+                numOfSpaces(numOfAsterisk)
+              )
+            );
           }
         }
       }
     });
   }
+}
+
+//get the unicode character depending on how many asterisks there are
+function getChar(asterisk: any) {
+  let characters = ["⊖", "⊙", "⊘"];
+  for (let i = 0; i < asterisk; i++) {
+    characters.push(characters.shift());
+  }
+
+  return characters[0];
 }
 
 // text edit function
