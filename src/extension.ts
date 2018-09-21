@@ -177,13 +177,20 @@ function addKeywordLeft(char: string) {
     const getCurrentLine = document.lineAt(position);
     //get the text of the current line
     let currentLineText = getCurrentLine.text;
+
+    let removeDate = currentLineText.substring(
+      currentLineText.indexOf("["),
+      currentLineText.indexOf("]")
+    );
+    let datelessText = currentLineText.replace(removeDate, "");
     //remove special characters
-    let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
+    let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
 
     let getLeadingSpace = currentLineText.substr(
       0,
       currentLineText.indexOf(char)
     );
+    let date = new Date().toLocaleString();
     if (currentLineText.includes(char)) {
       let edit = new vscode.WorkspaceEdit();
       let removeEdit = new vscode.WorkspaceEdit();
@@ -205,7 +212,7 @@ function addKeywordLeft(char: string) {
         edit.insert(
           document.uri,
           getCurrentLine.range.start,
-          getLeadingSpace + char + "DONE" + " " + formattedText
+          getLeadingSpace + char + "DONE " + "[" + date + "] " + formattedText
         );
       } else if (!currentLineText.includes("TODO")) {
         let removeDone = formattedText.replace(/\b(DONE)\b/gi, "").trim();
