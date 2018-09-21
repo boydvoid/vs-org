@@ -83,79 +83,78 @@ export function activate(ctx: vscode.ExtensionContext): void {
       " "
     )
   );
+}
+//---commands---------------//
 
-  //---commands---------------//
+//shift + right
+vscode.commands.registerCommand("extension.toggleStatusRight", () => {
+  addKeywordRight("⊖ ");
+  addKeywordRight("⊙ ");
+  addKeywordRight("⊘ ");
+});
+//add or remove TODO then DONE
+function addKeywordRight(char: string) {
+  const { activeTextEditor } = vscode.window;
+  if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
+    const { document } = activeTextEditor;
+    //get the current line
+    let position = activeTextEditor.selection.active.line;
+    const getCurrentLine = document.lineAt(position);
 
-  //shift + right
-  vscode.commands.registerCommand("extension.toggleStatusRight", () => {
-    addKeywordRight("⊖ ");
-    addKeywordRight("⊙ ");
-    addKeywordRight("⊘ ");
-  });
-  //add or remove TODO then DONE
-  function addKeywordRight(char: string) {
-    const { activeTextEditor } = vscode.window;
-    if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
-      const { document } = activeTextEditor;
-      //get the current line
-      let position = activeTextEditor.selection.active.line;
-      const getCurrentLine = document.lineAt(position);
+    //get the text of the current line
+    let currentLineText = getCurrentLine.text;
+    let removeDate = currentLineText.substring(
+      currentLineText.indexOf("["),
+      currentLineText.indexOf("]")
+    );
+    let datelessText = currentLineText.replace(removeDate, "");
+    //remove special characters and leading and trailing spaces
+    let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
 
-      //get the text of the current line
-      let currentLineText = getCurrentLine.text;
-      let removeDate = currentLineText.substring(
-        currentLineText.indexOf("["),
-        currentLineText.indexOf("]")
-      );
-      let datelessText = currentLineText.replace(removeDate, "");
-      //remove special characters and leading and trailing spaces
-      let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
+    let getLeadingSpace = currentLineText.substr(
+      0,
+      currentLineText.indexOf(char)
+    );
 
-      let getLeadingSpace = currentLineText.substr(
-        0,
-        currentLineText.indexOf(char)
-      );
+    let date = new Date().toLocaleString();
 
-      let date = new Date().toLocaleString();
+    console.log(removeDate);
 
-      console.log(removeDate);
+    //make sure there is a character
+    if (currentLineText.includes(char)) {
+      let edit = new vscode.WorkspaceEdit();
+      let removeEdit = new vscode.WorkspaceEdit();
+      edit.delete(document.uri, getCurrentLine.range);
 
-      //make sure there is a character
-      if (currentLineText.includes(char)) {
-        let edit = new vscode.WorkspaceEdit();
-        let removeEdit = new vscode.WorkspaceEdit();
-        edit.delete(document.uri, getCurrentLine.range);
+      if (currentLineText.includes("DONE")) {
+        //remove the keyword
+        console.log(datelessText);
+        let removedKeyword = formattedText
+          .replace(/\b(DONE|TODO)\b/gi, "")
+          .trim();
+        removeEdit.delete(document.uri, getCurrentLine.range);
+        removeEdit.insert(
+          document.uri,
+          getCurrentLine.range.start,
+          getLeadingSpace + char + removedKeyword
+        );
+        return vscode.workspace.applyEdit(removeEdit);
+      } else if (!currentLineText.includes("TODO")) {
+        edit.insert(
+          document.uri,
+          getCurrentLine.range.start,
+          getLeadingSpace + char + "TODO " + formattedText
+        );
+      } else if (!currentLineText.includes("DONE")) {
+        let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
 
-        if (currentLineText.includes("DONE")) {
-          //remove the keyword
-          console.log(datelessText);
-          let removedKeyword = formattedText
-            .replace(/\b(DONE|TODO)\b/gi, "")
-            .trim();
-          removeEdit.delete(document.uri, getCurrentLine.range);
-          removeEdit.insert(
-            document.uri,
-            getCurrentLine.range.start,
-            getLeadingSpace + char + removedKeyword
-          );
-          return vscode.workspace.applyEdit(removeEdit);
-        } else if (!currentLineText.includes("TODO")) {
-          edit.insert(
-            document.uri,
-            getCurrentLine.range.start,
-            getLeadingSpace + char + "TODO " + formattedText
-          );
-        } else if (!currentLineText.includes("DONE")) {
-          let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
-
-          edit.insert(
-            document.uri,
-            getCurrentLine.range.start,
-            getLeadingSpace + char + "DONE " + "[" + date + "] " + removeTodo
-          );
-        }
-        return vscode.workspace.applyEdit(edit);
+        edit.insert(
+          document.uri,
+          getCurrentLine.range.start,
+          getLeadingSpace + char + "DONE " + "[" + date + "] " + removeTodo
+        );
       }
+      return vscode.workspace.applyEdit(edit);
     }
   }
 }
