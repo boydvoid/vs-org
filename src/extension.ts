@@ -49,7 +49,7 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
 
 //get the unicode character depending on how many asterisks there are
 function getChar(asterisk: any) {
-  let characters = ["⊖", "⊙", "⊘"];
+  let characters = ["⊖ ", "⊙ ", "⊘ "];
   for (let i = 0; i < asterisk; i++) {
     characters.push(characters.shift());
   }
