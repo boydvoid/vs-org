@@ -49,7 +49,7 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
 
 //get the unicode character depending on how many asterisks there are
 function getChar(asterisk: any) {
-  let characters = ["⊖", "⊙", "⊘"];
+  let characters = ["⊖ ", "⊙ ", "⊘ "];
   for (let i = 0; i < asterisk; i++) {
     characters.push(characters.shift());
   }
@@ -87,9 +87,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
 
   //shift + right
   vscode.commands.registerCommand("extension.toggleStatusRight", () => {
-    addKeywordRight("⊖");
-    addKeywordRight(" ⊙");
-    addKeywordRight("   ✪");
+    addKeywordRight("⊖ ");
+    addKeywordRight("⊙ ");
+    addKeywordRight("⊘ ");
   });
   //add or remove TODO then DONE
   function addKeywordRight(char: string) {
@@ -103,6 +103,11 @@ export function activate(ctx: vscode.ExtensionContext): void {
       let currentLineText = getCurrentLine.text;
       //remove special characters and leading and trailing spaces
       let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
+
+      let getLeadingSpace = currentLineText.substr(
+        0,
+        currentLineText.indexOf(char)
+      );
       //make sure there is a character
       if (currentLineText.includes(char)) {
         let edit = new vscode.WorkspaceEdit();
@@ -119,7 +124,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
           removeEdit.insert(
             document.uri,
             getCurrentLine.range.start,
-            char + removedKeyword
+            getLeadingSpace + char + removedKeyword
           );
 
           return vscode.workspace.applyEdit(removeEdit);
@@ -127,14 +132,14 @@ export function activate(ctx: vscode.ExtensionContext): void {
           edit.insert(
             document.uri,
             getCurrentLine.range.start,
-            char + " " + "TODO" + " " + formattedText
+            getLeadingSpace + char + "TODO" + " " + formattedText
           );
         } else if (!currentLineText.includes("DONE")) {
           let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
           edit.insert(
             document.uri,
             getCurrentLine.range.start,
-            char + " " + "DONE" + " " + removeTodo
+            getLeadingSpace + char + "DONE" + " " + removeTodo
           );
         }
         return vscode.workspace.applyEdit(edit);
@@ -145,9 +150,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
 
 //shift + left
 vscode.commands.registerCommand("extension.toggleStatusLeft", () => {
-  addKeywordLeft("⊖");
-  addKeywordLeft(" ⊙");
-  addKeywordLeft("   ✪");
+  addKeywordLeft("⊖ ");
+  addKeywordLeft("⊙ ");
+  addKeywordLeft("⊘ ");
 });
 
 //add or remove DONE then TODO
@@ -162,6 +167,11 @@ function addKeywordLeft(char: string) {
     let currentLineText = getCurrentLine.text;
     //remove special characters
     let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
+
+    let getLeadingSpace = currentLineText.substr(
+      0,
+      currentLineText.indexOf(char)
+    );
     if (currentLineText.includes(char)) {
       let edit = new vscode.WorkspaceEdit();
       let removeEdit = new vscode.WorkspaceEdit();
@@ -175,7 +185,7 @@ function addKeywordLeft(char: string) {
         removeEdit.insert(
           document.uri,
           getCurrentLine.range.start,
-          char + removedKeyword
+          getLeadingSpace + char + removedKeyword
         );
 
         return vscode.workspace.applyEdit(removeEdit);
@@ -183,14 +193,14 @@ function addKeywordLeft(char: string) {
         edit.insert(
           document.uri,
           getCurrentLine.range.start,
-          char + " " + "DONE" + " " + formattedText
+          getLeadingSpace + char + "DONE" + " " + formattedText
         );
       } else if (!currentLineText.includes("TODO")) {
         let removeDone = formattedText.replace(/\b(DONE)\b/gi, "").trim();
         edit.insert(
           document.uri,
           getCurrentLine.range.start,
-          char + " " + "TODO" + " " + removeDone
+          getLeadingSpace + char + "TODO" + " " + removeDone
         );
       }
       return vscode.workspace.applyEdit(edit);
