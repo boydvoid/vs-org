@@ -42,55 +42,50 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>(\*{3}(.*))</string>
+          <string>(\*{3})</string>
           <key>name</key>
           <string>keyword.operator.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(\*{2}(.*))</string>
+          <string>(\*{2})</string>
           <key>name</key>
           <string>keyword.other.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(\*{1}(.*))</string>
+          <string>(\*{1})</string>
           <key>name</key>
           <string>markup.heading.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{2296}](.*))</string>
+          <string>([\x{2299}])</string>
           <key>name</key>
          <string>markup.heading.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{2299}](.*))</string>
+          <string>([\x{2298}])</string>
           <key>name</key>
           <string>keyword.other.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{272A}]{1}(.*))</string>
+          <string>([\x{2296}])</string>
           <key>name</key>
           <string>keyword.operator.vso</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{24b9}]{1}(.*))</string>
+          <string>([\x{229A}])</string>
           <key>name</key>
          <string>entity.name.type.vso</string>
         </dict>
+        
         <dict>
           <key>match</key>
-          <string>([\x{24ba}]{1}(.*))</string>
-          <key>name</key>
-          <string>entity.name.function.vso</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>([\x{24bb}]{1}(.*))</string>
+          <string>([\x{229A}])</string>
           <key>name</key>
           <string>entity.name.tag.vso</string>
         </dict>
