@@ -221,21 +221,28 @@ function moveUp(char1: string, char2: string, char3: string) {
     //need to get range start and end of text
 
     if (currentLineText.includes(char)) {
+      console.log(lineCount);
       for (let i = position; i <= lineCount; i++) {
-        let nextLine = document.lineAt(i + 1);
-        console.log(i);
+        if (position !== lineCount - 1) {
+          let nextLine = document.lineAt(i + 1);
+          console.log(i);
+          console.log(nextLine);
+          console.log(nextLine.text.search(/\S/));
 
-        console.log(nextLine.text.search(/\S/));
-        if (getLeadingSpace < nextLine.text.substr(0, nextLine.text.indexOf(char)).length) {
-          //console.log(document.lineAt(start.line).text)
-        } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
+          if (getLeadingSpace < nextLine.text.search(/\S/)) {
+            //console.log(document.lineAt(start.line).text)
+          } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
+            moveUpEnd = new vscode.Position(i + 1, 0);
+
+            moveUpText = document.getText(new vscode.Range(start, moveUpEnd));
+            break;
+          }
+        } else {
           moveUpEnd = new vscode.Position(i + 1, 0);
 
           moveUpText = document.getText(new vscode.Range(start, moveUpEnd));
-          break;
         }
       }
-
       let edit = new vscode.WorkspaceEdit();
       // edit.replace()
       console.log(moveUpText);
