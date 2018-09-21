@@ -23,6 +23,10 @@
       {
         "command": "extension.toggleStatus",
         "title": "VS-Org: Toggle TODO or DONE"
+      },
+      {
+        "command": "extension.moveBlockUp",
+        "title": "VS-Org: Move Block Up"
       }
     ],
     "keybindings": [
@@ -34,6 +38,11 @@
       {
         "command": "extension.toggleStatusLeft",
         "key": "shift+left",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.moveBlockUp",
+        "key": "shift+alt+up",
         "when": "editorTextFocus"
       }
     ],
