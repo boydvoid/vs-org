@@ -60,7 +60,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{2299}])</string>
+          <string>([\x{2299}](.*))</string>
           <key>name</key>
          <string>markup.heading.vso</string>
         </dict>
@@ -91,11 +91,16 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>(\\bTODO\\b)</string>
+          <string>((^|\s)TODO(\s|$)(.*))</string>
           <key>name</key>
-          <string>entity.name.tag.vso</string>
+          <string>invalid.illegal.vso</string>
         </dict>
-        
+      <dict>
+          <key>match</key>
+          <string>((^|\s)DONE(\s|$)(.*))</string>
+          <key>name</key>
+          <string>entity.name.function.vso</string>
+        </dict>  
        </array>
     </dict>
     <key>multi_line_comment</key>
