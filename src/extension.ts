@@ -40,7 +40,6 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
               resolve(textEdit(getChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
             }
           }
-         
         }
       }
     });
@@ -231,7 +230,7 @@ function moveUp(char1: string, char2: string, char3: string) {
     //get all the text to be replaced
     //need to get range start and end of text
 
-    if (currentLineText.includes(char)) {
+    if (currentLineText.includes(char) && document.lineAt(position - 1).text !== "") {
       //get the text you want to move
       for (let i = position; i <= lineCount; i++) {
         if (position !== lineCount - 1) {
@@ -279,8 +278,11 @@ function moveUp(char1: string, char2: string, char3: string) {
         }
       }
 
+      //move cursor to proper line
+
       edit.replace(document.uri, new vscode.Range(start, moveDownEnd), moveUpText);
       edit.replace(document.uri, new vscode.Range(start, moveUpEnd), moveDownText);
+
       console.log(moveUpEnd);
       console.log(moveUpText);
       console.log(moveDownText);
