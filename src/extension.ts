@@ -3,6 +3,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { format } from "path";
+import { stat } from "fs";
 
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 
@@ -206,9 +207,19 @@ function addKeywordLeft(char: string) {
 
 //alt + up
 vscode.commands.registerCommand("extension.moveBlockUp", () => {
-  moveUp("⊖ ", "⊙ ", "⊘ ");
+  var x = moveUp("⊖ ", "⊙ ", "⊘ ");
+  if (x) {
+    moveToCorrectLine(x[0]);
+  }
 });
 
+function moveToCorrectLine(move: any) {
+  const { activeTextEditor } = vscode.window;
+  if (activeTextEditor && activeTextEditor.document.languageId === "vso" && move) {
+    console.log(move);
+    activeTextEditor.selection = move;
+  }
+}
 function moveUp(char1: string, char2: string, char3: string) {
   //need to check for leading spaces and symbol
   const { activeTextEditor } = vscode.window;
@@ -283,11 +294,13 @@ function moveUp(char1: string, char2: string, char3: string) {
       edit.replace(document.uri, new vscode.Range(start, textUpEndPos), textToMoveDown);
       edit.replace(document.uri, new vscode.Range(textDownEndPos, start), textToMoveUp);
 
+      var s = new vscode.Selection(textDownEndPos, textDownEndPos);
+
       console.log(textUpEndPos);
       console.log(textToMoveUp);
       console.log(textToMoveDown);
       //console.log(textToMoveDown)
-      return vscode.workspace.applyEdit(edit);
+      return [s, vscode.workspace.applyEdit(edit)];
     }
   }
 }
