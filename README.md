@@ -20,7 +20,7 @@ When you alt+shift+arrow on the last line or the first line of document it won't
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.1a
 
 Initial release.
 
