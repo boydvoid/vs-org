@@ -209,7 +209,7 @@ function addKeywordLeft(char: string) {
 vscode.commands.registerCommand("extension.moveBlockUp", () => {
   var x = moveUp("⊖ ", "⊙ ", "⊘ ");
   if (x) {
-    moveToCorrectLine(x[0]);
+    moveToCorrectLine(x);
   }
 });
 
@@ -300,7 +300,9 @@ function moveUp(char1: string, char2: string, char3: string) {
       console.log(textToMoveUp);
       console.log(textToMoveDown);
       //console.log(textToMoveDown)
-      return [s, vscode.workspace.applyEdit(edit)];
+      vscode.workspace.applyEdit(edit).then(undefined => {
+        moveToCorrectLine(s);
+      });
     }
   }
 }
