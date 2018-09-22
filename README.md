@@ -1,67 +1,40 @@
-# vs-org README
+# VS-ORG (WIP)
 
-This is the README for your extension "vs-org". After writing up a brief description, we recommend including the following sections.
+This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode][https://orgmode.org/] as much as possible.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Quickly create todo lists, organize your thoughts, schedule your todos and view them in an organized list(coming soon).
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-IMPORTANT: make sure you set ``"files.insertFinalNewline": true``` in the settings, formatting will break if it's not set.
+Make sure you save your files with the .vso extension. I will have a command that creates this file in the future.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-- `myExtension.enable`: enable/disable this extension
-- `myExtension.thing`: set to `blah` to do something
+IMPORTANT: make sure you set ``"files.insertFinalNewline": true``` in the settings, formatting will break if it's not set.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+When you alt+shift+arrow on the last line or the first line of document it won't swap places properly, the current fix is to make sure that always have a line below and above your content.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
+Initial release.
 
-Initial release of ...
+- Typing \* , ** , or \*** will properly format to "⊖ ", "⊙ ", "⊘ ".
+- alt+shift+upArrow will swap the BLOCK of text with the BLOCK of text above it.
+- alt+shift+downArrow will swap the BLOCK of text with the BLOCK of text below it.
+- shift+rightArrow will add TODO or DONE keyword
+- shift+rightLeft will add DONE or TODO keyword
+- Fold and Unfold code with default keybinds
 
-### 1.0.1
+## Upcoming Features
 
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+- Be able to schedule your TODOs
+- VS Code side panel that will show all of Your Todos, and .vso docs.
+- Command to create .vso text file.
 
 ---
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-- Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-- Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
