@@ -44,6 +44,11 @@
         "command": "extension.moveBlockUp",
         "key": "shift+alt+up",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.moveBlockDown",
+        "key": "shift+alt+down",
+        "when": "editorTextFocus"
       }
     ],
     "languages": [
