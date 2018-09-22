@@ -12,7 +12,7 @@ Make sure you save your files with the .vsorg extension. I will have a command t
 
 ## Extension Settings
 
-**IMPORTANT:** make sure you set `files.insertFinalNewline": true` in the settings, formatting will break if it's not set.
+**IMPORTANT:** make sure you set `files.insertFinalNewline": true` in the settings, formatting will break if it's not set (working on a fix).
 
 ## Known Issues
 
