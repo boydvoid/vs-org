@@ -16,8 +16,8 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     token: vscode.CancellationToken
   ): Thenable<vscode.TextEdit[]> {
     return new Promise((resolve, reject) => {
-      //get the current line as a number
-      //insert a new line at the end if the doc, prevents formatting issues
+  
+      
       const { activeTextEditor } = vscode.window;
       if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
         const { document } = activeTextEditor;
@@ -46,11 +46,10 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
 
 //get the unicode character depending on how many asterisks there are
 function getChar(asterisk: any) {
-  let characters = ["⊖ ", "⊙ ", "⊘ "];
+  let characters: any = ["⊖ ", "⊙ ", "⊘ "];
   for (let i = 0; i < asterisk; i++) {
     characters.push(characters.shift());
   }
-
   return characters[0];
 }
 
@@ -238,68 +237,75 @@ function moveUp(char1: string, char2: string, char3: string) {
     //get all the text to be replaced
     //need to get range start and end of text
 
-    if (currentLineText.includes(char) && document.lineAt(position - 1).text !== "") {
-      //get the text you want to move
-      for (let i = position; i <= lineCount; i++) {
-        if (position !== lineCount - 1) {
-          let nextLine = document.lineAt(i + 1);
-          // console.log(i);
-          // console.log(nextLine);
-          // console.log(nextLine.text.search(/\S/));
+    if (char !== undefined && currentLineText.includes(char) && document.lineAt(position - 1).text !== "") {
+      if (
+        textUpEndPos !== undefined &&
+        textDownEndPos !== undefined &&
+        textToMoveUp !== undefined &&
+        textToMoveDown !== undefined
+      ) {
+        //get the text you want to move
+        for (let i = position; i <= lineCount; i++) {
+          if (position !== lineCount - 1) {
+            let nextLine = document.lineAt(i + 1);
+            // console.log(i);
+            // console.log(nextLine);
+            // console.log(nextLine.text.search(/\S/));
 
-          if (getLeadingSpace < nextLine.text.search(/\S/)) {
-            //console.log(document.lineAt(start.line).text)
-          } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
+            if (getLeadingSpace < nextLine.text.search(/\S/)) {
+              //console.log(document.lineAt(start.line).text)
+            } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
+              textUpEndPos = new vscode.Position(i + 1, 0);
+
+              textToMoveUp = document.getText(new vscode.Range(start, textUpEndPos));
+              break;
+            }
+          } else {
             textUpEndPos = new vscode.Position(i + 1, 0);
 
             textToMoveUp = document.getText(new vscode.Range(start, textUpEndPos));
-            break;
           }
-        } else {
-          textUpEndPos = new vscode.Position(i + 1, 0);
-
-          textToMoveUp = document.getText(new vscode.Range(start, textUpEndPos));
         }
-      }
 
-      //get the text to switch spots with
+        //get the text to switch spots with
 
-      for (let i = position; i >= 0; i--) {
-        if (position !== 1) {
-          let previousLine = document.lineAt(i - 1);
-          console.log(i);
-          console.log(previousLine);
-          console.log(previousLine.text.search(/\S/));
+        for (let i = position; i >= 0; i--) {
+          if (position !== 1) {
+            let previousLine = document.lineAt(i - 1);
+            console.log(i);
+            console.log(previousLine);
+            console.log(previousLine.text.search(/\S/));
 
-          if (getLeadingSpace < previousLine.text.search(/\S/)) {
-            //console.log(document.lineAt(start.line).text)
-          } else if (previousLine.text.search(/\S/) <= getLeadingSpace) {
+            if (getLeadingSpace < previousLine.text.search(/\S/)) {
+              //console.log(document.lineAt(start.line).text)
+            } else if (previousLine.text.search(/\S/) <= getLeadingSpace) {
+              textDownEndPos = new vscode.Position(i - 1, 0);
+
+              textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
+              break;
+            }
+          } else {
             textDownEndPos = new vscode.Position(i - 1, 0);
 
             textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
-            break;
           }
-        } else {
-          textDownEndPos = new vscode.Position(i - 1, 0);
-
-          textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
         }
+
+        //move cursor to proper line
+
+        edit.replace(document.uri, new vscode.Range(start, textUpEndPos), textToMoveDown);
+        edit.replace(document.uri, new vscode.Range(textDownEndPos, start), textToMoveUp);
+
+        var s = new vscode.Selection(textDownEndPos, textDownEndPos);
+
+        console.log(textUpEndPos);
+        console.log(textToMoveUp);
+        console.log(textToMoveDown);
+        //console.log(textToMoveDown)
+        vscode.workspace.applyEdit(edit).then(undefined => {
+          moveToCorrectLine(s);
+        });
       }
-
-      //move cursor to proper line
-
-      edit.replace(document.uri, new vscode.Range(start, textUpEndPos), textToMoveDown);
-      edit.replace(document.uri, new vscode.Range(textDownEndPos, start), textToMoveUp);
-
-      var s = new vscode.Selection(textDownEndPos, textDownEndPos);
-
-      console.log(textUpEndPos);
-      console.log(textToMoveUp);
-      console.log(textToMoveDown);
-      //console.log(textToMoveDown)
-      vscode.workspace.applyEdit(edit).then(undefined => {
-        moveToCorrectLine(s);
-      });
     }
   }
 }
@@ -330,7 +336,7 @@ function moveDown(char1: string, char2: string, char3: string) {
     //get all the text to be replaced
     //need to get range start and end of text
 
-    if (currentLineText.includes(char) && document.lineAt(position - 1).text !== "") {
+    if (char !== undefined && currentLineText.includes(char) && document.lineAt(position - 1).text !== "") {
       //get the text you want to move
 
       //get the text to switch spots with
@@ -343,9 +349,8 @@ function moveDown(char1: string, char2: string, char3: string) {
         for (let i = position; i <= lineCount; i++) {
           if (position !== lineCount - 1) {
             let nextLine = document.lineAt(i + 1);
-         
+
             if (getLeadingSpace < nextLine.text.search(/\S/)) {
-             
             } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
               textUpEndPos = new vscode.Position(i + 1, 0);
 
@@ -354,7 +359,6 @@ function moveDown(char1: string, char2: string, char3: string) {
             }
           } else {
             textUpEndPos = new vscode.Position(i + 1, 0);
-
             textToMoveDown = document.getText(new vscode.Range(start, textUpEndPos));
           }
         }
@@ -366,20 +370,17 @@ function moveDown(char1: string, char2: string, char3: string) {
             if (getLeadingSpace < nextLine.text.search(/\S/)) {
             } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
               textDownEndPos = new vscode.Position(i + 1, 0);
-
               textToMoveUp = document.getText(new vscode.Range(textUpEndPos, textDownEndPos));
               break;
             }
           } else {
             textDownEndPos = new vscode.Position(i + 1, 0);
-
             textToMoveUp = document.getText(new vscode.Range(start, textDownEndPos));
           }
         }
         edit.replace(document.uri, new vscode.Range(start, textUpEndPos), textToMoveUp);
         edit.replace(document.uri, new vscode.Range(textUpEndPos, textDownEndPos), textToMoveDown);
       }
-
       return vscode.workspace.applyEdit(edit);
     }
   }
@@ -390,7 +391,6 @@ function characterDecode(char1: string, char2: string, char3: string) {
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
 
-    //get the current line
     let position = activeTextEditor.selection.active.line;
     const getCurrentLine = document.lineAt(position);
     let currentLineText = getCurrentLine.text;
