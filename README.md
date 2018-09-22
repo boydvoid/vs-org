@@ -1,6 +1,6 @@
 # VS-ORG (WIP)
 
-This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode][https://orgmode.org/] as much as possible.
+This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode](https://orgmode.org/) as much as possible.
 
 ## Features
 
