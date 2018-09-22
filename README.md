@@ -14,6 +14,15 @@ Make sure you save your files with the .vsorg extension. I will have a command t
 
 **IMPORTANT:** make sure you set `files.insertFinalNewline": true` in the settings, formatting will break if it's not set (working on a fix).
 
+## Keybinds
+
+| Keys                | Decription               |
+| ------------------- | ------------------------ |
+| shift+rightArrow    | add TODO or DONE Keyword |
+| shift+leftArrow     | add DONE or TODO keyword |
+| shift+alt+UpArrow   | Move Block of code Up    |
+| shift+alt+downArrow | Move Block of code down  |
+
 ## Known Issues
 
 - When you alt+shift+arrow on the last line or the first line of document it won't swap places properly, the current fix is to make sure that always have a line below and above your content.
@@ -39,5 +48,6 @@ Initial release.
 - VS Code side panel that will show all of Your Todos, and .vso docs.
 - Command to create .vso text file.
 - check boxes
+- bulleted and numbered lists
 
 ---
