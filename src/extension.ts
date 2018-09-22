@@ -18,19 +18,29 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   ): Thenable<vscode.TextEdit[]> {
     return new Promise((resolve, reject) => {
       //get the current line as a number
-      let currentLine = document.lineAt(position);
-      // only format if it has a *
-      if (currentLine.text.indexOf("*") > -1) {
-        //get the number of *
+      //insert a new line at the end if the doc, prevents formatting issues
+      const { activeTextEditor } = vscode.window;
+      if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
+        const { document } = activeTextEditor;
+        //get the current line
+        let cursorSpot = activeTextEditor.selection.active.line;
+        let edit = new vscode.WorkspaceEdit();
+        edit.insert(document.uri, position, "");
+        let currentLine = document.lineAt(position);
+        // only format if it has a *
+        if (currentLine.text.indexOf("*") > -1) {
+          //get the number of *
 
-        let numOfAsterisk = currentLine.text.split("*").length - 1;
-        console.log(numOfAsterisk);
-        for (var i = 0; i < currentLine.text.length; i++) {
-          //only format if it doesn't have the character
-          // TODO clean this up
-          if (!currentLine.text.includes("⊙") || !currentLine.text.includes("⊘") || !currentLine.text.includes("⊖")) {
-            resolve(textEdit(getChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
+          let numOfAsterisk = currentLine.text.split("*").length - 1;
+          console.log(numOfAsterisk);
+          for (var i = 0; i < currentLine.text.length; i++) {
+            //only format if it doesn't have the character
+            // TODO clean this up
+            if (!currentLine.text.includes("⊙") || !currentLine.text.includes("⊘") || !currentLine.text.includes("⊖")) {
+              resolve(textEdit(getChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
+            }
           }
+         
         }
       }
     });
@@ -269,8 +279,8 @@ function moveUp(char1: string, char2: string, char3: string) {
         }
       }
 
-      edit.replace(document.uri, new vscode.Range(start, moveUpEnd), moveDownText);
       edit.replace(document.uri, new vscode.Range(start, moveDownEnd), moveUpText);
+      edit.replace(document.uri, new vscode.Range(start, moveUpEnd), moveDownText);
       console.log(moveUpEnd);
       console.log(moveUpText);
       console.log(moveDownText);
