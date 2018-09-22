@@ -8,19 +8,21 @@ Quickly create todo lists, organize your thoughts, schedule your todos and view 
 
 ## Requirements
 
-Make sure you save your files with the .vso extension. I will have a command that creates this file in the future.
+Make sure you save your files with the .vsorg extension. I will have a command that creates this file in the future.
 
 ## Extension Settings
 
-**IMPORTANT:** make sure you set `files.insertFinalNewline": true` in the settings, formatting will break if it's not set.
+**IMPORTANT:** make sure you set `files.insertFinalNewline": true` in the settings, formatting will break if it's not set (working on a fix).
 
 ## Known Issues
 
-When you alt+shift+arrow on the last line or the first line of document it won't swap places properly, the current fix is to make sure that always have a line below and above your content.
+- When you alt+shift+arrow on the last line or the first line of document it won't swap places properly, the current fix is to make sure that always have a line below and above your content.
+
+- alt+shift+down wont work on the top most line
 
 ## Release Notes
 
-### 0.0.1a
+### 0.0.1
 
 Initial release.
 
@@ -29,12 +31,13 @@ Initial release.
 - alt+shift+downArrow will swap the BLOCK of text with the BLOCK of text below it.
 - shift+rightArrow will add TODO or DONE keyword
 - shift+rightLeft will add DONE or TODO keyword
-- Fold and Unfold code with default keybinds
+- Fold and Unfold code with default keybinds ctrl+shift+] or [
 
 ## Upcoming Features
 
 - Be able to schedule your TODOs
 - VS Code side panel that will show all of Your Todos, and .vso docs.
 - Command to create .vso text file.
+- check boxes
 
 ---
