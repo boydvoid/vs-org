@@ -7,13 +7,13 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 Quickly create todo lists, organize your thoughts, schedule your todos and view them in an organized list(coming soon).
 
 Create a new vso file:</br>
-<img src="./Images/commandGif.gif" width="700" height="400" />
+<img src="https://github.com/robaboyd/vs-org/blob/master/Images/commandGif.gif?raw=true" width="700" height="400" />
 
 Headings and Subsections:  
 -Using \* you can create Headings and sub Headings  
 -The Number of \* determines the heading or section  
 -Add TODO or DONE keywords to organize your lists and re-organize your list items:</br>
-<img src="./Images/mainGif.gif" width="700" height="400" />
+<img src="https://github.com/robaboyd/vs-org/blob/master/Images/mainGif.gif?raw=true" width="700" height="400" />
 
 ## Requirements
 
