@@ -16,8 +16,6 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     token: vscode.CancellationToken
   ): Thenable<vscode.TextEdit[]> {
     return new Promise((resolve, reject) => {
-  
-      
       const { activeTextEditor } = vscode.window;
       if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
         const { document } = activeTextEditor;
@@ -35,7 +33,7 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
             //only format if it doesn't have the character
             // TODO clean this up
             if (!currentLine.text.includes("⊙") || !currentLine.text.includes("⊘") || !currentLine.text.includes("⊖")) {
-              resolve(textEdit(getChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
+              resolve(textEdit(setUnicodeChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
             }
           }
         }
@@ -44,10 +42,19 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   }
 }
 
-//get the unicode character depending on how many asterisks there are
-function getChar(asterisk: any) {
+
+
+/**
+ * Get the number of asterisks that are on the line and return
+ * the corrisponding unicode character
+ *
+ * @param asterisks Get the number of asterisks
+ *
+ * @returns {array} the first item in the characters array
+ */
+function setUnicodeChar(asterisks: any) {
   let characters: any = ["⊖ ", "⊙ ", "⊘ "];
-  for (let i = 0; i < asterisk; i++) {
+  for (let i = 0; i < asterisks; i++) {
     characters.push(characters.shift());
   }
   return characters[0];
