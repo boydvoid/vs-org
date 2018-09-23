@@ -20,18 +20,14 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     return new Promise((resolve, reject) => {
       if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
         const { document } = activeTextEditor;
-        //get the current line
-        let edit = new vscode.WorkspaceEdit();
+
         let cursorPosition = activeTextEditor.selection.active.line;
         let currentLine = document.lineAt(cursorPosition);
-        // only format if it has a *
-        if (currentLine.text.indexOf("*") > -1) {
-          //get the number of *
 
+        if (currentLine.text.indexOf("*") > -1) {
           let numOfAsterisk = currentLine.text.split("*").length - 1;
-          console.log(numOfAsterisk);
+
           for (var i = 0; i < currentLine.text.length; i++) {
-            //only format if it doesn't have the character
             // TODO clean this up
             if (!currentLine.text.includes("⊙") || !currentLine.text.includes("⊘") || !currentLine.text.includes("⊖")) {
               resolve(textEdit(setUnicodeChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
@@ -97,6 +93,7 @@ vscode.commands.registerCommand("extension.createVsoFile", () => {
       });
     });
   });
+  vscode.window.showWarningMessage("VS-org: Make sure to file->save as.");
 });
 
 vscode.commands.registerCommand("extension.toggleStatusRight", () => {
