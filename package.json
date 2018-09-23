@@ -4,7 +4,7 @@
   "description": "Org-Mode lite for vscode",
   "version": "0.0.1",
   "repository": "https://www.github.com/robaboyd/vs-org",
-  "publisher": "Bobby Boyd",
+  "publisher": "BobbyBoyd",
   "engines": {
     "vscode": "^1.27.0"
   },
