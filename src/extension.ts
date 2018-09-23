@@ -94,7 +94,6 @@ vscode.commands.registerCommand("extension.createVsoFile", () => {
     });
   });
   vscode.window.showWarningMessage("VS-org: Make sure to file->save as.");
-  vscode.window.
 });
 
 vscode.commands.registerCommand("extension.toggleStatusRight", () => {
