@@ -82,7 +82,28 @@
         "language": "vso",
         "path": "./snippets/vso.json"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vso-view",
+          "title": "VS-Org",
+          "icon": "./Images/LogoTransparent.png"
+        }
+      ]
+    },
+    "views": {
+      "vso-view": [
+        {
+          "id": "package-dependencies",
+          "name": "Dependencies"
+        },
+        {
+          "id": "package-outline",
+          "name": "Outline"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
