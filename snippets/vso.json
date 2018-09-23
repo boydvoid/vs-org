@@ -1,17 +1,9 @@
 {
-  "section_header": {
-    "prefix": "* ",
-    "body": ["⊖ "],
-    "description": "Section Header"
-  },
-  "secondary_header": {
-    "prefix": "** ",
-    "body": ["⊙ "],
-    "description": "Section Header"
-  },
-  "tertiary_header": {
-    "prefix": "*** ",
-    "body": ["⊘ "],
+  "page_heading": {
+    "prefix": "/header",
+    "body": [
+      "--------------------------------------- \n#+ TITLE:\t$0 \n#+ TAGS: \n--------------------------------------- \n"
+    ],
     "description": "Section Header"
   }
 }

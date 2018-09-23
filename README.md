@@ -6,6 +6,15 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 
 Quickly create todo lists, organize your thoughts, schedule your todos and view them in an organized list(coming soon).
 
+Create a new vso file:</br>
+<img src="./Images/commandGif.gif" width="700" height="400" />
+
+Headings and Subsections:  
+-Using \* you can create Headings and sub Headings  
+-The Number of \* determines the heading or section  
+-Add TODO or DONE keywords to organize your lists and re-organize your list items:</br>
+<img src="./Images/mainGIf.gif" width="700" height="400" />
+
 ## Requirements
 
 Make sure you save your files with the .vsorg extension. I will have a command that creates this file in the future.
@@ -16,12 +25,19 @@ Make sure you save your files with the .vsorg extension. I will have a command t
 
 ## Keybinds
 
-| Keys                | Decription               |
-| ------------------- | ------------------------ |
-| shift+rightArrow    | add TODO or DONE Keyword |
-| shift+leftArrow     | add DONE or TODO keyword |
-| shift+alt+UpArrow   | Move Block of code Up    |
-| shift+alt+downArrow | Move Block of code down  |
+| Keys                  | Decription               |
+| --------------------- | ------------------------ |
+| `shift+rightArrow`    | add TODO or DONE Keyword |
+| `shift+leftArrow`     | add DONE or TODO keyword |
+| `shift+alt+UpArrow`   | Move Block of code Up    |
+| `shift+alt+downArrow` | Move Block of code down  |
+
+## Snippets
+
+| Snippet   | Decription         | Output                  |
+| --------- | ------------------ | ----------------------- |
+| `/header` | insert page header | #+ TITLE:</br> #+ TAGS: |
+|           |                    |                         |
 
 ## Known Issues
 
@@ -46,7 +62,6 @@ Initial release.
 
 - Be able to schedule your TODOs
 - VS Code side panel that will show all of Your Todos, and .vso docs.
-- Command to create .vso text file.
 - check boxes
 - bulleted and numbered lists
 

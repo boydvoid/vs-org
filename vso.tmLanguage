@@ -60,7 +60,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>([\x{2299}](.*))</string>
+          <string>([\x{2299}])</string>
           <key>name</key>
          <string>markup.heading.vso</string>
         </dict>

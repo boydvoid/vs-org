@@ -2,11 +2,11 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { format } from "path";
-import { stat } from "fs";
 
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
+const { activeTextEditor } = vscode.window;
 
+let characterArray: any = ["⊖ ", "⊙ ", "⊘ "];
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
@@ -18,16 +18,12 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     token: vscode.CancellationToken
   ): Thenable<vscode.TextEdit[]> {
     return new Promise((resolve, reject) => {
-      //get the current line as a number
-      //insert a new line at the end if the doc, prevents formatting issues
-      const { activeTextEditor } = vscode.window;
       if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
         const { document } = activeTextEditor;
         //get the current line
-        let cursorSpot = activeTextEditor.selection.active.line;
         let edit = new vscode.WorkspaceEdit();
-        edit.insert(document.uri, position, "");
-        let currentLine = document.lineAt(position);
+        let cursorPosition = activeTextEditor.selection.active.line;
+        let currentLine = document.lineAt(cursorPosition);
         // only format if it has a *
         if (currentLine.text.indexOf("*") > -1) {
           //get the number of *
@@ -38,7 +34,7 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
             //only format if it doesn't have the character
             // TODO clean this up
             if (!currentLine.text.includes("⊙") || !currentLine.text.includes("⊘") || !currentLine.text.includes("⊖")) {
-              resolve(textEdit(getChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
+              resolve(textEdit(setUnicodeChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
             }
           }
         }
@@ -47,13 +43,19 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   }
 }
 
-//get the unicode character depending on how many asterisks there are
-function getChar(asterisk: any) {
-  let characters = ["⊖ ", "⊙ ", "⊘ "];
-  for (let i = 0; i < asterisk; i++) {
+/**
+ * Get the number of asterisks that are on the line and return
+ * the corrisponding unicode character
+ *
+ * @param asterisks Get the number of asterisks
+ *
+ * @returns {array} the first item in the characters array
+ */
+function setUnicodeChar(asterisks: any) {
+  let characters: any = ["⊖ ", "⊙ ", "⊘ "];
+  for (let i = 0; i < asterisks; i++) {
     characters.push(characters.shift());
   }
-
   return characters[0];
 }
 
@@ -80,339 +82,239 @@ export function activate(ctx: vscode.ExtensionContext): void {
   );
 }
 //---commands---------------//
-// TODO Clean up functions, make them readable
+
 // TODO alt+arrow command shift heading size (depth?)
-// TODO alt+ up or down arrow move entire blocks
-//shift + right
+
+vscode.commands.registerCommand("extension.createVsoFile", () => {
+  var setting: vscode.Uri = vscode.Uri.parse("untitled:" + "new.vsorg");
+  vscode.workspace.openTextDocument(setting).then((a: vscode.TextDocument) => {
+    vscode.window.showTextDocument(a, 1, false).then(e => {
+      e.edit(edit => {
+        edit.insert(
+          new vscode.Position(0, 0),
+          "--------------------------------------- \n#+ TITLE: \n#+ TAGS: \n---------------------------------------\n "
+        );
+      });
+    });
+  });
+});
+
 vscode.commands.registerCommand("extension.toggleStatusRight", () => {
-  addKeywordRight("⊖ ");
-  addKeywordRight("⊙ ");
-  addKeywordRight("⊘ ");
+  addKeyword(characterArray, "right");
 });
 
 /**
- * Name: addKeywordRight
- * Description: Add or remove TODO or DONE keyword when the shift+Right is pressed
+ * @name addKeyword
+ * @desc Add or remove TODO or DONE keyword when the shift+Right is pressed
+ * @param characterArray Array of characters that we are checking for
+ * @returns workspace apply edit
  */
-function addKeywordRight(char: string) {
-  const { activeTextEditor } = vscode.window;
+function addKeyword(characterArray: any, direction: string) {
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
-    //get the current line
-    let position = activeTextEditor.selection.active.line;
-    const getCurrentLine = document.lineAt(position);
 
-    //get the text of the current line
+    let position = activeTextEditor.selection.active.line;
+    let char: any = characterDecode(characterArray);
+    let getCurrentLine = document.lineAt(position);
     let currentLineText = getCurrentLine.text;
     let removeDate = currentLineText.substring(currentLineText.indexOf("["), currentLineText.indexOf("]"));
     let datelessText = currentLineText.replace(removeDate, "");
-    //remove special characters and leading and trailing spaces
+
     let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
 
     let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
 
     let date = new Date().toLocaleString();
 
-    console.log(removeDate);
-
-    //make sure there is a character
     if (currentLineText.includes(char)) {
       let edit = new vscode.WorkspaceEdit();
       let removeEdit = new vscode.WorkspaceEdit();
       edit.delete(document.uri, getCurrentLine.range);
 
-      if (currentLineText.includes("DONE")) {
-        //remove the keyword
-        console.log(datelessText);
-        let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
-        removeEdit.delete(document.uri, getCurrentLine.range);
-        removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
-        return vscode.workspace.applyEdit(removeEdit);
-      } else if (!currentLineText.includes("TODO")) {
-        edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO " + formattedText);
-      } else if (!currentLineText.includes("DONE")) {
-        let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
+      if (direction === "right") {
+        if (currentLineText.includes("DONE")) {
+          let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
+          removeEdit.delete(document.uri, getCurrentLine.range);
+          removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
+          return vscode.workspace.applyEdit(removeEdit);
+        } else if (!currentLineText.includes("TODO")) {
+          edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO " + formattedText);
+        } else if (!currentLineText.includes("DONE")) {
+          let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
 
-        edit.insert(
-          document.uri,
-          getCurrentLine.range.start,
-          getLeadingSpace + char + "DONE " + "[" + date + "] " + removeTodo
-        );
+          edit.insert(
+            document.uri,
+            getCurrentLine.range.start,
+            getLeadingSpace + char + "DONE " + "[" + date + "] " + removeTodo
+          );
+        }
+        vscode.workspace.applyEdit(edit);
+      } else {
+        if (currentLineText.includes(char)) {
+          let edit = new vscode.WorkspaceEdit();
+          let removeEdit = new vscode.WorkspaceEdit();
+          edit.delete(document.uri, getCurrentLine.range);
+          if (currentLineText.includes("TODO")) {
+            //remove the keyword
+            let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
+            removeEdit.delete(document.uri, getCurrentLine.range);
+            removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
+
+            return vscode.workspace.applyEdit(removeEdit);
+          } else if (!currentLineText.includes("DONE")) {
+            edit.insert(
+              document.uri,
+              getCurrentLine.range.start,
+              getLeadingSpace + char + "DONE " + "[" + date + "] " + formattedText
+            );
+          } else if (!currentLineText.includes("TODO")) {
+            let removeDone = formattedText.replace(/\b(DONE)\b/gi, "").trim();
+            edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO" + " " + removeDone);
+          }
+          vscode.workspace.applyEdit(edit);
+        }
       }
-      return vscode.workspace.applyEdit(edit);
     }
   }
 }
 
 //shift + left
 vscode.commands.registerCommand("extension.toggleStatusLeft", () => {
-  addKeywordLeft("⊖ ");
-  addKeywordLeft("⊙ ");
-  addKeywordLeft("⊘ ");
+  addKeyword(characterArray, "left");
+});
+
+//alt + shift + up
+vscode.commands.registerCommand("extension.moveBlockUp", () => {
+  moveBlock(characterArray, "up");
+});
+//alt + shift + down
+vscode.commands.registerCommand("extension.moveBlockDown", () => {
+  moveBlock(characterArray, "down");
 });
 
 /**
- * Name: addKeywordLeft
- * Description: Add or remove TODO or DONE keyword when the shift+Left is pressed
+ *  Move a block of code up or down by checking for unicode characters
+ * @param characterArray Array of characters that we are checking for
+ * @param direction Are we moving the text up or down
+ * @returns apply workspace edit
  */
-function addKeywordLeft(char: string) {
-  const { activeTextEditor } = vscode.window;
-
+function moveBlock(characterArray: any, direction: any) {
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
-
-    //get the current line
+    let char: any = characterDecode(characterArray);
     let position = activeTextEditor.selection.active.line;
-    const getCurrentLine = document.lineAt(position);
-
-    //get the text of the current line
-    let currentLineText = getCurrentLine.text;
-
-    let removeDate = currentLineText.substring(currentLineText.indexOf("["), currentLineText.indexOf("]"));
-    // remove the date from the text
-    let datelessText = currentLineText.replace(removeDate, "");
-    //remove special characters
-    let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
-
-    // count how many spaces there was in front of the unicode char
-    let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
-
-    let date = new Date().toLocaleString();
+    let currentLineText = document.lineAt(position).text;
+    let lineCount = document.lineCount;
+    let start = new vscode.Position(position, 0);
+    let leadingSpaces = getLeadingSpaces(currentLineText);
+    let textUpEndPos: any;
+    let textDownEndPos: any;
+    let textToMoveUp: any;
+    let textToMoveDown: any;
+    let edit = new vscode.WorkspaceEdit();
 
     if (currentLineText.includes(char)) {
-      let edit = new vscode.WorkspaceEdit();
-      let removeEdit = new vscode.WorkspaceEdit();
-      edit.delete(document.uri, getCurrentLine.range);
-      if (currentLineText.includes("TODO")) {
-        //remove the keyword
-        let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
-        removeEdit.delete(document.uri, getCurrentLine.range);
-        removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
-
-        return vscode.workspace.applyEdit(removeEdit);
-      } else if (!currentLineText.includes("DONE")) {
-        edit.insert(
-          document.uri,
-          getCurrentLine.range.start,
-          getLeadingSpace + char + "DONE " + "[" + date + "] " + formattedText
-        );
-      } else if (!currentLineText.includes("TODO")) {
-        let removeDone = formattedText.replace(/\b(DONE)\b/gi, "").trim();
-        edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO" + " " + removeDone);
-      }
-      return vscode.workspace.applyEdit(edit);
-    }
-  }
-}
-
-//alt + up
-vscode.commands.registerCommand("extension.moveBlockUp", () => {
-  var x = moveUp("⊖ ", "⊙ ", "⊘ ");
-  if (x) {
-    moveToCorrectLine(x);
-  }
-});
-
-function moveToCorrectLine(move: any) {
-  const { activeTextEditor } = vscode.window;
-  if (activeTextEditor && activeTextEditor.document.languageId === "vso" && move) {
-    console.log(move);
-    activeTextEditor.selection = move;
-  }
-}
-function moveUp(char1: string, char2: string, char3: string) {
-  //need to check for leading spaces and symbol
-  const { activeTextEditor } = vscode.window;
-  if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
-    const { document } = activeTextEditor;
-    let char = characterDecode(char1, char2, char3);
-    //get the current line
-    let position = activeTextEditor.selection.active.line;
-    const getCurrentLine = document.lineAt(position);
-    let currentLineText = getCurrentLine.text;
-    let lineCount = document.lineCount;
-    let start = new vscode.Position(position, 0);
-    let textUpEndPos;
-    let textDownEndPos;
-    let getLeadingSpace = currentLineText.search(/\S/);
-    let textToMoveUp;
-    let textToMoveDown;
-    let edit = new vscode.WorkspaceEdit();
-    //get all the text to be replaced
-    //need to get range start and end of text
-
-    if (currentLineText.includes(char) && document.lineAt(position - 1).text !== "") {
-      //get the text you want to move
       for (let i = position; i <= lineCount; i++) {
         if (position !== lineCount - 1) {
           let nextLine = document.lineAt(i + 1);
-          // console.log(i);
-          // console.log(nextLine);
-          // console.log(nextLine.text.search(/\S/));
 
-          if (getLeadingSpace < nextLine.text.search(/\S/)) {
-            //console.log(document.lineAt(start.line).text)
-          } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
+          if (leadingSpaces < nextLine.text.search(/\S/)) {
+          } else if (nextLine.text.search(/\S/) <= leadingSpaces) {
             textUpEndPos = new vscode.Position(i + 1, 0);
-
-            textToMoveUp = document.getText(new vscode.Range(start, textUpEndPos));
+            if (direction === "up") {
+              textToMoveUp = document.getText(new vscode.Range(start, textUpEndPos));
+            } else {
+              textToMoveDown = document.getText(new vscode.Range(start, textUpEndPos));
+            }
             break;
           }
         } else {
           textUpEndPos = new vscode.Position(i + 1, 0);
-
-          textToMoveUp = document.getText(new vscode.Range(start, textUpEndPos));
-        }
-      }
-
-      //get the text to switch spots with
-
-      for (let i = position; i >= 0; i--) {
-        if (position !== 1) {
-          let previousLine = document.lineAt(i - 1);
-          console.log(i);
-          console.log(previousLine);
-          console.log(previousLine.text.search(/\S/));
-
-          if (getLeadingSpace < previousLine.text.search(/\S/)) {
-            //console.log(document.lineAt(start.line).text)
-          } else if (previousLine.text.search(/\S/) <= getLeadingSpace) {
-            textDownEndPos = new vscode.Position(i - 1, 0);
-
-            textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
-            break;
+          if (direction === "up") {
+            textToMoveUp = document.getText(new vscode.Range(start, textUpEndPos));
+          } else {
+            textToMoveDown = document.getText(new vscode.Range(start, textUpEndPos));
           }
-        } else {
-          textDownEndPos = new vscode.Position(i - 1, 0);
-
-          textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
         }
       }
 
-      //move cursor to proper line
+      if (direction === "up") {
+        for (let i = position; i >= 0; i--) {
+          if (position !== 1) {
+            let previousLine = document.lineAt(i - 1);
+            console.log(i);
+            console.log(previousLine);
+            if (leadingSpaces < previousLine.text.search(/\S/)) {
+            } else if (previousLine.text.search(/\S/) <= leadingSpaces) {
+              textDownEndPos = new vscode.Position(i - 1, 0);
+              textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
+              break;
+            }
+          } else {
+            textDownEndPos = new vscode.Position(i - 1, 0);
+            textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
+          }
+        }
+      } else {
+        for (let i = textUpEndPos.line; i <= lineCount; i++) {
+          if (position !== lineCount - 1) {
+            let nextLine = document.lineAt(i + 1);
+            if (leadingSpaces < nextLine.text.search(/\S/)) {
+            } else if (nextLine.text.search(/\S/) <= leadingSpaces) {
+              textDownEndPos = new vscode.Position(i + 1, 0);
+              textToMoveUp = document.getText(new vscode.Range(textUpEndPos, textDownEndPos));
+              break;
+            }
+          } else {
+            textDownEndPos = new vscode.Position(i + 1, 0);
+            textToMoveUp = document.getText(new vscode.Range(start, textDownEndPos));
+          }
+        }
+      }
+    }
 
+    if (direction === "up") {
       edit.replace(document.uri, new vscode.Range(start, textUpEndPos), textToMoveDown);
       edit.replace(document.uri, new vscode.Range(textDownEndPos, start), textToMoveUp);
-
-      var s = new vscode.Selection(textDownEndPos, textDownEndPos);
-
-      console.log(textUpEndPos);
-      console.log(textToMoveUp);
-      console.log(textToMoveDown);
-      //console.log(textToMoveDown)
+      let selection = new vscode.Selection(textDownEndPos, textDownEndPos);
       vscode.workspace.applyEdit(edit).then(undefined => {
-        moveToCorrectLine(s);
+        activeTextEditor.selection = selection;
       });
-    }
-  }
-}
-
-vscode.commands.registerCommand("extension.moveBlockDown", () => {
-  moveDown("⊖ ", "⊙ ", "⊘ ");
-});
-
-//move block down
-function moveDown(char1: string, char2: string, char3: string) {
-  //need to check for leading spaces and symbol
-  const { activeTextEditor } = vscode.window;
-  if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
-    const { document } = activeTextEditor;
-    let char = characterDecode(char1, char2, char3);
-    //get the current line
-    let position = activeTextEditor.selection.active.line;
-    const getCurrentLine = document.lineAt(position);
-    let currentLineText = getCurrentLine.text;
-    let lineCount = document.lineCount;
-    let start = new vscode.Position(position, 0);
-    let textUpEndPos;
-    let textDownEndPos;
-    let getLeadingSpace = currentLineText.search(/\S/);
-    let textToMoveUp;
-    let textToMoveDown;
-    let edit = new vscode.WorkspaceEdit();
-    //get all the text to be replaced
-    //need to get range start and end of text
-
-    if (currentLineText.includes(char) && document.lineAt(position - 1).text !== "") {
-      //get the text you want to move
-
-      //get the text to switch spots with
-
-      for (let i = position; i <= lineCount; i++) {
-        if (position !== lineCount - 1) {
-          let nextLine = document.lineAt(i + 1);
-          // console.log(i);
-          // console.log(nextLine);
-          // console.log(nextLine.text.search(/\S/));
-
-          if (getLeadingSpace < nextLine.text.search(/\S/)) {
-            //console.log(document.lineAt(start.line).text)
-          } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
-            textUpEndPos = new vscode.Position(i + 1, 0);
-
-            textToMoveDown = document.getText(new vscode.Range(start, textUpEndPos));
-            break;
-          }
-        } else {
-          textUpEndPos = new vscode.Position(i + 1, 0);
-
-          textToMoveDown = document.getText(new vscode.Range(start, textUpEndPos));
-        }
-      }
-
-      for (let i = textUpEndPos.line; i <= lineCount; i++) {
-        if (position !== lineCount - 1) {
-          let nextLine = document.lineAt(i + 1);
-          // console.log(i);
-          // console.log(nextLine);
-          // console.log(nextLine.text.search(/\S/));
-
-          if (getLeadingSpace < nextLine.text.search(/\S/)) {
-            //console.log(document.lineAt(start.line).text)
-          } else if (nextLine.text.search(/\S/) <= getLeadingSpace) {
-            textDownEndPos = new vscode.Position(i + 1, 0);
-
-            textToMoveUp = document.getText(new vscode.Range(textUpEndPos, textDownEndPos));
-            break;
-          }
-        } else {
-          textDownEndPos = new vscode.Position(i + 1, 0);
-
-          textToMoveUp = document.getText(new vscode.Range(start, textDownEndPos));
-        }
-      }
-      //move cursor to proper line
-
+    } else {
       edit.replace(document.uri, new vscode.Range(start, textUpEndPos), textToMoveUp);
       edit.replace(document.uri, new vscode.Range(textUpEndPos, textDownEndPos), textToMoveDown);
-
-      console.log(textUpEndPos);
-      console.log(textToMoveUp);
-      console.log(textToMoveDown);
-      //console.log(textToMoveDown)
-      return vscode.workspace.applyEdit(edit);
+      vscode.workspace.applyEdit(edit);
     }
   }
 }
 
-function characterDecode(char1: string, char2: string, char3: string) {
+/**
+ *  Return the leading spaces of the line that the cursor is on
+ * @param currentLineText The current selected lines text
+ * @returns The number of Leading spaces
+ */
+function getLeadingSpaces(currentLineText: any) {
+  return currentLineText.search(/\S/);
+}
+
+/**
+ * Get the character that exists on the line
+ * @param characterArray The array of characters that we want to check
+ * @returns Whatever character the line includes
+ */
+function characterDecode(characterArray: any) {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
 
-    //get the current line
     let position = activeTextEditor.selection.active.line;
     const getCurrentLine = document.lineAt(position);
     let currentLineText = getCurrentLine.text;
 
-    if (currentLineText.includes(char1)) {
-      return char1;
-    }
-    if (currentLineText.includes(char2)) {
-      return char2;
-    }
-    if (currentLineText.includes(char3)) {
-      return char3;
+    for (let i = 0; i < characterArray.length; i++) {
+      if (currentLineText.includes(characterArray[i])) {
+        return characterArray[i];
+      }
     }
   }
 }
