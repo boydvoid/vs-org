@@ -16,12 +16,19 @@ Make sure you save your files with the .vsorg extension. I will have a command t
 
 ## Keybinds
 
-| Keys                | Decription               |
-| ------------------- | ------------------------ |
-| shift+rightArrow    | add TODO or DONE Keyword |
-| shift+leftArrow     | add DONE or TODO keyword |
-| shift+alt+UpArrow   | Move Block of code Up    |
-| shift+alt+downArrow | Move Block of code down  |
+| Keys                  | Decription               |
+| --------------------- | ------------------------ |
+| `shift+rightArrow`    | add TODO or DONE Keyword |
+| `shift+leftArrow`     | add DONE or TODO keyword |
+| `shift+alt+UpArrow`   | Move Block of code Up    |
+| `shift+alt+downArrow` | Move Block of code down  |
+
+## Snippets
+
+| Snippet   | Decription         | Output                  |
+| --------- | ------------------ | ----------------------- |
+| `/header` | insert page header | #+ TITLE:</br> #+ TAGS: |
+|           |                    |                         |
 
 ## Known Issues
 

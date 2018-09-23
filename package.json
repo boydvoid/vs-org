@@ -27,6 +27,10 @@
       {
         "command": "extension.moveBlockUp",
         "title": "VS-Org: Move Block Up"
+      },
+      {
+        "command": "extension.createVsoFile",
+        "title": "VS-Org: Create New .vsorg file"
       }
     ],
     "keybindings": [

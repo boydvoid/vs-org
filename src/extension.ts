@@ -2,7 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-
+let fs = require("fs");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 const { activeTextEditor } = vscode.window;
 
@@ -84,6 +84,26 @@ export function activate(ctx: vscode.ExtensionContext): void {
 //---commands---------------//
 
 // TODO alt+arrow command shift heading size (depth?)
+
+vscode.commands.registerCommand("extension.createVsoFile", () => {
+  var setting: vscode.Uri = vscode.Uri.parse("untitled:" + "new.vsorg");
+  vscode.workspace.openTextDocument(setting).then(
+    (a: vscode.TextDocument) => {
+      vscode.window.showTextDocument(a, 1, false).then(e => {
+        e.edit(edit => {
+          edit.insert(
+            new vscode.Position(0, 0),
+            "--------------------------------------- \n#+ TITLE: \n#+ TAGS: \n---------------------------------------\n "
+          );
+        });
+      });
+    },
+    (error: any) => {
+      console.error(error);
+      debugger;
+    }
+  );
+});
 
 vscode.commands.registerCommand("extension.toggleStatusRight", () => {
   addKeyword(characterArray, "right");
