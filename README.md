@@ -13,7 +13,7 @@ Headings and Subsections:
 -Using \* you can create Headings and sub Headings  
 -The Number of \* determines the heading or section  
 -Add TODO or DONE keywords to organize your lists and re-organize your list items:</br>
-<img src="./Images/mainGIf.gif" width="700" height="400" />
+<img src="./Images/mainGif.gif" width="700" height="400" />
 
 ## Requirements
 
