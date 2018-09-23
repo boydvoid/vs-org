@@ -6,6 +6,8 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 
 Quickly create todo lists, organize your thoughts, schedule your todos and view them in an organized list(coming soon).
 
+<img src="./Images/commandGif.gif" width="709" height="500" />
+
 ## Requirements
 
 Make sure you save your files with the .vsorg extension. I will have a command that creates this file in the future.

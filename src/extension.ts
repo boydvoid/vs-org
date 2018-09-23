@@ -2,7 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-let fs = require("fs");
+
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 const { activeTextEditor } = vscode.window;
 

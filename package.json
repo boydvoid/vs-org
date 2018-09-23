@@ -3,7 +3,8 @@
   "displayName": "Vs-Org",
   "description": "Org-Mode lite for vscode",
   "version": "0.0.1",
-  "publisher": "Bobby",
+  "repository": "https://www.github.com/robaboyd/vs-org",
+  "publisher": "Bobby Boyd",
   "engines": {
     "vscode": "^1.27.0"
   },
