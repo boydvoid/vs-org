@@ -6,7 +6,7 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 
 Quickly create todo lists, organize your thoughts, schedule your todos and view them in an organized list(coming soon).
 
-![New VS-Org File](./Images/commandGif.gif);
+<img src="./Images/commandGif.gif" width="700" height="400" />
 
 ## Requirements
 
