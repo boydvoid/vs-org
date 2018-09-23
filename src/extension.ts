@@ -199,7 +199,7 @@ function moveBlock(characterArray: any, direction: any) {
     let textToMoveDown: any;
     let edit = new vscode.WorkspaceEdit();
 
-    if (currentLineText.includes(char) && document.lineAt(position - 1).text !== "") {
+    if (currentLineText.includes(char)) {
       for (let i = position; i <= lineCount; i++) {
         if (position !== lineCount - 1) {
           let nextLine = document.lineAt(i + 1);
