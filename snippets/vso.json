@@ -1,0 +1,9 @@
+{
+  "page_heading": {
+    "prefix": "/header",
+    "body": [
+      "--------------------------------------- \n#+ TITLE:\t$0 \n#+ TAGS: \n--------------------------------------- \n"
+    ],
+    "description": "Section Header"
+  }
+}

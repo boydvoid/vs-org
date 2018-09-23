@@ -3,7 +3,8 @@
   "displayName": "Vs-Org",
   "description": "Org-Mode lite for vscode",
   "version": "0.0.1",
-  "publisher": "Bobby",
+  "repository": "https://www.github.com/robaboyd/vs-org",
+  "publisher": "Bobby Boyd",
   "engines": {
     "vscode": "^1.27.0"
   },
@@ -11,21 +12,75 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello"
+    "onLanguage:vso"
   ],
   "main": "./out/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.sayHello",
-        "title": "Wassup"
+        "command": "extension.toggleStatusRight",
+        "title": "VS-Org: Toggle TODO or DONE"
+      },
+      {
+        "command": "extension.toggleStatus",
+        "title": "VS-Org: Toggle TODO or DONE"
+      },
+      {
+        "command": "extension.moveBlockUp",
+        "title": "VS-Org: Move Block Up"
+      },
+      {
+        "command": "extension.createVsoFile",
+        "title": "VS-Org: Create New .vsorg file"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.sayHello",
-        "key": "tab",
+        "command": "extension.toggleStatusRight",
+        "key": "shift+right",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.toggleStatusLeft",
+        "key": "shift+left",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.moveBlockUp",
+        "key": "shift+alt+up",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.moveBlockDown",
+        "key": "shift+alt+down",
+        "when": "editorTextFocus"
+      }
+    ],
+    "languages": [
+      {
+        "id": "vso",
+        "aliases": [
+          "VSOrg",
+          "vsorg",
+          "vso"
+        ],
+        "extensions": [
+          ".vsorg",
+          ".vso"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "vso",
+        "scopeName": "source.vso",
+        "path": "vso.tmLanguage"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "vso",
+        "path": "./snippets/vso.json"
       }
     ]
   },
