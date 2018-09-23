@@ -22,8 +22,8 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
         const { document } = activeTextEditor;
         //get the current line
         let edit = new vscode.WorkspaceEdit();
-        edit.insert(document.uri, position, "");
-        let currentLine = document.lineAt(position);
+        let cursorPosition = activeTextEditor.selection.active.line;
+        let currentLine = document.lineAt(cursorPosition);
         // only format if it has a *
         if (currentLine.text.indexOf("*") > -1) {
           //get the number of *
