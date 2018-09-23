@@ -87,22 +87,16 @@ export function activate(ctx: vscode.ExtensionContext): void {
 
 vscode.commands.registerCommand("extension.createVsoFile", () => {
   var setting: vscode.Uri = vscode.Uri.parse("untitled:" + "new.vsorg");
-  vscode.workspace.openTextDocument(setting).then(
-    (a: vscode.TextDocument) => {
-      vscode.window.showTextDocument(a, 1, false).then(e => {
-        e.edit(edit => {
-          edit.insert(
-            new vscode.Position(0, 0),
-            "--------------------------------------- \n#+ TITLE: \n#+ TAGS: \n---------------------------------------\n "
-          );
-        });
+  vscode.workspace.openTextDocument(setting).then((a: vscode.TextDocument) => {
+    vscode.window.showTextDocument(a, 1, false).then(e => {
+      e.edit(edit => {
+        edit.insert(
+          new vscode.Position(0, 0),
+          "--------------------------------------- \n#+ TITLE: \n#+ TAGS: \n---------------------------------------\n "
+        );
       });
-    },
-    (error: any) => {
-      console.error(error);
-      debugger;
-    }
-  );
+    });
+  });
 });
 
 vscode.commands.registerCommand("extension.toggleStatusRight", () => {
@@ -122,13 +116,13 @@ function addKeyword(characterArray: any, direction: string) {
     let position = activeTextEditor.selection.active.line;
     let char: any = characterDecode(characterArray);
     let getCurrentLine = document.lineAt(position);
-    let currentLineText = document.lineAt(position).text;
+    let currentLineText = getCurrentLine.text;
     let removeDate = currentLineText.substring(currentLineText.indexOf("["), currentLineText.indexOf("]"));
     let datelessText = currentLineText.replace(removeDate, "");
 
     let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
 
-    let getLeadingSpace = getLeadingSpaces(characterArray);
+    let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
 
     let date = new Date().toLocaleString();
 
@@ -297,7 +291,7 @@ function moveBlock(characterArray: any, direction: any) {
 /**
  *  Return the leading spaces of the line that the cursor is on
  * @param currentLineText The current selected lines text
- * @returns Leading spaces
+ * @returns The number of Leading spaces
  */
 function getLeadingSpaces(currentLineText: any) {
   return currentLineText.search(/\S/);
