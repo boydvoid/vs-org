@@ -82,10 +82,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
   );
 }
 //---commands---------------//
-// TODO Clean up functions, make them readable
+
 // TODO alt+arrow command shift heading size (depth?)
-// TODO alt+ up or down arrow move entire blocks
-//shift + right
+
 vscode.commands.registerCommand("extension.toggleStatusRight", () => {
   addKeyword(characterArray, "right");
 });
@@ -99,24 +98,20 @@ vscode.commands.registerCommand("extension.toggleStatusRight", () => {
 function addKeyword(characterArray: any, direction: string) {
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
-    //get the current line
+
     let position = activeTextEditor.selection.active.line;
-    const getCurrentLine = document.lineAt(position);
     let char: any = characterDecode(characterArray);
-    //get the text of the current line
-    let currentLineText = getCurrentLine.text;
+    let getCurrentLine = document.lineAt(position);
+    let currentLineText = document.lineAt(position).text;
     let removeDate = currentLineText.substring(currentLineText.indexOf("["), currentLineText.indexOf("]"));
     let datelessText = currentLineText.replace(removeDate, "");
-    //remove special characters and leading and trailing spaces
+
     let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
 
-    let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
+    let getLeadingSpace = getLeadingSpaces(characterArray);
 
     let date = new Date().toLocaleString();
 
-    console.log(removeDate);
-
-    //make sure there is a character
     if (currentLineText.includes(char)) {
       let edit = new vscode.WorkspaceEdit();
       let removeEdit = new vscode.WorkspaceEdit();
@@ -124,8 +119,6 @@ function addKeyword(characterArray: any, direction: string) {
 
       if (direction === "right") {
         if (currentLineText.includes("DONE")) {
-          //remove the keyword
-         
           let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
           removeEdit.delete(document.uri, getCurrentLine.range);
           removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
@@ -176,11 +169,11 @@ vscode.commands.registerCommand("extension.toggleStatusLeft", () => {
   addKeyword(characterArray, "left");
 });
 
-//alt + up
+//alt + shift + up
 vscode.commands.registerCommand("extension.moveBlockUp", () => {
   moveBlock(characterArray, "up");
 });
-
+//alt + shift + down
 vscode.commands.registerCommand("extension.moveBlockDown", () => {
   moveBlock(characterArray, "down");
 });
@@ -237,19 +230,14 @@ function moveBlock(characterArray: any, direction: any) {
             let previousLine = document.lineAt(i - 1);
             console.log(i);
             console.log(previousLine);
-            console.log(previousLine.text.search(/\S/));
-
             if (leadingSpaces < previousLine.text.search(/\S/)) {
-              //console.log(document.lineAt(start.line).text)
             } else if (previousLine.text.search(/\S/) <= leadingSpaces) {
               textDownEndPos = new vscode.Position(i - 1, 0);
-
               textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
               break;
             }
           } else {
             textDownEndPos = new vscode.Position(i - 1, 0);
-
             textToMoveDown = document.getText(new vscode.Range(start, textDownEndPos));
           }
         }
@@ -257,7 +245,6 @@ function moveBlock(characterArray: any, direction: any) {
         for (let i = textUpEndPos.line; i <= lineCount; i++) {
           if (position !== lineCount - 1) {
             let nextLine = document.lineAt(i + 1);
-
             if (leadingSpaces < nextLine.text.search(/\S/)) {
             } else if (nextLine.text.search(/\S/) <= leadingSpaces) {
               textDownEndPos = new vscode.Position(i + 1, 0);
