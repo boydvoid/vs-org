@@ -62,7 +62,6 @@ Initial release.
 
 - Be able to schedule your TODOs
 - VS Code side panel that will show all of Your Todos, and .vso docs.
-- Command to create .vso text file.
 - check boxes
 - bulleted and numbered lists
 
