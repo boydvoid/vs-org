@@ -47,6 +47,10 @@
       {
         "command": "extension.createVsoFile",
         "title": "VS-Org: Create New .vsorg file"
+      },
+      {
+        "command": "extension.getTags",
+        "title": "VS-Org: Get Tags"
       }
     ],
     "keybindings": [
@@ -98,7 +102,6 @@
         "path": "./snippets/vso.json"
       }
     ]
-   
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -115,6 +118,7 @@
   },
   "dependencies": {
     "fs-extra": "^7.0.0",
+    "gray-matter": "^4.0.1",
     "klaw": "^3.0.0"
   }
 }

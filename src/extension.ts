@@ -8,6 +8,7 @@ const keywordRight = require("./keywordRight");
 const keywordLeft = require("./keywordLeft");
 const moveUp = require("./moveUp");
 const moveDown = require("./moveDown");
+const getTags = require("./tags");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   public provideOnTypeFormattingEdits(
@@ -77,7 +78,8 @@ export function activate(ctx: vscode.ExtensionContext): void {
   vscode.commands.registerCommand("extension.setFolderPath", setup);
   //create a new file
   vscode.commands.registerCommand("extension.createVsoFile", newFile);
-
+  //list tags
+  vscode.commands.registerCommand("extension.getTags", getTags);
   //add TODO or DONE right
   vscode.commands.registerCommand("extension.toggleStatusRight", keywordRight);
 
