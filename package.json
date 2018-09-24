@@ -14,6 +14,7 @@
   ],
   "activationEvents": [
     "onCommand:extension.createVsoFile",
+    "onCommand:extension.getTags",
     "onLanguage:vso"
   ],
   "keywords": [

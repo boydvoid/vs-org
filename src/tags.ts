@@ -9,6 +9,9 @@ module.exports = function() {
   let extension = ".vsorg";
   let folder: any;
   let tags: any;
+  let files: any = [];
+  let listObject: any = {};
+  let paths: any = [];
   readFiles();
   //get tags
   function readFiles() {
@@ -17,6 +20,7 @@ module.exports = function() {
         //check files for #+ TAGS:
         let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
         if (fileText.includes("#+TAGS:") && fileText.match(/\#\+TAGS.*/gi) !== null) {
+          files.push(items[i]);
           let result: any = fileText.match(/\#\+TAGS.*/gi);
           tags = result
             .join("")
@@ -24,16 +28,38 @@ module.exports = function() {
             .join("")
             .trim()
             .split(",");
+
+          console.log(files);
         }
       }
+      for (let j = 0; j < files.length; j++) {
+        for (let tag of tags) {
+          if (tag in listObject) {
+            listObject[tag].push(files[j]);
+          } else {
+            listObject[tag] = [files[j]];
+          }
+        }
+      }
+      console.log(listObject);
       setQuickPick();
     });
   }
 
   function setQuickPick() {
-    vscode.window.showQuickPick(tags).then(tag => {
+    vscode.window.showQuickPick(tags).then((tag: any) => {
       if (tag != null) {
-        console.log(tag);
+        if (tag in listObject) {
+          listObject[tag].forEach((element: any) => {
+            paths.push(element);
+          });
+
+          vscode.window.showQuickPick(paths).then((filePath: any) => {
+            let fullpath: any = path.join(setMainDir(), filePath);
+            vscode.window.showTextDocument(vscode.Uri.file(fullpath));
+          });
+        }
+        // vscode.window.showQuickPick(listObject)
       }
     });
   }
