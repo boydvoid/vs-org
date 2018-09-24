@@ -6,13 +6,17 @@ import * as os from "os";
 module.exports = function() {
   let config = vscode.workspace.getConfiguration("vsorg");
   let checkFolder = config.get("folderPath");
-  let extension = ".vsorg";
   let folder: any;
-  let tags: any;
+  let tags: string[] = [];
   let files: any = [];
-  let listObject: any = {};
-  let paths: any = [];
+  let listObject: TagObject = {};
+  let splitTags: string[];
+
   readFiles();
+
+  interface TagObject {
+    [key: string]: any;
+  }
   //get tags
   function readFiles() {
     fs.readdir(setMainDir(), (err: any, items: any) => {
@@ -21,40 +25,45 @@ module.exports = function() {
         let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
         if (fileText.includes("#+TAGS:") && fileText.match(/\#\+TAGS.*/gi) !== null) {
           files.push(items[i]);
-          let result: any = fileText.match(/\#\+TAGS.*/gi);
-          tags = result
+          let fileName: string = items[i];
+          let getTags: any = fileText.match(/\#\+TAGS.*/gi);
+          splitTags = getTags
             .join("")
             .split("#+TAGS:")
             .join("")
             .trim()
             .split(",");
 
+          let formatTag: any = [];
+
+          splitTags.forEach((element: any) => {
+            formatTag.push(element);
+          });
+
+          //push the tag into tag array so we can check for them in the listObject
+          //tags.push(formatTag);
+
+          for (let j = 0; j < formatTag.length; j++) {
+            if (listObject[formatTag[j]] === undefined) {
+              listObject[formatTag[j]] = "";
+            }
+            listObject[formatTag[j]] = listObject[formatTag[j]] + fileName + ",";
+          }
           console.log(files);
         }
       }
-      for (let j = 0; j < files.length; j++) {
-        for (let tag of tags) {
-          if (tag in listObject) {
-            listObject[tag].push(files[j]);
-          } else {
-            listObject[tag] = [files[j]];
-          }
-        }
-      }
-      console.log(listObject);
+
+      console.log(tags);
       setQuickPick();
     });
   }
 
   function setQuickPick() {
-    vscode.window.showQuickPick(tags).then((tag: any) => {
+    vscode.window.showQuickPick(splitTags).then((tag: any) => {
       if (tag != null) {
         if (tag in listObject) {
-          listObject[tag].forEach((element: any) => {
-            paths.push(element);
-          });
-
-          vscode.window.showQuickPick(paths).then((filePath: any) => {
+          let getFileName = listObject[tag].split(",");
+          vscode.window.showQuickPick(getFileName).then((filePath: any) => {
             let fullpath: any = path.join(setMainDir(), filePath);
             vscode.window.showTextDocument(vscode.Uri.file(fullpath));
           });
