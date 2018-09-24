@@ -97,15 +97,8 @@
         "language": "vso",
         "path": "./snippets/vso.json"
       }
-    ],
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "vsorg",
-          "name": "VS-Org"
-        }
-      ]
-    }
+    ]
+   
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -121,6 +114,7 @@
     "@types/mocha": "^2.2.42"
   },
   "dependencies": {
-    "fs-extra": "^7.0.0"
+    "fs-extra": "^7.0.0",
+    "klaw": "^3.0.0"
   }
 }

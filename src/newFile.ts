@@ -1,4 +1,3 @@
-import { writeFile } from "fs";
 import * as vscode from "vscode";
 const fs = require("fs-extra");
 const path = require("path");

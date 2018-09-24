@@ -4,6 +4,8 @@
 import * as vscode from "vscode";
 const newFile = require("./newFile");
 const setup = require("./setup");
+const keywordRight = require("./keywordRight");
+const keywordLeft = require("./keywordLeft");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 
 let characterArray: any = ["⊖ ", "⊙ ", "⊘ "];
@@ -38,6 +40,8 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     });
   }
 }
+
+//treeview
 
 /**
  * Get the number of asterisks that are on the line and return
@@ -79,95 +83,16 @@ export function activate(ctx: vscode.ExtensionContext): void {
 }
 //---commands---------------//
 
-// TODO alt+arrow command shift heading size (depth?)
+
 vscode.commands.registerCommand("extension.setFolderPath", setup);
 vscode.commands.registerCommand("extension.createVsoFile", newFile);
-//vscode.window.showSaveDialog({ defaultUri: vscode.Uri.file("C:\\Users\\..\\Documents\\"), filters: { 'VSOrg': ['vsorg'] } );
 
-vscode.commands.registerCommand("extension.toggleStatusRight", () => {
-  addKeyword(characterArray, "right");
-});
 
-/**
- * @name addKeyword
- * @desc Add or remove TODO or DONE keyword when the shift+Right is pressed
- * @param characterArray Array of characters that we are checking for
- * @returns workspace apply edit
- */
-function addKeyword(characterArray: any, direction: string) {
-  const { activeTextEditor } = vscode.window;
-  if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
-    const { document } = activeTextEditor;
+//add TODO or DONE right
+vscode.commands.registerCommand("extension.toggleStatusRight", keywordRight);
 
-    let position = activeTextEditor.selection.active.line;
-    let char: any = characterDecode(characterArray);
-    let getCurrentLine = document.lineAt(position);
-    let currentLineText = getCurrentLine.text;
-    let removeDate = currentLineText.substring(currentLineText.indexOf("["), currentLineText.indexOf("]"));
-    let datelessText = currentLineText.replace(removeDate, "");
-
-    let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
-
-    let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
-
-    let date = new Date().toLocaleString();
-
-    if (currentLineText.includes(char)) {
-      let edit = new vscode.WorkspaceEdit();
-      let removeEdit = new vscode.WorkspaceEdit();
-      edit.delete(document.uri, getCurrentLine.range);
-
-      if (direction === "right") {
-        if (currentLineText.includes("DONE")) {
-          let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
-          removeEdit.delete(document.uri, getCurrentLine.range);
-          removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
-          return vscode.workspace.applyEdit(removeEdit);
-        } else if (!currentLineText.includes("TODO")) {
-          edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO " + formattedText);
-        } else if (!currentLineText.includes("DONE")) {
-          let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
-
-          edit.insert(
-            document.uri,
-            getCurrentLine.range.start,
-            getLeadingSpace + char + "DONE " + "[" + date + "] " + removeTodo
-          );
-        }
-        vscode.workspace.applyEdit(edit);
-      } else {
-        if (currentLineText.includes(char)) {
-          let edit = new vscode.WorkspaceEdit();
-          let removeEdit = new vscode.WorkspaceEdit();
-          edit.delete(document.uri, getCurrentLine.range);
-          if (currentLineText.includes("TODO")) {
-            //remove the keyword
-            let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
-            removeEdit.delete(document.uri, getCurrentLine.range);
-            removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
-
-            return vscode.workspace.applyEdit(removeEdit);
-          } else if (!currentLineText.includes("DONE")) {
-            edit.insert(
-              document.uri,
-              getCurrentLine.range.start,
-              getLeadingSpace + char + "DONE " + "[" + date + "] " + formattedText
-            );
-          } else if (!currentLineText.includes("TODO")) {
-            let removeDone = formattedText.replace(/\b(DONE)\b/gi, "").trim();
-            edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO" + " " + removeDone);
-          }
-          vscode.workspace.applyEdit(edit);
-        }
-      }
-    }
-  }
-}
-
-//shift + left
-vscode.commands.registerCommand("extension.toggleStatusLeft", () => {
-  addKeyword(characterArray, "left");
-});
+//add TODO or DONE left
+vscode.commands.registerCommand("extension.toggleStatusLeft", keywordLeft);
 
 //alt + shift + up
 vscode.commands.registerCommand("extension.moveBlockUp", () => {
@@ -289,6 +214,7 @@ function getLeadingSpaces(currentLineText: any) {
  * @param characterArray The array of characters that we want to check
  * @returns Whatever character the line includes
  */
+
 function characterDecode(characterArray: any) {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
