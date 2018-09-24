@@ -2,9 +2,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-
+const newFile = require("./newFile");
+const setup = require("./setup");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
-const { activeTextEditor } = vscode.window;
 
 let characterArray: any = ["⊖ ", "⊙ ", "⊘ "];
 // this method is called when your extension is activated
@@ -18,11 +18,11 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
     token: vscode.CancellationToken
   ): Thenable<vscode.TextEdit[]> {
     return new Promise((resolve, reject) => {
+      const { activeTextEditor } = vscode.window;
       if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
         const { document } = activeTextEditor;
 
-        let cursorPosition = activeTextEditor.selection.active.line;
-        let currentLine = document.lineAt(cursorPosition);
+        let currentLine = document.lineAt(position);
 
         if (currentLine.text.indexOf("*") > -1) {
           let numOfAsterisk = currentLine.text.split("*").length - 1;
@@ -80,21 +80,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
 //---commands---------------//
 
 // TODO alt+arrow command shift heading size (depth?)
-
-vscode.commands.registerCommand("extension.createVsoFile", () => {
-  var setting: vscode.Uri = vscode.Uri.parse("untitled:" + "new.vsorg");
-  vscode.workspace.openTextDocument(setting).then((a: vscode.TextDocument) => {
-    vscode.window.showTextDocument(a, 1, false).then(e => {
-      e.edit(edit => {
-        edit.insert(
-          new vscode.Position(0, 0),
-          "--------------------------------------- \n#+ TITLE: \n#+ TAGS: \n---------------------------------------\n "
-        );
-      });
-    });
-  });
-  vscode.window.showWarningMessage("VS-org: Make sure to file->save as.");
-});
+vscode.commands.registerCommand("extension.setFolderPath", setup);
+vscode.commands.registerCommand("extension.createVsoFile", newFile);
+//vscode.window.showSaveDialog({ defaultUri: vscode.Uri.file("C:\\Users\\..\\Documents\\"), filters: { 'VSOrg': ['vsorg'] } );
 
 vscode.commands.registerCommand("extension.toggleStatusRight", () => {
   addKeyword(characterArray, "right");
@@ -107,6 +95,7 @@ vscode.commands.registerCommand("extension.toggleStatusRight", () => {
  * @returns workspace apply edit
  */
 function addKeyword(characterArray: any, direction: string) {
+  const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
 
@@ -196,6 +185,7 @@ vscode.commands.registerCommand("extension.moveBlockDown", () => {
  * @returns apply workspace edit
  */
 function moveBlock(characterArray: any, direction: any) {
+  const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
     let char: any = characterDecode(characterArray);

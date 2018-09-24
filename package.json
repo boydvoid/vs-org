@@ -5,6 +5,7 @@
   "version": "0.0.1",
   "repository": "https://www.github.com/robaboyd/vs-org",
   "publisher": "BobbyBoyd",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.27.0"
   },
@@ -12,22 +13,36 @@
     "Other"
   ],
   "activationEvents": [
+    "onCommand:extension.createVsoFile",
     "onLanguage:vso"
+  ],
+  "keywords": [
+    "vsorg",
+    "todo",
+    "todos",
+    "org-mode",
+    "list",
+    "vs-org",
+    "organizer",
+    "scheduler"
   ],
   "main": "./out/extension",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "VS-Org Config",
+      "properties": {
+        "vsorg.folderPath": {
+          "type": "string",
+          "default": "",
+          "description": "Main folder"
+        }
+      }
+    },
     "commands": [
       {
-        "command": "extension.toggleStatusRight",
-        "title": "VS-Org: Toggle TODO or DONE"
-      },
-      {
-        "command": "extension.toggleStatus",
-        "title": "VS-Org: Toggle TODO or DONE"
-      },
-      {
-        "command": "extension.moveBlockUp",
-        "title": "VS-Org: Move Block Up"
+        "command": "extension.setFolderPath",
+        "title": "VS-Org: Change VS-Org Directory"
       },
       {
         "command": "extension.createVsoFile",
@@ -82,7 +97,15 @@
         "language": "vso",
         "path": "./snippets/vso.json"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vsorg",
+          "name": "VS-Org"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -96,5 +119,8 @@
     "vscode": "^1.1.21",
     "@types/node": "^8.10.25",
     "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {
+    "fs-extra": "^7.0.0"
   }
 }
