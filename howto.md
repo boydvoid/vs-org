@@ -28,4 +28,4 @@ You can open a file by either the `VS-Org: Open By Title` or `VS-Org: Open By Ta
 
 ## Full Demo
 
-<img src="https://github.com/robaboyd/vs-org/blob/master/Images/.gif?raw=true" width="700" height="400" />
+<img src="https://github.com/robaboyd/vs-org/blob/master/Images/fullDemo.gif?raw=true" width="700" height="400" />
