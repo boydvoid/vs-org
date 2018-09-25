@@ -1,7 +1,7 @@
 {
   "page_heading": {
     "prefix": "/header",
-    "body": ["#+TITLE:$1 \n#+TAGS:\n"],
+    "body": ["#+TITLE:$1 \n#+TAGS:\n-------------------------\n"],
     "description": "Section Header"
   }
 }
