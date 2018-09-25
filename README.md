@@ -4,7 +4,7 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 
 ## Features
 
-Quickly create todo lists, and organize your thoughts, Check out the full demo below.
+Quickly create todo lists, take notes, plan projects and organize your thoughts. Check out the full demo below.
 
 FULL DEMO:  
 <img src="https://github.com/robaboyd/vs-org/blob/master/Images/fullDemo.gif?raw=true" width="700" height="400" />

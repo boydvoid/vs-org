@@ -91,7 +91,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>((^|\s)TODO(\s|$)(.*))</string>
+          <string>(\bTODO\b)</string>
           <key>name</key>
           <string>invalid.illegal.vso</string>
         </dict>
