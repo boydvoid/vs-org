@@ -5,6 +5,7 @@
   "version": "0.0.1",
   "repository": "https://www.github.com/robaboyd/vs-org",
   "publisher": "BobbyBoyd",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.27.0"
   },
@@ -12,26 +13,51 @@
     "Other"
   ],
   "activationEvents": [
+    "onCommand:extension.createVsoFile",
+    "onCommand:extension.getTags",
+    "onCommand:extension.getTitles",
+    "onCommand:extension.setFolderPath",
     "onLanguage:vso"
+  ],
+  "keywords": [
+    "vsorg",
+    "todo",
+    "todos",
+    "org-mode",
+    "list",
+    "vs-org",
+    "organizer",
+    "scheduler"
   ],
   "main": "./out/extension",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "VS-Org Config",
+      "properties": {
+        "vsorg.folderPath": {
+          "type": "string",
+          "default": "",
+          "description": "Main folder"
+        }
+      }
+    },
     "commands": [
       {
-        "command": "extension.toggleStatusRight",
-        "title": "VS-Org: Toggle TODO or DONE"
-      },
-      {
-        "command": "extension.toggleStatus",
-        "title": "VS-Org: Toggle TODO or DONE"
-      },
-      {
-        "command": "extension.moveBlockUp",
-        "title": "VS-Org: Move Block Up"
+        "command": "extension.setFolderPath",
+        "title": "VS-Org: Change VS-Org Directory"
       },
       {
         "command": "extension.createVsoFile",
         "title": "VS-Org: Create New .vsorg file"
+      },
+      {
+        "command": "extension.getTags",
+        "title": "VS-Org: Open By Tag"
+      },
+      {
+        "command": "extension.getTitles",
+        "title": "VS-Org: Open By Title "
       }
     ],
     "keybindings": [
@@ -53,6 +79,16 @@
       {
         "command": "extension.moveBlockDown",
         "key": "shift+alt+down",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.increment",
+        "key": "alt+right",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.decrement",
+        "key": "alt+left",
         "when": "editorTextFocus"
       }
     ],
@@ -96,5 +132,10 @@
     "vscode": "^1.1.21",
     "@types/node": "^8.10.25",
     "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {
+    "fs-extra": "^7.0.0",
+    "gray-matter": "^4.0.1",
+    "klaw": "^3.0.0"
   }
 }
