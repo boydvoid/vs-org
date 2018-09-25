@@ -101,6 +101,13 @@
           <key>name</key>
           <string>entity.name.function.vso</string>
         </dict>  
+     
+      <dict>
+          <key>match</key>
+          <string>([\#\+]{1}(.*))</string>
+          <key>name</key>
+          <string>markup.italic</string>
+        </dict>
        </array>
     </dict>
     <key>multi_line_comment</key>
@@ -127,7 +134,7 @@
             <key>1</key>
             <dict>
               <key>name</key>
-              <string>comment.vso</string>
+              <string>numeric.vso</string>
             </dict>
           </dict>
         </dict>
