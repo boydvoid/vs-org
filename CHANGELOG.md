@@ -16,7 +16,7 @@
 
 - Initial release
 
-## Keybinds
+### Keybinds
 
 - Typing \* , ** , or \*** will properly format to "⊖", "⊙", "⊘".
 - alt+shift+upArrow will swap the BLOCK of text with the BLOCK of text above it.
@@ -27,7 +27,7 @@
 - alt+rightArrow will increment the level of the heading
 - alt+leftArrow will decrement the level of the heading
 
-## Commands
+### Commands
 
 - Search by tags with the `VS-Org: Open By Tag` command
 - Search by titles with the `VS-Org: Open By Title` command
