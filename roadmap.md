@@ -9,6 +9,7 @@ These are the features that I would like to add in the near future.
 | Feature Name              |                                        Description                                        |    Progress |
 | ------------------------- | :---------------------------------------------------------------------------------------: | ----------: |
 | Bulleted Lists            |                             Make a ordered or unordered lists                             | In Progress |
+| Increment Headings        |        Pressing alt+ left or right arrow will increment or decrement the headings         | In Progress |
 | Schedule TODOS            |                              Schedule todos for a later date                              | Not Started |
 | Make Titles Unique        |                               Don't allow duplicate titles                                | Not Started |
 | Tables                    |                                  Insert Tables into doc                                   | Not Started |
