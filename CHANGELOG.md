@@ -2,6 +2,10 @@
 
 # [0.0.3]
 
+`Added`
+
+- Snippet adds an underline as a divider after #+TAGS
+
 `Changed`
 
 - Changed syntax highlighting for the TODO keyword. Only highlights TODO, not the rest of the line.

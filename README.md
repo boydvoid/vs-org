@@ -44,11 +44,16 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
+### 0.0.3
+
+- Changed syntax highlighting for the TODO keyword. Only highlights TODO, not the rest of the line
+- Snippet adds an underline as a divider after #+TAGS
+
 ### 0.0.2
 
 Initial release.
 
-###Keybinds
+### Keybinds
 
 - Typing \* , ** , or \*** will properly format to "⊖", "⊙", "⊘".
 - alt+shift+upArrow will swap the BLOCK of text with the BLOCK of text above it.
@@ -59,7 +64,7 @@ Initial release.
 - alt+rightArrow will increment the level of the heading
 - alt+leftArrow will decrement the level of the heading
 
-###Commands
+### Commands
 
 - Search by tags with the `VS-Org: Open By Tag` command
 - Search by titles with the `VS-Org: Open By Title` command
