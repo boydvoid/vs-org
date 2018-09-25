@@ -14,6 +14,9 @@
   ],
   "activationEvents": [
     "onCommand:extension.createVsoFile",
+    "onCommand:extension.getTags",
+    "onCommand:extension.getTitles",
+    "onCommand:extension.setFolderPath",
     "onLanguage:vso"
   ],
   "keywords": [
@@ -47,6 +50,14 @@
       {
         "command": "extension.createVsoFile",
         "title": "VS-Org: Create New .vsorg file"
+      },
+      {
+        "command": "extension.getTags",
+        "title": "VS-Org: Open By Tag"
+      },
+      {
+        "command": "extension.getTitles",
+        "title": "VS-Org: Open By Title "
       }
     ],
     "keybindings": [
@@ -97,15 +108,7 @@
         "language": "vso",
         "path": "./snippets/vso.json"
       }
-    ],
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "vsorg",
-          "name": "VS-Org"
-        }
-      ]
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -121,6 +124,8 @@
     "@types/mocha": "^2.2.42"
   },
   "dependencies": {
-    "fs-extra": "^7.0.0"
+    "fs-extra": "^7.0.0",
+    "gray-matter": "^4.0.1",
+    "klaw": "^3.0.0"
   }
 }
