@@ -10,7 +10,7 @@ FULL DEMO:
 <img src="https://github.com/robaboyd/vs-org/blob/master/Images/fullDemo.gif?raw=true" width="700" height="400" />
 
 LINK TO HOW-TO:  
-[How-To](https://github.com/robaboyd/vs-org/howto.md)
+[How-To](https://github.com/robaboyd/vs-org/blob/master/howto.md)
 
 ## Requirements
 
