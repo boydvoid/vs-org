@@ -4,20 +4,17 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 
 ## Features
 
-Quickly create todo lists, organize your thoughts, schedule your todos and view them in an organized list(coming soon).
+Quickly create todo lists, and organize your thoughts, Check out the full demo below.
 
-Create a new vso file:</br>
-<img src="https://github.com/robaboyd/vs-org/blob/master/Images/commandGif.gif?raw=true" width="700" height="400" />
+FULL DEMO:  
+<img src="https://github.com/robaboyd/vs-org/blob/master/Images/fullDemo.gif?raw=true" width="700" height="400" />
 
-Headings and Subsections:  
--Using \* you can create Headings and sub Headings  
--The Number of \* determines the heading or section  
--Add TODO or DONE keywords to organize your lists and re-organize your list items:</br>
-<img src="https://github.com/robaboyd/vs-org/blob/master/Images/mainGif.gif?raw=true" width="700" height="400" />
+LINK TO HOW-TO:  
+[How-To](https://github.com/robaboyd/vs-org/howto.md)
 
 ## Requirements
 
-Make sure you save your files with the .vsorg extension. I will have a command that creates this file in the future.
+Make sure you save your files with the .vsorg extension.
 
 ## Extension Settings
 
@@ -25,12 +22,14 @@ Make sure you save your files with the .vsorg extension. I will have a command t
 
 ## Keybinds
 
-| Keys                  | Decription               |
-| --------------------- | ------------------------ |
-| `shift+rightArrow`    | add TODO or DONE Keyword |
-| `shift+leftArrow`     | add DONE or TODO keyword |
-| `shift+alt+UpArrow`   | Move Block of code Up    |
-| `shift+alt+downArrow` | Move Block of code down  |
+| Keys                  | Decription                         |
+| --------------------- | ---------------------------------- |
+| `shift+rightArrow`    | add TODO or DONE Keyword           |
+| `shift+leftArrow`     | add DONE or TODO keyword           |
+| `shift+alt+UpArrow`   | Move Block of code Up              |
+| `shift+alt+downArrow` | Move Block of code down            |
+| `alt+rightArrow`      | Increment the level of the heading |
+| `alt+leftArrow`       | Decrement the level of the heading |
 
 ## Snippets
 
@@ -39,30 +38,36 @@ Make sure you save your files with the .vsorg extension. I will have a command t
 | `/header` | insert page header | #+ TITLE:</br> #+ TAGS: |
 |           |                    |                         |
 
-## Known Issues
+## Known Issues and Bugs
 
-- When you alt+shift+arrow on the last line or the first line of document it won't swap places properly, the current fix is to make sure that always have a line below and above your content.
-
-- alt+shift+down wont work on the top most line
+Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug you would like to report.
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.2
 
 Initial release.
 
-- Typing \* , ** , or \*** will properly format to "⊖ ", "⊙ ", "⊘ ".
+###Keybinds
+
+- Typing \* , ** , or \*** will properly format to "⊖", "⊙", "⊘".
 - alt+shift+upArrow will swap the BLOCK of text with the BLOCK of text above it.
 - alt+shift+downArrow will swap the BLOCK of text with the BLOCK of text below it.
 - shift+rightArrow will add TODO or DONE keyword
 - shift+rightLeft will add DONE or TODO keyword
 - Fold and Unfold code with default keybinds ctrl+shift+] or [
+- alt+rightArrow will increment the level of the heading
+- alt+leftArrow will decrement the level of the heading
+
+###Commands
+
+- Search by tags with the `VS-Org: Open By Tag` command
+- Search by titles with the `VS-Org: Open By Title` command
+- Change main directory with the `VS-Org: Change VS-Org Directory` command.
+- Create a new file with the `VS-Org: Create new .vsorg file` command.
 
 ## Upcoming Features
 
-- Be able to schedule your TODOs
-- VS Code side panel that will show all of Your Todos, and .vso docs.
-- check boxes
-- bulleted and numbered lists
+Check out the [RoadMap](https://github.com/robaboyd/vs-org/roadmap.md) for upcoming features.
 
 ---
