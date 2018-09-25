@@ -11,6 +11,7 @@ module.exports = function() {
 
   let listObject: TagObject = {};
   let splitTags: string[];
+  let formatTag: any = [];
 
   readFiles();
 
@@ -34,34 +35,32 @@ module.exports = function() {
             .trim()
             .split(",");
 
-          let formatTag: any = [];
-
           splitTags.forEach((element: any) => {
-            formatTag.push(element);
+            if (!formatTag.includes(element)) {
+              formatTag.push(element);
+            }
           });
 
-          for (let j = 0; j < formatTag.length; j++) {
-            if (listObject[formatTag[j]] === undefined) {
-              listObject[formatTag[j]] = "";
+          splitTags.forEach((element: any) => {
+            if (listObject[element] === undefined) {
+              listObject[element] = "";
             }
-            listObject[formatTag[j]] = listObject[formatTag[j]] + fileName + ",";
-          }
+            listObject[element] = listObject[element] + fileName + ",";
+          });
         }
       }
-
-      console.log(tags);
       setQuickPick();
     });
   }
 
   function setQuickPick() {
-    vscode.window.showQuickPick(splitTags).then((tag: any) => {
+    vscode.window.showQuickPick(formatTag).then((tag: any) => {
       if (tag != null) {
         if (tag in listObject) {
           let getFileName = listObject[tag].split(",");
           vscode.window.showQuickPick(getFileName).then((filePath: any) => {
             let fullpath: any = path.join(setMainDir(), filePath);
-            vscode.window.showTextDocument(vscode.Uri.file(fullpath));
+            vscode.workspace.openTextDocument(vscode.Uri.file(fullpath));
           });
         }
         // vscode.window.showQuickPick(listObject)
