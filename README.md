@@ -68,6 +68,6 @@ Initial release.
 
 ## Upcoming Features
 
-Check out the [RoadMap](https://github.com/robaboyd/vs-org/roadmap.md) for upcoming features.
+Check out the [RoadMap](https://github.com/robaboyd/vs-org/blob/master/roadmap.md) for upcoming features.
 
 ---
