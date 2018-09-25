@@ -1,5 +1,11 @@
 # Change Log
 
+# [0.0.4]
+
+`Changed`
+
+- Changed to proper version number
+
 # [0.0.3]
 
 `Added`
