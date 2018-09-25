@@ -3,12 +3,13 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 const newFile = require("./newFile");
-const setup = require("./setup");
+const changeDirectory = require("./changeDirectory");
 const keywordRight = require("./keywordRight");
 const keywordLeft = require("./keywordLeft");
 const moveUp = require("./moveUp");
 const moveDown = require("./moveDown");
 const getTags = require("./tags");
+const titles = require("./titles");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   public provideOnTypeFormattingEdits(
@@ -49,7 +50,7 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
  * @returns {array} the first item in the characters array
  */
 function setUnicodeChar(asterisks: any) {
-  let characters: any = ["⊖ ", "⊙ ", "⊘ "];
+  let characters: any[] = ["⊖ ", "⊙ ", "⊘ "];
   for (let i = 0; i < asterisks; i++) {
     characters.push(characters.shift());
   }
@@ -66,7 +67,7 @@ function textEdit(char: any, position: any, document: any, spaces: any) {
 
 // number of spaces to add function
 function numOfSpaces(asterisk: number) {
-  let spacesArray = [];
+  let spacesArray: string[] = [];
   for (let i = 0; i < asterisk; i++) {
     spacesArray.push(" ");
   }
@@ -75,11 +76,12 @@ function numOfSpaces(asterisk: number) {
 //activate function, format on space bar press
 export function activate(ctx: vscode.ExtensionContext): void {
   //add a folder path
-  vscode.commands.registerCommand("extension.setFolderPath", setup);
+  vscode.commands.registerCommand("extension.setFolderPath", changeDirectory);
   //create a new file
   vscode.commands.registerCommand("extension.createVsoFile", newFile);
   //list tags
   vscode.commands.registerCommand("extension.getTags", getTags);
+  vscode.commands.registerCommand("extension.getTitles", titles);
   //add TODO or DONE right
   vscode.commands.registerCommand("extension.toggleStatusRight", keywordRight);
 

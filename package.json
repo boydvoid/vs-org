@@ -15,6 +15,8 @@
   "activationEvents": [
     "onCommand:extension.createVsoFile",
     "onCommand:extension.getTags",
+    "onCommand:extension.getTitles",
+    "onCommand:extension.setFolderPath",
     "onLanguage:vso"
   ],
   "keywords": [
@@ -51,7 +53,11 @@
       },
       {
         "command": "extension.getTags",
-        "title": "VS-Org: Get Tags"
+        "title": "VS-Org: Open By Tag"
+      },
+      {
+        "command": "extension.getTitles",
+        "title": "VS-Org: Open By Title "
       }
     ],
     "keybindings": [

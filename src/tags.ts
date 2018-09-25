@@ -8,12 +8,13 @@ module.exports = function() {
   let checkFolder = config.get("folderPath");
   let folder: any;
   let tags: string[] = [];
-  let files: any = [];
+
   let listObject: TagObject = {};
   let splitTags: string[];
 
   readFiles();
 
+  //interfaces
   interface TagObject {
     [key: string]: any;
   }
@@ -24,7 +25,6 @@ module.exports = function() {
         //check files for #+ TAGS:
         let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
         if (fileText.includes("#+TAGS:") && fileText.match(/\#\+TAGS.*/gi) !== null) {
-          files.push(items[i]);
           let fileName: string = items[i];
           let getTags: any = fileText.match(/\#\+TAGS.*/gi);
           splitTags = getTags
@@ -40,16 +40,12 @@ module.exports = function() {
             formatTag.push(element);
           });
 
-          //push the tag into tag array so we can check for them in the listObject
-          //tags.push(formatTag);
-
           for (let j = 0; j < formatTag.length; j++) {
             if (listObject[formatTag[j]] === undefined) {
               listObject[formatTag[j]] = "";
             }
             listObject[formatTag[j]] = listObject[formatTag[j]] + fileName + ",";
           }
-          console.log(files);
         }
       }
 
