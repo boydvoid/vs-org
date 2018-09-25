@@ -17,6 +17,7 @@
     "onCommand:extension.getTags",
     "onCommand:extension.getTitles",
     "onCommand:extension.setFolderPath",
+    "onCommand:extension.increment",
     "onLanguage:vso"
   ],
   "keywords": [

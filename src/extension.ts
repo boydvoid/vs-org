@@ -10,6 +10,7 @@ const moveUp = require("./moveUp");
 const moveDown = require("./moveDown");
 const getTags = require("./tags");
 const titles = require("./titles");
+const increment = require("./incrementHeadings");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   public provideOnTypeFormattingEdits(
@@ -92,6 +93,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
   vscode.commands.registerCommand("extension.moveBlockUp", moveUp);
   //alt + shift + down
   vscode.commands.registerCommand("extension.moveBlockDown", moveDown);
+  vscode.commands.registerCommand("extension.increment", increment);
 
   ctx.subscriptions.push(
     vscode.languages.registerOnTypeFormattingEditProvider(GO_MODE, new GoOnTypingFormatter(), " ")

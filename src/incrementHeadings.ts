@@ -16,17 +16,30 @@ module.exports = function() {
     let char: any = characterDecode(characterArray);
     let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
     let newSpaces: any;
+    let newChar: any;
+    let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
     if (currentLineText.includes(char)) {
       let edit = new vscode.WorkspaceEdit();
       edit.delete(document.uri, getCurrentLine.range);
 
+      //setting the new char
+      if (currentLineText.includes("⊖")) {
+        newChar = "⊙ ";
+      }
+      if (currentLineText.includes("⊙")) {
+        newChar = "⊘ ";
+      }
+      if (currentLineText.includes("⊘")) {
+        newChar = "⊖ ";
+      }
       if (direction === "right") {
         //add another space before char
         for (let i = 0; i < getLeadingSpace.length + 1; i++) {
           newSpaces.push(" ");
-        } 
+        }
 
-        edit.insert(document.uri, getCurrentLine.range.start, newSpaces + newChar + formattedText)
+        edit.insert(document.uri, getCurrentLine.range.start, newSpaces + newChar + formattedText);
+        vscode.workspace.applyEdit(edit);
       }
     }
 
