@@ -1,7 +1,24 @@
 # Change Log
-All notable changes to the "vs-org" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+# [0.0.2]
+##```Added```
 
-## [Unreleased]
 - Initial release
+
+###Keybinds
+
+- Typing \* , ** , or \*** will properly format to "⊖", "⊙", "⊘".
+- alt+shift+upArrow will swap the BLOCK of text with the BLOCK of text above it.
+- alt+shift+downArrow will swap the BLOCK of text with the BLOCK of text below it.
+- shift+rightArrow will add TODO or DONE keyword
+- shift+rightLeft will add DONE or TODO keyword
+- Fold and Unfold code with default keybinds ctrl+shift+] or [
+- alt+rightArrow will increment the level of the heading
+- alt+leftArrow will decrement the level of the heading
+
+###Commands
+
+- Search by tags with the `VS-Org: Open By Tag` command
+- Search by titles with the `VS-Org: Open By Title` command
+- Change main directory with the `VS-Org: Change VS-Org Directory` command.
+- Create a new file with the `VS-Org: Create new .vsorg file` command.
