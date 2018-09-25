@@ -1,6 +1,6 @@
 # Roadmap v1.0.0
 
-Live version: 0.0.2
+Live version: 0.0.4
 
 These are the features that I would like to add in the near future.
 
