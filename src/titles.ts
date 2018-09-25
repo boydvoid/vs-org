@@ -8,7 +8,7 @@ module.exports = function() {
   let checkFolder = config.get("folderPath");
   let folder: any;
   let titles: any[] = [];
-  let files: any[] = [];
+
   let listObject: TitleObject = {};
   let splitTitle: string[];
 
@@ -51,7 +51,9 @@ module.exports = function() {
     vscode.window.showQuickPick(titles).then((title: any) => {
       if (title in listObject) {
         let fullpath: any = path.join(setMainDir(), listObject[title]);
-        vscode.window.showTextDocument(vscode.Uri.file(fullpath));
+        vscode.workspace.openTextDocument(vscode.Uri.file(fullpath)).then(doc => {
+          vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, true);
+        });
       }
     });
   }

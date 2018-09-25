@@ -7,7 +7,6 @@ module.exports = function() {
   let config = vscode.workspace.getConfiguration("vsorg");
   let checkFolder = config.get("folderPath");
   let folder: any;
-  let tags: string[] = [];
 
   let listObject: TagObject = {};
   let splitTags: string[];
@@ -60,7 +59,9 @@ module.exports = function() {
           let getFileName = listObject[tag].split(",");
           vscode.window.showQuickPick(getFileName).then((filePath: any) => {
             let fullpath: any = path.join(setMainDir(), filePath);
-            vscode.workspace.openTextDocument(vscode.Uri.file(fullpath));
+            vscode.workspace.openTextDocument(vscode.Uri.file(fullpath)).then(doc => {
+              vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, true);
+            });
           });
         }
         // vscode.window.showQuickPick(listObject)

@@ -10,6 +10,8 @@ const moveUp = require("./moveUp");
 const moveDown = require("./moveDown");
 const getTags = require("./tags");
 const titles = require("./titles");
+const increment = require("./incrementHeadings");
+const decrement = require("./decrementHeadings");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   public provideOnTypeFormattingEdits(
@@ -68,7 +70,8 @@ function textEdit(char: any, position: any, document: any, spaces: any) {
 // number of spaces to add function
 function numOfSpaces(asterisk: number) {
   let spacesArray: string[] = [];
-  for (let i = 0; i < asterisk; i++) {
+
+  for (let i = 1; i < asterisk; i++) {
     spacesArray.push(" ");
   }
   return spacesArray.join("");
@@ -92,6 +95,10 @@ export function activate(ctx: vscode.ExtensionContext): void {
   vscode.commands.registerCommand("extension.moveBlockUp", moveUp);
   //alt + shift + down
   vscode.commands.registerCommand("extension.moveBlockDown", moveDown);
+  //alt+right
+  vscode.commands.registerCommand("extension.increment", increment);
+  //alt+left
+  vscode.commands.registerCommand("extension.decrement", decrement);
 
   ctx.subscriptions.push(
     vscode.languages.registerOnTypeFormattingEditProvider(GO_MODE, new GoOnTypingFormatter(), " ")

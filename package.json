@@ -80,6 +80,16 @@
         "command": "extension.moveBlockDown",
         "key": "shift+alt+down",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.increment",
+        "key": "alt+right",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.decrement",
+        "key": "alt+left",
+        "when": "editorTextFocus"
       }
     ],
     "languages": [
