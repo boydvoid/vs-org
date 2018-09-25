@@ -8,37 +8,37 @@ module.exports = function() {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
-    let direction = "right";
     let characterArray: any = ["⊖ ", "⊙ ", "⊘ "];
     let position = activeTextEditor.selection.active.line;
     let getCurrentLine = document.lineAt(position);
     let currentLineText = getCurrentLine.text;
     let char: any = characterDecode(characterArray);
     let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
-    let newSpaces: string;
+    let newSpaces: string = "";
     let convertSpaces: any[] = [];
     let newChar: any;
     let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
-    increment();
-    function increment() {
+    decrement();
+    function decrement() {
       if (currentLineText.includes(char)) {
         let edit = new vscode.WorkspaceEdit();
         edit.delete(document.uri, getCurrentLine.range);
 
         //setting the new char
         if (currentLineText.includes("⊖")) {
-          newChar = "⊙ ";
-        }
-        if (currentLineText.includes("⊙")) {
           newChar = "⊘ ";
         }
-        if (currentLineText.includes("⊘")) {
+        if (currentLineText.includes("⊙")) {
           newChar = "⊖ ";
         }
-        if (direction === "right") {
-          //add another space before char
-          for (let i = 0; i <= getLeadingSpace.length; i++) {
+        if (currentLineText.includes("⊘")) {
+          newChar = "⊙ ";
+        }
+        //remove a space before the char
+        if (getLeadingSpace.length !== 0) {
+          for (let i = 1; i <= getLeadingSpace.length - 1; i++) {
             convertSpaces.push(" ");
+
             newSpaces = convertSpaces.join("");
           }
           edit.insert(document.uri, getCurrentLine.range.start, newSpaces + newChar + formattedText);

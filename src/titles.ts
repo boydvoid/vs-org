@@ -8,7 +8,7 @@ module.exports = function() {
   let checkFolder = config.get("folderPath");
   let folder: any;
   let titles: any[] = [];
-  let files: any[] = [];
+
   let listObject: TitleObject = {};
   let splitTitle: string[];
 

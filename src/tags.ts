@@ -7,7 +7,6 @@ module.exports = function() {
   let config = vscode.workspace.getConfiguration("vsorg");
   let checkFolder = config.get("folderPath");
   let folder: any;
-  let tags: string[] = [];
 
   let listObject: TagObject = {};
   let splitTags: string[];
