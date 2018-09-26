@@ -4,7 +4,7 @@
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
   "version": "0.0.5",
   "repository": "https://www.github.com/robaboyd/vs-org",
-  "icon": "/Images/potentialLogo.png",
+  "icon": "Images/potentialLogo.png",
   "publisher": "BobbyBoyd",
   "license": "MIT",
   "engines": {
@@ -21,12 +21,9 @@
     "onLanguage:vso"
   ],
   "keywords": [
-    "vsorg",
     "todo",
-    "todos",
     "org-mode",
     "list",
-    "vs-org",
     "organizer",
     "scheduler"
   ],
