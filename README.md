@@ -4,9 +4,12 @@
 [![Install](https://img.shields.io/badge/Marketplace-Install-green.svg)](https://marketplace.visualstudio.com/items?itemName=BobbyBoyd.vs-org)</br></br>
 This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode](https://orgmode.org/) as much as possible.
 
+> Quickly create todo lists, take notes, plan projects and organize your thoughts. Check out the full demo below.
+
 ## Features
 
-Quickly create todo lists, take notes, plan projects and organize your thoughts. Check out the full demo below.
+Check out the HOW-TO for all of the available featuers:  
+[How-To](https://github.com/robaboyd/vs-org/blob/master/howto.md)
 
 Check out the recent changes in the [Change Log](https://github.com/robaboyd/vs-org/blob/master/CHANGELOG.md)
 
@@ -14,9 +17,6 @@ For upcoming features view the [Roadmap](https://github.com/robaboyd/vs-org/blob
 
 FULL DEMO:  
 <img src="https://github.com/robaboyd/vs-org/blob/master/Images/fullDemo.gif?raw=true" width="700" height="400" />
-
-LINK TO HOW-TO:  
-[How-To](https://github.com/robaboyd/vs-org/blob/master/howto.md)
 
 ## Install
 
