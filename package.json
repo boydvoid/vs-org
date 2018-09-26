@@ -2,7 +2,7 @@
   "name": "vs-org",
   "displayName": "Vs-Org",
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": "https://www.github.com/robaboyd/vs-org",
   "publisher": "BobbyBoyd",
   "license": "MIT",
@@ -64,32 +64,42 @@
       {
         "command": "extension.toggleStatusRight",
         "key": "shift+right",
-        "when": "editorTextFocus"
+        "when": "editorLangId == 'vso' && editorTextFocus"
       },
       {
         "command": "extension.toggleStatusLeft",
         "key": "shift+left",
-        "when": "editorTextFocus"
+        "when": "editorLangId == 'vso' && editorTextFocus"
       },
       {
         "command": "extension.moveBlockUp",
         "key": "shift+alt+up",
-        "when": "editorTextFocus"
+        "when": "editorLangId == 'vso' && editorTextFocus"
       },
       {
         "command": "extension.moveBlockDown",
         "key": "shift+alt+down",
-        "when": "editorTextFocus"
+        "when": "editorLangId == 'vso' && editorTextFocus"
       },
       {
         "command": "extension.increment",
         "key": "alt+right",
-        "when": "editorTextFocus"
+        "when": "editorLangId == 'vso' && editorTextFocus"
       },
       {
         "command": "extension.decrement",
         "key": "alt+left",
-        "when": "editorTextFocus"
+        "when": "editorLangId == 'vso' && editorTextFocus"
+      },
+      {
+        "command": "editor.fold",
+        "key": "tab",
+        "when": "editorLangId == 'vso' && editorTextFocus"
+      },
+      {
+        "command": "editor.unfold",
+        "key": "shift+tab",
+        "when": "editorLangId == 'vso' && editorTextFocus"
       }
     ],
     "languages": [
