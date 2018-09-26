@@ -17,7 +17,7 @@ module.exports = function() {
     let newSpaces: string = "";
     let convertSpaces: any[] = [];
     let newChar: any;
-    let formattedText = currentLineText.replace(/[^\w\s!?]/g, "").trim();
+    let formattedText = currentLineText.replace(/[⊙⊘⊖\?]/g, "").trim();
     decrement();
     function decrement() {
       if (currentLineText.includes(char)) {

@@ -10,10 +10,10 @@ module.exports = function() {
     let char: any = characterDecode(characterArray);
     let getCurrentLine = document.lineAt(position);
     let currentLineText = getCurrentLine.text;
-    let removeDate = currentLineText.substring(currentLineText.indexOf("["), currentLineText.indexOf("]"));
+    let removeDate = currentLineText.substring(currentLineText.indexOf("["), currentLineText.indexOf("]") + 1);
     let datelessText = currentLineText.replace(removeDate, "");
 
-    let formattedText = datelessText.replace(/[^\w\s!?]/g, "").trim();
+    let formattedText = datelessText.replace(/[⊙⊘⊖\?]/g, "").trim();
 
     let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
 

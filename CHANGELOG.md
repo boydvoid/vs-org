@@ -1,5 +1,19 @@
 # Change Log
 
+# [0.0.5]
+
+`Changed`
+
+- The default keybind for folding is now `tab`
+- The default keybind for unfolding is now `shift+tab`
+- Syntax highlighting for `#+` is now the selected themes comment color
+
+`Fixed`
+
+- Adding TODO, DONE or changing the level of the heading no longer get rid of special characters
+- VS-Org Keybinds are only active when the file extension is .vsorg or .vso
+- Fixed issue with `#` acting like a comment, `#+` is now a comment
+
 # [0.0.4]
 
 `Changed`

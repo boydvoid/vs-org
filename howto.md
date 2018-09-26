@@ -1,5 +1,10 @@
 # VS-Org How-To
 
+> Organize your thoughts and tasks into hierarchical lists. You can add an item with \*. The Number of \* determines the level of the item.</br>
+> Mark a task as TODO or DONE.</br>
+> Fold Lists with Tab.</br>
+> Increment or Decrement an item in a list.</br>
+
 ## Change the Main Directory
 
 The main directory by default is set to your home directory.

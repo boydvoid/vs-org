@@ -36,7 +36,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>(//.*)</string>
+          <string>((\#\+){1}(.*))</string>
           <key>name</key>
           <string>comment.vso</string>
         </dict>
@@ -102,12 +102,7 @@
           <string>entity.name.function.vso</string>
         </dict>  
      
-      <dict>
-          <key>match</key>
-          <string>([\#\+]{1}(.*))</string>
-          <key>name</key>
-          <string>markup.italic</string>
-        </dict>
+
        </array>
     </dict>
     <key>multi_line_comment</key>
