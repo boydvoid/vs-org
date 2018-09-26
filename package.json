@@ -4,6 +4,7 @@
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
   "version": "0.0.5",
   "repository": "https://www.github.com/robaboyd/vs-org",
+  "icon": "https://github.com/robaboyd/vs-org/blob/master/Images/potentialLogo.png",
   "publisher": "BobbyBoyd",
   "license": "MIT",
   "engines": {
