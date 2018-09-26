@@ -8,7 +8,7 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 
 ## Features
 
-Check out the HOW-TO for all of the available featuers:  
+Check out the HOW-TO for all of the available featuers:</br>
 [How-To](https://github.com/robaboyd/vs-org/blob/master/howto.md)
 
 Check out the recent changes in the [Change Log](https://github.com/robaboyd/vs-org/blob/master/CHANGELOG.md)
