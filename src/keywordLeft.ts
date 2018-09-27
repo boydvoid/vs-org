@@ -12,13 +12,11 @@ module.exports = function() {
     let currentLineText = getCurrentLine.text;
     let removeDate = currentLineText.substring(currentLineText.indexOf("["), currentLineText.indexOf("]") + 1);
     let datelessText = currentLineText.replace(removeDate, "");
-
     let formattedText = datelessText.replace(/[⊙⊘⊖\?]/g, "").trim();
-
     let getLeadingSpace = currentLineText.substr(0, currentLineText.indexOf(char));
-
     let date = new Date().toLocaleString();
-
+    let lastLine = document.lineAt(document.lineCount - 1);
+    let nextLine = document.lineAt(position + 1);
     if (currentLineText.includes(char)) {
       let edit = new vscode.WorkspaceEdit();
       let removeEdit = new vscode.WorkspaceEdit();
@@ -40,6 +38,8 @@ module.exports = function() {
             getCurrentLine.range.start,
             getLeadingSpace + char + "DONE " + "[" + date + "] " + removeTodo
           );
+          // insert new text on current line
+          //text to move down
         }
         vscode.workspace.applyEdit(edit);
       } else {
@@ -55,6 +55,10 @@ module.exports = function() {
 
             return vscode.workspace.applyEdit(removeEdit);
           } else if (!currentLineText.includes("DONE")) {
+            let textToMoveDown = document.getText(
+              new vscode.Range(new vscode.Position(position + 1, 0), new vscode.Position(lastLine.lineNumber, 0))
+            );
+            console.log(textToMoveDown);
             edit.insert(
               document.uri,
               getCurrentLine.range.start,
