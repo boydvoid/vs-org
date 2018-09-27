@@ -97,7 +97,7 @@
         </dict>
       <dict>
           <key>match</key>
-          <string>((^|\s)DONE(\s|$)(.*))</string>
+          <string>((\bDONE\b))</string>
           <key>name</key>
           <string>entity.name.function.vso</string>
         </dict>  
