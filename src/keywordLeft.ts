@@ -18,7 +18,6 @@ module.exports = function() {
     let nextLine = document.lineAt(position + 1);
     let twoLinesDown = document.lineAt(position + 2);
     if (currentLineText.includes(char)) {
-
       if (currentLineText.includes(char)) {
         let edit = new vscode.WorkspaceEdit();
         let removeEdit = new vscode.WorkspaceEdit();
@@ -29,7 +28,7 @@ module.exports = function() {
           removeEdit.delete(document.uri, getCurrentLine.range);
           removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
 
-          return vscode.workspace.applyEdit(removeEdit);
+          vscode.workspace.applyEdit(removeEdit);
         } else if (!currentLineText.includes("DONE")) {
           let textToMoveDown = document.getText(
             new vscode.Range(new vscode.Position(position + 1, 0), new vscode.Position(lastLine.lineNumber, 0))
@@ -56,6 +55,17 @@ module.exports = function() {
         } else if (!currentLineText.includes("TODO")) {
           let removeDone = formattedText.replace(/\b(DONE)\b/, "").trim();
           edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO" + " " + removeDone);
+
+          //need to remove the completed: line
+          if (nextLine.text.includes("COMPLETED:")) {
+            edit.replace(
+              document.uri,
+              new vscode.Range(new vscode.Position(position + 1, 0), new vscode.Position(lastLine.lineNumber, 0)),
+              document.getText(
+                new vscode.Range(new vscode.Position(position + 2, 0), new vscode.Position(lastLine.lineNumber, 0))
+              )
+            );
+          }
         }
         vscode.workspace.applyEdit(edit);
       }
