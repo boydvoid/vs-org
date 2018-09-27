@@ -1,6 +1,6 @@
 # Roadmap v1.0.0
 
-Live version: 0.0.5
+Live version: 0.0.6
 
 These are the features that I would like to add in the near future.
 
@@ -9,6 +9,7 @@ These are the features that I would like to add in the near future.
 | Feature Name              |                                        Description                                        |    Progress | Version |
 | ------------------------- | :---------------------------------------------------------------------------------------: | ----------: | ------- |
 | Bulleted Lists            |                             Make a ordered or unordered lists                             | In Progress |         |
+| TODO Tracking             |                         Show TODO completion on the up most level                         | In Progress |         |
 | Schedule TODOS            |                              Schedule todos for a later date                              | Not Started |         |
 | Make Titles Unique        |                               Don't allow duplicate titles                                | Not Started |         |
 | Tables                    |                                  Insert Tables into doc                                   | Not Started |         |

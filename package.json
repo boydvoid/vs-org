@@ -2,7 +2,7 @@
   "name": "vs-org",
   "displayName": "Vs-Org",
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": "https://www.github.com/robaboyd/vs-org",
   "icon": "Images/potentialLogo.png",
   "publisher": "BobbyBoyd",
