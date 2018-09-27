@@ -101,7 +101,12 @@
           <key>name</key>
           <string>entity.name.function.vso</string>
         </dict>  
-     
+    <dict>
+          <key>match</key>
+          <string>(\bCOMPLETED\b(.*))</string>
+          <key>name</key>
+          <string>entity.name.function.vso</string>
+        </dict>   
 
        </array>
     </dict>

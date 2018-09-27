@@ -33,7 +33,6 @@ module.exports = function() {
           let textToMoveDown = document.getText(
             new vscode.Range(new vscode.Position(position + 1, 0), new vscode.Position(lastLine.lineNumber, 0))
           );
-          console.log(textToMoveDown);
           edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "DONE " + formattedText);
           //remove the text on the next line
           edit.delete(document.uri, nextLine.range);
