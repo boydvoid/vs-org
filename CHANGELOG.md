@@ -1,5 +1,16 @@
 # Change Log
 
+### [0.0.6]
+
+`Changed`
+
+- Syntax Highlighting for DONE on highlights the DONE keyword, no longer does full line
+- The DONE date is now on its own line with `COMPLETED:`
+
+`Fixed`
+
+- Switching from DONE or TODO no longer removes other done or todos on the line
+
 # [0.0.5]
 
 `Changed`

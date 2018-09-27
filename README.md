@@ -56,19 +56,16 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.0.5]
+### [0.0.6]
 
 `Changed`
 
-- The default keybind for folding is now `tab`
-- The default keybind for unfolding is now `shift+tab`
-- Syntax highlighting for `#+` is now the selected themes comment color
+- Syntax Highlighting for DONE on highlights the DONE keyword, no longer does full line
+- The DONE date is now on its own line with `COMPLETED:`
 
 `Fixed`
 
-- Adding TODO, DONE or changing the level of the heading no longer get rid of special characters
-- VS-Org Keybinds are only active when the file extension is .vsorg or .vso
-- Fixed issue with `#` acting like a comment, `#+` is now a comment
+- Switching from DONE or TODO no longer removes other done or todos on the line
 
 ## Upcoming Features
 
