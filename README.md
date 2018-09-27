@@ -1,6 +1,6 @@
 # VS-ORG (WIP)
 
-![Version](https://img.shields.io/badge/version-v0.0.5-blue.svg)
+![Version](https://img.shields.io/badge/version-v0.0.6-blue.svg)
 [![Install](https://img.shields.io/badge/Marketplace-Install-green.svg)](https://marketplace.visualstudio.com/items?itemName=BobbyBoyd.vs-org)</br></br>
 This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode](https://orgmode.org/) as much as possible.
 
