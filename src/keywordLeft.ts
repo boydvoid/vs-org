@@ -26,14 +26,14 @@ module.exports = function() {
 
       if (direction === "right") {
         if (currentLineText.includes("DONE")) {
-          let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
+          let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/, "").trim();
           removeEdit.delete(document.uri, getCurrentLine.range);
           removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
           return vscode.workspace.applyEdit(removeEdit);
         } else if (!currentLineText.includes("TODO")) {
           edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO " + formattedText);
         } else if (!currentLineText.includes("DONE")) {
-          let removeTodo = formattedText.replace(/\b(TODO)\b/gi, "").trim();
+          let removeTodo = formattedText.replace(/\b(TODO)\b/, "").trim();
 
           edit.insert(
             document.uri,
@@ -49,7 +49,7 @@ module.exports = function() {
           edit.delete(document.uri, getCurrentLine.range);
           if (currentLineText.includes("TODO")) {
             //remove the keyword
-            let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/gi, "").trim();
+            let removedKeyword = formattedText.replace(/\b(DONE|TODO)\b/, "").trim();
             removeEdit.delete(document.uri, getCurrentLine.range);
             removeEdit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + removedKeyword);
 
@@ -61,7 +61,7 @@ module.exports = function() {
               getLeadingSpace + char + "DONE " + "[" + date + "] " + formattedText
             );
           } else if (!currentLineText.includes("TODO")) {
-            let removeDone = formattedText.replace(/\b(DONE)\b/gi, "").trim();
+            let removeDone = formattedText.replace(/\b(DONE)\b/, "").trim();
             edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "TODO" + " " + removeDone);
           }
           vscode.workspace.applyEdit(edit);
