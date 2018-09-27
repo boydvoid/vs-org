@@ -17,6 +17,7 @@ module.exports = function() {
     let date = new Date().toLocaleString();
     let lastLine = document.lineAt(document.lineCount - 1);
     let nextLine = document.lineAt(position + 1);
+    let twoLinesDown = document.lineAt(position + 2);
     if (currentLineText.includes(char)) {
       let edit = new vscode.WorkspaceEdit();
       let removeEdit = new vscode.WorkspaceEdit();
@@ -59,10 +60,23 @@ module.exports = function() {
               new vscode.Range(new vscode.Position(position + 1, 0), new vscode.Position(lastLine.lineNumber, 0))
             );
             console.log(textToMoveDown);
+            edit.insert(document.uri, getCurrentLine.range.start, getLeadingSpace + char + "DONE " + formattedText);
+            //remove the text on the next line
+            edit.delete(document.uri, nextLine.range);
+            //insert the text under the DONE keyword
             edit.insert(
               document.uri,
-              getCurrentLine.range.start,
-              getLeadingSpace + char + "DONE " + "[" + date + "] " + formattedText
+              new vscode.Position(nextLine.lineNumber, 0),
+              getLeadingSpace + " " + "COMPLETED: " + "[" + date + "] "
+            );
+
+            edit.replace(
+              document.uri,
+              new vscode.Range(
+                new vscode.Position(twoLinesDown.lineNumber, 0),
+                new vscode.Position(lastLine.lineNumber, 0)
+              ),
+              textToMoveDown
             );
           } else if (!currentLineText.includes("TODO")) {
             let removeDone = formattedText.replace(/\b(DONE)\b/, "").trim();
