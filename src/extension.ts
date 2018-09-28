@@ -4,7 +4,7 @@
 import * as vscode from "vscode";
 const newFile = require("./newFile");
 const changeDirectory = require("./changeDirectory");
-const keywordRight = require("./keywordRight");
+const keywordRight = require("./insertKeywordRight");
 const keywordLeft = require("./keywordLeft");
 const moveUp = require("./moveUp");
 const moveDown = require("./moveDown");
