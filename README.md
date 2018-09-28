@@ -56,16 +56,12 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.0.6]
+### [0.0.7]
 
 `Changed`
 
-- Syntax Highlighting for DONE on highlights the DONE keyword, no longer does full line
-- The DONE date is now on its own line with `COMPLETED:`
-
-`Fixed`
-
-- Switching from DONE or TODO no longer removes other done or todos on the line
+- Syntax highlighting for `COMPLETED: DATE` is now the comment syntax
+- `COMPLETED: DATE` is now appended to the end of the task that is completed
 
 ## Upcoming Features
 

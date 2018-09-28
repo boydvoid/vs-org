@@ -1,5 +1,12 @@
 # Change Log
 
+### [0.0.7]
+
+`Changed`
+
+- Syntax highlighting for `COMPLETED: DATE` is now the comment syntax (depending on your theme it's not so cluttered)
+- `COMPLETED: DATE` is now appended to the end of the task that is completed
+
 ### [0.0.6]
 
 `Changed`
