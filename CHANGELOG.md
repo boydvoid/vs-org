@@ -1,5 +1,14 @@
 # Change Log
 
+### [0.0.7]
+
+`Changed`
+
+- Syntax highlighting for `COMPLETED: DATE` is now based off comments
+- `COMPLETED: DATE` is now inline with the DONE text
+
+- Switching from DONE or TODO no longer removes other done or todos on the line
+
 ### [0.0.6]
 
 `Changed`

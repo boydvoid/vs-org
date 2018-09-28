@@ -15,43 +15,43 @@ module.exports = function() {
     let workspaceEdit = new vscode.WorkspaceEdit();
     //check if the char exists on the line
     if (current_line.text.includes(unicode_char)) {
-      if (current_line.text.includes("TODO")) {
+      if (current_line.text.includes("DONE")) {
         //remove keywords if there are any
-        let remove_todo = text_after_unicode_char.replace(/\b(TODO)\b/, "").trim();
-
+        let removeDone = text_after_unicode_char.replace(/\b(DONE)\b/, "").trim();
+        let removeDate = removeDone.replace(/\b(COMPLETED)\b(.*)/, "");
         //delete the current line
         workspaceEdit.delete(document.uri, current_line.range);
 
         //delete the completed line and move all the text below up
 
         //inset the new text
-        workspaceEdit.insert(document.uri, current_line.range.start, line_leading_spaces + unicode_char + remove_todo);
+        workspaceEdit.insert(document.uri, current_line.range.start, line_leading_spaces + unicode_char + removeDate);
         return vscode.workspace.applyEdit(workspaceEdit);
-      } else if (!current_line.text.includes("DONE")) {
+      } else if (!current_line.text.includes("TODO")) {
         //check if the line doesnt includes TODO
         workspaceEdit.delete(document.uri, current_line.range);
         workspaceEdit.insert(
           document.uri,
           current_line.range.start,
-          line_leading_spaces + unicode_char + "DONE " + text_after_unicode_char + "    COMPLETED:" + "[" + date + "]"
+          line_leading_spaces + unicode_char + "TODO " + text_after_unicode_char
         );
         return vscode.workspace.applyEdit(workspaceEdit);
-      } else if (!current_line.text.includes("TODO")) {
-        let removeDone = text_after_unicode_char.replace(/\b(DONE)\b/, "").trim();
-        let removeDate = removeDone.replace(/\b(COMPLETED)\b(.*)/, "").trim();
+      } else if (!current_line.text.includes("DONE")) {
         // remove todo from the line
-
+        let text_without_todo = text_after_unicode_char.replace(/\b(TODO)\b/, "").trim();
         //delete the current text on the line
-        workspaceEdit.delete(document.uri, current_line.range);
+
         //insert a new line for the completed line
 
         //need to append file
+
+        workspaceEdit.delete(document.uri, current_line.range);
+
         workspaceEdit.insert(
           document.uri,
           current_line.range.start,
-          line_leading_spaces + unicode_char + "TODO " + removeDate
+          line_leading_spaces + unicode_char + "DONE " + text_without_todo + "    COMPLETED:" + "[" + date + "]"
         );
-
         return vscode.workspace.applyEdit(workspaceEdit);
       }
     }
