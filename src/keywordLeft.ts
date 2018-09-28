@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import * as fs from "fs";
 module.exports = function() {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
@@ -11,7 +10,6 @@ module.exports = function() {
     let line_leading_spaces: string = current_line.text.substr(0, current_line.text.indexOf(unicode_char));
     let text_after_unicode_char: string = current_line.text.replace(/[⊙⊘⊖\?]/g, "").trim();
     let date = new Date().toLocaleString();
-    let last_line = document.lineAt(document.lineCount - 1);
     let workspaceEdit = new vscode.WorkspaceEdit();
     //check if the char exists on the line
     if (current_line.text.includes(unicode_char)) {
