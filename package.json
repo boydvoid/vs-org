@@ -3,8 +3,8 @@
   "displayName": "Vs-Org",
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
   "version": "0.0.7",
+  "icon": "Images/potentialLogo.PNG",
   "repository": "https://www.github.com/robaboyd/vs-org",
-  "icon": "Images/potentialLogo.png",
   "publisher": "BobbyBoyd",
   "license": "MIT",
   "engines": {
