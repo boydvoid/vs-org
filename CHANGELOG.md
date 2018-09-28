@@ -4,10 +4,8 @@
 
 `Changed`
 
-- Syntax highlighting for `COMPLETED: DATE` is now based off comments
-- `COMPLETED: DATE` is now inline with the DONE text
-
-- Switching from DONE or TODO no longer removes other done or todos on the line
+- Syntax highlighting for `COMPLETED: DATE` is now the comment syntax (depending on your theme it's not so cluttered)
+- `COMPLETED: DATE` is now appended to the end of the task that is completed
 
 ### [0.0.6]
 
