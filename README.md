@@ -1,6 +1,6 @@
 # VS-ORG (WIP)
 
-![Version](https://img.shields.io/badge/version-v0.0.7-blue.svg)
+![Version](https://img.shields.io/badge/version-v0.0.8-blue.svg)
 [![Install](https://img.shields.io/badge/Marketplace-Install-green.svg)](https://marketplace.visualstudio.com/items?itemName=BobbyBoyd.vs-org)</br></br>
 This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode](https://orgmode.org/) as much as possible.
 
@@ -56,12 +56,16 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.0.7]
+### [0.0.8]
 
 `Changed`
 
-- Syntax highlighting for `COMPLETED: DATE` is now the comment syntax
-- `COMPLETED: DATE` is now appended to the end of the task that is completed
+- The new .vsorg file now has focus when it's created
+
+`Fixed`
+
+- Vs-Org will now properly format the \* when the are typed (`editor.formatOnType` needed to be true, the extension sets this for .vsorg files automatically)
+- Users no longer need to set `editor.inserFileNewline` to true, the extension does this by default
 
 ## Upcoming Features
 

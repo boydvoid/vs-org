@@ -1,5 +1,16 @@
 # Change Log
 
+### [0.0.8]
+
+`Changed`
+
+- The new .vsorg file now has focus when it's created
+
+`Fixed`
+
+- Vs-Org will now properly format the \* when the are typed (`editor.formatOnType` needed to be true, the extension sets this for .vsorg files automatically)
+- Users no longer need to set `editor.inserFileNewline` to true, the extension does this by default
+
 ### [0.0.7]
 
 `Changed`
