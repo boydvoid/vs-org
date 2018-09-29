@@ -2,7 +2,7 @@
   "name": "vs-org",
   "displayName": "Vs-Org",
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "icon": "Images/potentialLogo.PNG",
   "repository": "https://www.github.com/robaboyd/vs-org",
   "publisher": "BobbyBoyd",
@@ -29,6 +29,12 @@
   ],
   "main": "./out/extension",
   "contributes": {
+    "configurationDefaults": {
+      "[vso]": {
+        "editor.formatOnType": true,
+        "files.insertFinalNewline": true
+      }
+    },
     "configuration": {
       "type": "object",
       "title": "VS-Org Config",
