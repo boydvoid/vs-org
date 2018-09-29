@@ -9,7 +9,7 @@ module.exports = function() {
   let extension = ".vsorg";
   let folder: any;
   //set folder path to
-
+  vscode.window.showWarningMessage("VS-Org: Make sure to read the change log to see the updated features.");
   vscode.window
     .showInputBox({
       placeHolder: "Enter in File Name.",
@@ -29,7 +29,7 @@ module.exports = function() {
             return false;
           }
           vscode.window.showTextDocument(vscode.Uri.file(path), {
-            preserveFocus: true,
+            preserveFocus: false,
             preview: false
           });
         })
