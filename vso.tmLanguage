@@ -150,12 +150,7 @@
     <dict>
       <key>patterns</key>
       <array> 
-        <dict>
-          <key>match</key>
-          <string>(\b\d+)</string>
-          <key>name</key>
-          <string>constant.numeric.vso</string>
-        </dict>
+      
        </array>
     </dict>
   </dict>
