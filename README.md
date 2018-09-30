@@ -56,16 +56,11 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.0.8]
+### [0.0.9]
 
-`Changed`
+`Removed`
 
-- The new .vsorg file now has focus when it's created
-
-`Fixed`
-
-- Vs-Org will now properly format the \* when the are typed (`editor.formatOnType` needed to be true, the extension sets this for .vsorg files automatically)
-- Users no longer need to set `editor.inserFileNewline` to true, the extension does this by default
+- Numbers no longer have syntax highlighting.
 
 ## Upcoming Features
 
