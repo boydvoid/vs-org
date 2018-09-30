@@ -12,6 +12,7 @@ const getTags = require("./tags");
 const titles = require("./titles");
 const increment = require("./incrementHeadings");
 const decrement = require("./decrementHeadings");
+const scheduling = require("./scheduling");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   public provideOnTypeFormattingEdits(
@@ -91,6 +92,8 @@ export function activate(ctx: vscode.ExtensionContext): void {
   //add TODO or DONE left
   vscode.commands.registerCommand("extension.toggleStatusLeft", keywordLeft);
 
+  //schedule
+  vscode.commands.registerCommand("extension.scheduling", scheduling);
   //alt + shift + up
   vscode.commands.registerCommand("extension.moveBlockUp", moveUp);
   //alt + shift + down

@@ -43,6 +43,15 @@
           "type": "string",
           "default": "",
           "description": "Main folder"
+        },
+        "vsorg.dateFormat": {
+          "type": "string",
+          "default": "YYYY-MM-DD",
+          "enum": [
+            "MM-DD-YYYY",
+            "DD-MM-YYYY",
+            "YYYY-MM-DD"
+          ]
         }
       }
     },
@@ -103,6 +112,11 @@
       {
         "command": "editor.unfold",
         "key": "shift+tab",
+        "when": "editorLangId == 'vso' && editorTextFocus"
+      },
+      {
+        "command": "extension.scheduling",
+        "key": "ctrl+alt+s",
         "when": "editorLangId == 'vso' && editorTextFocus"
       }
     ],

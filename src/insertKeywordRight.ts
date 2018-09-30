@@ -16,7 +16,7 @@ module.exports = function() {
       if (current_line.text.includes("DONE")) {
         //remove keywords if there are any
         let removeDone = text_after_unicode_char.replace(/\b(DONE)\b/, "").trim();
-        let removeDate = removeDone.replace(/\b(COMPLETED)\b(.*)/, "");
+        let removeDate = removeDone.replace(/\b(COMPLETED)\b(.*)/, "").trim();
         //delete the current line
         workspaceEdit.delete(document.uri, current_line.range);
 
