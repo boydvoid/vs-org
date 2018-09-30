@@ -1,6 +1,6 @@
 # Change Log
 
-### [0.0.8]
+# [0.0.8]
 
 `Changed`
 
@@ -11,14 +11,14 @@
 - Vs-Org will now properly format the \* when the are typed (`editor.formatOnType` needed to be true, the extension sets this for .vsorg files automatically)
 - Users no longer need to set `editor.inserFileNewline` to true, the extension does this by default
 
-### [0.0.7]
+# [0.0.7]
 
 `Changed`
 
 - Syntax highlighting for `COMPLETED: DATE` is now the comment syntax (depending on your theme it's not so cluttered)
 - `COMPLETED: DATE` is now appended to the end of the task that is completed
 
-### [0.0.6]
+# [0.0.6]
 
 `Changed`
 
