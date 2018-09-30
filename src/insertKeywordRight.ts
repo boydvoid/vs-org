@@ -37,6 +37,7 @@ module.exports = function() {
       } else if (!current_line.text.includes("DONE")) {
         // remove todo from the line
         let text_without_todo = text_after_unicode_char.replace(/\b(TODO)\b/, "").trim();
+        let removeScheduled = text_without_todo.replace(/\b(SCHEDULED)\b(.*)/, "").trim();
         //delete the current text on the line
 
         //insert a new line for the completed line
@@ -48,7 +49,7 @@ module.exports = function() {
         workspaceEdit.insert(
           document.uri,
           current_line.range.start,
-          line_leading_spaces + unicode_char + "DONE " + text_without_todo + "    COMPLETED:" + "[" + date + "]"
+          line_leading_spaces + unicode_char + "DONE " + removeScheduled + "    COMPLETED:" + "[" + date + "]"
         );
         return vscode.workspace.applyEdit(workspaceEdit);
       }

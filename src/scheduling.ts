@@ -12,12 +12,23 @@ module.exports = function() {
     let position: number = activeTextEditor.selection.active.line;
     let current_line: vscode.TextLine = document.lineAt(position);
     let year: string | undefined;
-    let day: string | undefined;
+    let day;
     let month: string | undefined;
     let workspaceEdit = new vscode.WorkspaceEdit();
     if (current_line.text.includes("DONE")) {
       vscode.window.showErrorMessage("Cant schedule a DONE item.");
     } else {
+      if (current_line.text.includes("SCHEDULED:")) {
+        let removeScheduled = current_line.text.replace(/\b(SCHEDULED)\b(.*)/, "").trim();
+
+        workspaceEdit.delete(document.uri, current_line.range);
+
+        //delete the completed line and move all the text below up
+
+        //inset the new text
+        workspaceEdit.insert(document.uri, current_line.range.start, removeScheduled);
+        return vscode.workspace.applyEdit(workspaceEdit);
+      }
       vscode.window
         .showInputBox({
           prompt: 'In "yyyy" format enter in the year you would like this to be scheduled',
@@ -44,7 +55,6 @@ module.exports = function() {
 
                   //add SCHEDULED: <DATE> TO THE LINE
                   if (year !== undefined && day !== undefined && month !== undefined) {
-                    let text = current_line.text;
                     //delete line
                     workspaceEdit.delete(document.uri, current_line.range);
 

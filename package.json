@@ -47,6 +47,7 @@
         "vsorg.dateFormat": {
           "type": "string",
           "default": "YYYY-MM-DD",
+          "description": "This does not change already scheduled dates.",
           "enum": [
             "MM-DD-YYYY",
             "DD-MM-YYYY",

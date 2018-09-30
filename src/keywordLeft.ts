@@ -26,12 +26,13 @@ module.exports = function() {
         workspaceEdit.insert(document.uri, current_line.range.start, line_leading_spaces + unicode_char + remove_todo);
         return vscode.workspace.applyEdit(workspaceEdit);
       } else if (!current_line.text.includes("DONE")) {
+        let removeScheduled = text_after_unicode_char.replace(/\b(SCHEDULED)\b(.*)/, "").trim();
         //check if the line doesnt includes TODO
         workspaceEdit.delete(document.uri, current_line.range);
         workspaceEdit.insert(
           document.uri,
           current_line.range.start,
-          line_leading_spaces + unicode_char + "DONE " + text_after_unicode_char + "    COMPLETED:" + "[" + date + "]"
+          line_leading_spaces + unicode_char + "DONE " + removeScheduled + "    COMPLETED:" + "[" + date + "]"
         );
         return vscode.workspace.applyEdit(workspaceEdit);
       } else if (!current_line.text.includes("TODO")) {
