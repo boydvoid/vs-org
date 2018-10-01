@@ -12,7 +12,7 @@ module.exports = function() {
     let position: number = activeTextEditor.selection.active.line;
     let current_line: vscode.TextLine = document.lineAt(position);
     let year: string | undefined;
-    let day;
+
     let month: string | undefined;
     let workspaceEdit = new vscode.WorkspaceEdit();
     if (current_line.text.includes("DONE")) {
@@ -51,7 +51,7 @@ module.exports = function() {
                   placeHolder: "Day ex. 08 => the eigth"
                 })
                 .then(input => {
-                  day = input;
+                  let day = input;
 
                   //add SCHEDULED: <DATE> TO THE LINE
                   if (year !== undefined && day !== undefined && month !== undefined) {
