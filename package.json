@@ -18,6 +18,7 @@
     "onCommand:extension.getTags",
     "onCommand:extension.getTitles",
     "onCommand:extension.setFolderPath",
+    "onCommand:extension.viewAgenda",
     "onLanguage:vso"
   ],
   "keywords": [
@@ -72,6 +73,10 @@
       {
         "command": "extension.getTitles",
         "title": "VS-Org: Open By Title "
+      },
+      {
+        "command": "extension.viewAgenda",
+        "title": "VS-Org: Agenda View"
       }
     ],
     "keybindings": [

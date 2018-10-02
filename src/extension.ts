@@ -2,6 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+import * as fs from "fs";
 const newFile = require("./newFile");
 const changeDirectory = require("./changeDirectory");
 const keywordRight = require("./insertKeywordRight");
@@ -13,6 +14,7 @@ const titles = require("./titles");
 const increment = require("./incrementHeadings");
 const decrement = require("./decrementHeadings");
 const scheduling = require("./scheduling");
+const agenda = require("./agenda/agenda");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   public provideOnTypeFormattingEdits(
@@ -80,6 +82,7 @@ function numOfSpaces(asterisk: number) {
 //activate function, format on space bar press
 export function activate(ctx: vscode.ExtensionContext): void {
   //add a folder path
+  vscode.commands.registerCommand("extension.viewAgenda", agenda);
   vscode.commands.registerCommand("extension.setFolderPath", changeDirectory);
   //create a new file
   vscode.commands.registerCommand("extension.createVsoFile", newFile);

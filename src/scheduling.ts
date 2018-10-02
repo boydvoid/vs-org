@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-
+import * as fs from "fs";
 module.exports = function() {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
@@ -7,12 +7,12 @@ module.exports = function() {
     //get the date format from the settings
     let config = vscode.workspace.getConfiguration("vsorg");
     let dateFormat = config.get("dateFormat");
-
+    let folderPath = config.get("folderPath");
     //
     let position: number = activeTextEditor.selection.active.line;
     let current_line: vscode.TextLine = document.lineAt(position);
     let year: string | undefined;
-
+    let dayOfWeek;
     let month: string | undefined;
     let workspaceEdit = new vscode.WorkspaceEdit();
     if (current_line.text.includes("DONE")) {
@@ -78,7 +78,39 @@ module.exports = function() {
                         current_line.text + "    SCHEDULED: <" + day + "-" + month + "-" + year + ">"
                       );
                     }
-                    return vscode.workspace.applyEdit(workspaceEdit);
+                    return vscode.workspace.applyEdit(workspaceEdit).then(() => {
+                      //get the day of the week
+                      let d = new Date(month + "/" + day + "/" + year).getDay();
+                      let nameOfDay;
+
+                      if (d === 0) {
+                        nameOfDay = "Sunday";
+                      } else if (d === 1) {
+                        nameOfDay = "Monday";
+                      } else if (d === 2) {
+                        nameOfDay = "Tuesday";
+                      } else if (d === 3) {
+                        nameOfDay = "Wednesday";
+                      } else if (d === 4) {
+                        nameOfDay = "Thursday";
+                      } else if (d === 5) {
+                        nameOfDay = "Friday";
+                      } else if (d === 6) {
+                        nameOfDay = "Saturday";
+                      }
+
+                      if (fs.existsSync(folderPath + "\\agendas")) {
+                        let file = fs.readFileSync(folderPath + "\\agendas\\agenda.vsorg", "utf8");
+                        console.log(file);
+                        console.log(file.split(" "));
+                        console.log(file.indexOf(nameOfDay + "," + "<" + month + "-" + day + "-" + year + ">"));
+
+                        fs.appendFileSync(folderPath + "\\agendas\\agenda.vsorg", "\n" + current_line.text);
+                      } else {
+                      }
+                      fs.mkdirSync(folderPath + "\\agendas");
+                      fs.appendFileSync(folderPath + "\\agendas\\agenda.vsorg", "\n" + current_line.text);
+                    });
                   } else {
                     vscode.window.showWarningMessage("Full Date must be entered");
                   }
