@@ -17,6 +17,10 @@ readFiles();
           if (fileText.includes("SCHEDULED")) {
             let fileName: string = items[i];
           let getText: any = fileText.match(/.*(?=.*SCHEDULED)/g);
+          let getDate: any = fileText.match(/\[(.*)\]/);
+
+         let contents =  fs.readFileSync(setMainDir() + '\\agenda\\agenda.vsorg', 'utf-8');
+            console.log(contents);
             console.log(getText);
           } else {
 

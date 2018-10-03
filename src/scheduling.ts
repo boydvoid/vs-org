@@ -63,19 +63,19 @@ module.exports = function() {
                       workspaceEdit.insert(
                         document.uri,
                         current_line.range.start,
-                        current_line.text + "    SCHEDULED: <" + year + "-" + month + "-" + day + ">"
+                        current_line.text + "    SCHEDULED: [" + year + "-" + month + "-" + day + "]"
                       );
                     } else if (dateFormat === "MM-DD-YYYY") {
                       workspaceEdit.insert(
                         document.uri,
                         current_line.range.start,
-                        current_line.text + "    SCHEDULED: <" + month + "-" + day + "-" + year + ">"
+                        current_line.text + "    SCHEDULED: [" + month + "-" + day + "-" + year + "["
                       );
                     } else {
                       workspaceEdit.insert(
                         document.uri,
                         current_line.range.start,
-                        current_line.text + "    SCHEDULED: <" + day + "-" + month + "-" + year + ">"
+                        current_line.text + "    SCHEDULED: [" + day + "-" + month + "-" + year + "["
                       );
                     }
                     return vscode.workspace.applyEdit(workspaceEdit).then(() => {
