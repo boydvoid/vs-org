@@ -44,16 +44,6 @@
           "type": "string",
           "default": "",
           "description": "Main folder"
-        },
-        "vsorg.dateFormat": {
-          "type": "string",
-          "default": "YYYY-MM-DD",
-          "description": "This does not change already scheduled dates.",
-          "enum": [
-            "MM-DD-YYYY",
-            "DD-MM-YYYY",
-            "YYYY-MM-DD"
-          ]
         }
       }
     },

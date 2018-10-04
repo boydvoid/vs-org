@@ -6,13 +6,12 @@ module.exports = function() {
     const { document } = activeTextEditor;
     //get the date format from the settings
     let config = vscode.workspace.getConfiguration("vsorg");
-    let dateFormat = config.get("dateFormat");
-    let folderPath = config.get("folderPath");
+
     //
     let position: number = activeTextEditor.selection.active.line;
     let current_line: vscode.TextLine = document.lineAt(position);
     let year: string | undefined;
-    let dayOfWeek;
+    let fullDate: string;
     let month: string | undefined;
     let workspaceEdit = new vscode.WorkspaceEdit();
     if (current_line.text.includes("DONE")) {
@@ -52,35 +51,24 @@ module.exports = function() {
                 })
                 .then(input => {
                   let day = input;
-
-                  //add SCHEDULED: <DATE> TO THE LINE
+                  fullDate = month + "/" + day + "/" + year;
+                  if (isNaN(Date.parse(fullDate))) {
+                    return vscode.window.showWarningMessage("That's not a valid date.");
+                  }
                   if (year !== undefined && day !== undefined && month !== undefined) {
+                    //add SCHEDULED: <DATE> TO THE LINE
                     //delete line
                     workspaceEdit.delete(document.uri, current_line.range);
 
                     //insert based on date format
-                    if (dateFormat === "YYYY-MM-DD") {
-                      workspaceEdit.insert(
-                        document.uri,
-                        current_line.range.start,
-                        current_line.text + "    SCHEDULED: [" + year + "-" + month + "-" + day + "]"
-                      );
-                    } else if (dateFormat === "MM-DD-YYYY") {
-                      workspaceEdit.insert(
-                        document.uri,
-                        current_line.range.start,
-                        current_line.text + "    SCHEDULED: [" + month + "-" + day + "-" + year + "]"
-                      );
-                    } else {
-                      workspaceEdit.insert(
-                        document.uri,
-                        current_line.range.start,
-                        current_line.text + "    SCHEDULED: [" + day + "-" + month + "-" + year + "]"
-                      );
-                    }
-                    return vscode.workspace.applyEdit(workspaceEdit).then(() => {
-                   
-                    });
+
+                    workspaceEdit.insert(
+                      document.uri,
+                      current_line.range.start,
+                      current_line.text + "    SCHEDULED: [" + day + "-" + month + "-" + year + "]"
+                    );
+
+                    return vscode.workspace.applyEdit(workspaceEdit).then(() => {});
                   } else {
                     vscode.window.showWarningMessage("Full Date must be entered");
                   }
