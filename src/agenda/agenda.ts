@@ -30,8 +30,12 @@ module.exports = function() {
           if (fileText.includes("SCHEDULED")) {
             let getTextBeforeScheduled: any = fileText.match(/.*SCHEDULED.*/g);
             getTextBeforeScheduled.forEach(element => {
-              datelessText = element.match(/.*(?=.*SCHEDULED)/g);
-              datelessText = datelessText[0].trim();
+              datelessText = element.trim().match(/.*(?=.*SCHEDULED)/g);
+              datelessText = datelessText[0].replace("⊙", "");
+              datelessText = datelessText.replace("⊘", "");
+              datelessText = datelessText.replace("⊖", "");
+              datelessText = datelessText.trim();
+              datelessText = "S: " + datelessText + "    #+FILENAME: " + items[i];
               textArray.push();
               getDate = element.match(/\[(.*)\]/);
 
