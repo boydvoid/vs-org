@@ -30,32 +30,44 @@ module.exports = function() {
       }
       vscode.window
         .showInputBox({
-          prompt: 'In "yyyy" format enter in the year you would like this to be scheduled',
+          prompt: "Enter in number format, the year you would like this to be scheduled",
           placeHolder: "Year ex. 2018"
         })
         .then(input => {
           year = input;
-
+          if (year !== undefined) {
+            if (year.length === 2) {
+              year = "20" + year;
+            }
+          }
           vscode.window
             .showInputBox({
-              prompt: 'In "mm" format enter in the month you would like this to be scheduled',
+              prompt: "Enter in number format, the month you would like this to be scheduled",
               placeHolder: "Month ex. 08 => August"
             })
             .then(input => {
               month = input;
-
+              if (month !== undefined) {
+                if (month.length === 1) {
+                  month = "0" + month;
+                }
+              }
               vscode.window
                 .showInputBox({
-                  prompt: 'In "dd" format enter in the day you would like this to be scheduled',
+                  prompt: "Enter in number format, the day you would like this to be scheduled.",
                   placeHolder: "Day ex. 08 => the eigth"
                 })
                 .then(input => {
                   let day = input;
-                  fullDate = month + "/" + day + "/" + year;
-                  if (isNaN(Date.parse(fullDate))) {
-                    return vscode.window.showWarningMessage("That's not a valid date.");
-                  }
+
                   if (year !== undefined && day !== undefined && month !== undefined) {
+                    if (day.length === 1) {
+                      day = "0" + day;
+                    }
+                    fullDate = month + "/" + day + "/" + year;
+                    if (isNaN(Date.parse(fullDate))) {
+                      return vscode.window.showWarningMessage("That's not a valid date.");
+                    }
                     //add SCHEDULED: <DATE> TO THE LINE
                     //delete line
                     workspaceEdit.delete(document.uri, current_line.range);
@@ -65,7 +77,7 @@ module.exports = function() {
                     workspaceEdit.insert(
                       document.uri,
                       current_line.range.start,
-                      current_line.text + "    SCHEDULED: [" + day + "-" + month + "-" + year + "]"
+                      current_line.text + "    SCHEDULED: [" + month + "-" + day + "-" + year + "]"
                     );
 
                     return vscode.workspace.applyEdit(workspaceEdit).then(() => {});
