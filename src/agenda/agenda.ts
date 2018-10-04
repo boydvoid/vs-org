@@ -58,10 +58,12 @@ module.exports = function() {
                 nameOfDay = "Saturday";
               }
               convertedDateArray = [];
-              convertedDateArray.push({
-                date: getDate[0] + "," + nameOfDay,
-                text: datelessText
-              });
+              if (new Date(getDate[1]) >= new Date()) {
+                convertedDateArray.push({
+                  date: getDate[0] + "," + nameOfDay,
+                  text: datelessText
+                });
+              }
               convertedDateArray.forEach(element => {
                 if (!unsortedObject[element.date]) {
                   unsortedObject[element.date] = "  " + element.text + "\n";
@@ -91,7 +93,7 @@ module.exports = function() {
           test += property + "\n" + sortedObject[property] + "\n";
         }
         console.log(test);
-        fs.appendFileSync(agendaFile, test, "utf-8");
+        fs.appendFileSync(agendaFile, "#+Upcoming Tasks\n\n" + test, "utf-8");
       }
     });
   }
