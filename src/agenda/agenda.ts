@@ -31,6 +31,7 @@ module.exports = function() {
             let getTextBeforeScheduled: any = fileText.match(/.*SCHEDULED.*/g);
             getTextBeforeScheduled.forEach(element => {
               datelessText = element.match(/.*(?=.*SCHEDULED)/g);
+              datelessText = datelessText[0].trim();
               textArray.push();
               getDate = element.match(/\[(.*)\]/);
 
@@ -59,20 +60,18 @@ module.exports = function() {
               });
               convertedDateArray.forEach(element => {
                 if (!unsortedObject[element.date]) {
-                  unsortedObject[element.date] = [element.text[0]];
+                  unsortedObject[element.date] = "  " + element.text + "\n";
                 } else {
-                  unsortedObject[element.date].push(element.text[0]);
+                  unsortedObject[element.date] += "  " + element.text + "\n";
                 }
               });
-
-              Object.keys(unsortedObject)
-                .sort()
-                .forEach(function(key) {
-                  sortedObject[key] = unsortedObject[key];
-                });
-              console.log(sortedObject);
             });
-
+            Object.keys(unsortedObject)
+              .sort()
+              .forEach(function(key) {
+                sortedObject[key] = unsortedObject[key];
+              });
+            console.log(sortedObject);
             //write the sorted object to the agenda file
           }
         }
@@ -83,7 +82,12 @@ module.exports = function() {
 
       if (!fs.existsSync(agendaFile)) {
       } else {
-        fs.appendFileSync(agendaFile, JSON.stringify(sortedObject, null, 2), "utf-8");
+        var test: any = "";
+        for (var property in sortedObject) {
+          test += property + "\n" + sortedObject[property] + "\n";
+        }
+        console.log(test);
+        fs.appendFileSync(agendaFile, test, "utf-8");
       }
     });
   }
