@@ -74,17 +74,16 @@ module.exports = function() {
             });
 
             //write the sorted object to the agenda file
-
-            if (!fs.existsSync(checkFolder + "\\agendas")) {
-              fs.mkdirSync(checkFolder + "\\agendas");
-            }
-
-            if (!fs.existsSync(agendaFile)) {
-            } else {
-              fs.appendFileSync(agendaFile, JSON.stringify(sortedObject, null, 2), "utf-8");
-            }
           }
         }
+      }
+      if (!fs.existsSync(checkFolder + "\\agendas")) {
+        fs.mkdirSync(checkFolder + "\\agendas");
+      }
+
+      if (!fs.existsSync(agendaFile)) {
+      } else {
+        fs.appendFileSync(agendaFile, JSON.stringify(sortedObject, null, 2), "utf-8");
       }
     });
   }
