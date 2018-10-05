@@ -36,7 +36,7 @@ module.exports = function() {
               datelessText = datelessText.replace("⊖", "");
               datelessText = datelessText.trim();
               datelessText = "S: " + datelessText + "    #+FILENAME: " + items[i];
-              textArray.push();
+
               getDate = element.match(/\[(.*)\]/);
 
               //get the day of the week
