@@ -61,7 +61,7 @@ module.exports = function() {
                 nameOfDay = "Saturday";
               }
               convertedDateArray = [];
-              if (new Date(getDate[1]) >= new Date()) {
+              if (new Date(getDate[1]).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)) {
                 convertedDateArray.push({
                   date: getDate[0] + ", " + nameOfDay.toUpperCase(),
                   text: datelessText
