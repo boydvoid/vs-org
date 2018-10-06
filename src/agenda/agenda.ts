@@ -97,9 +97,13 @@ module.exports = function() {
         }
         console.log(test);
         fs.appendFileSync(agendaFile, "#+Upcoming Tasks\n\n" + test, "utf-8");
+        vscode.workspace.openTextDocument(vscode.Uri.file(checkFolder + "\\agendas\\agenda.vsorg")).then(doc => {
+          vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, true);
+        });
       }
     });
   }
+
   function setMainDir() {
     if (checkFolder === "") {
       let homeDir = os.homedir();
