@@ -67,6 +67,47 @@ module.exports = function() {
                   text: datelessText
                 });
               }
+
+              //todays date for late items
+              var today: any = new Date();
+              var dd: any = today.getDate();
+              var mm: any = today.getMonth() + 1; //January is 0!
+              var yyyy: any = today.getFullYear();
+              var getDayOverdue: any = today.getDay();
+              var overdue: any;
+              if (dd < 10) {
+                dd = "0" + dd;
+              }
+
+              if (mm < 10) {
+                mm = "0" + mm;
+              }
+
+              today = mm + "-" + dd + "-" + yyyy;
+              if (getDayOverdue === 0) {
+                overdue = "Sunday";
+              } else if (getDayOverdue === 1) {
+                overdue = "Monday";
+              } else if (getDayOverdue === 2) {
+                overdue = "Tuesday";
+              } else if (getDayOverdue === 3) {
+                overdue = "Wednesday";
+              } else if (getDayOverdue === 4) {
+                overdue = "Thursday";
+              } else if (getDayOverdue === 5) {
+                overdue = "Friday";
+              } else if (getDayOverdue === 6) {
+                overdue = "Saturday";
+              }
+              if (datelessText.includes("TODO")) {
+                if (new Date(getDate[1]).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)) {
+                  convertedDateArray.push({
+                    date: "[" + today + "]" + ", " + overdue.toUpperCase(),
+                    text: datelessText + "    #+LATE"
+                  });
+                }
+              }
+
               convertedDateArray.forEach(element => {
                 if (!unsortedObject[element.date]) {
                   unsortedObject[element.date] = "  " + element.text + "\n";
