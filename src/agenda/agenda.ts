@@ -74,15 +74,15 @@ module.exports = function() {
                   unsortedObject[element.date] += "  " + element.text + "\n";
                 }
               });
+            }
+          });
+          Object.keys(unsortedObject)
+            .sort()
+            .forEach(function(key) {
+              sortedObject[key] = unsortedObject[key];
             });
-            Object.keys(unsortedObject)
-              .sort()
-              .forEach(function(key) {
-                sortedObject[key] = unsortedObject[key];
-              });
-            console.log(sortedObject);
-            //write the sorted object to the agenda file
-          }
+          console.log(sortedObject);
+          //write the sorted object to the agenda file
         }
       }
       if (!fs.existsSync(checkFolder + "\\agendas")) {
