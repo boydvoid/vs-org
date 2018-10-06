@@ -6,11 +6,12 @@ module.exports = function() {
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
     let config = vscode.workspace.getConfiguration("vsorg");
-  let checkFolder = config.get("folderPath");
-  let folder: any;
+    let checkFolder = config.get("folderPath");
+    let folder: any;
     let characterArray: any = ["⊖ ", "⊙ ", "⊘ "];
     let position: number = activeTextEditor.selection.active.line;
     let current_line: vscode.TextLine = document.lineAt(position);
+    let nextLine: vscode.TextLine = document.lineAt(position + 1);
     let unicode_char = characterDecode(characterArray);
     let line_leading_spaces: string = current_line.text.substr(0, current_line.text.indexOf(unicode_char));
     let text_after_unicode_char: string = current_line.text.replace(/[⊙⊘⊖\?]/g, "").trim();
