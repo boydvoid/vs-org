@@ -59,57 +59,7 @@ module.exports = function() {
       }
     } else {
       if (document.fileName.includes("agenda.vsorg")) {
-        //for line containing done in the main file
-        if (current_line.text.includes("DONE")) {
-          //remove keywords if there are any
-          let otherFilename: any = current_line.text.match(/\FILENAME:(.*)/);
-          otherFilename = otherFilename[1].trim();
-          let removeDone = current_line.text.replace(/\b(DONE)\b/, "").trim();
-          removeDone = removeDone.replace("D:", "");
-          let replaceText: any = removeDone.replace(/\#\+(.*)/, "").trim();
-          //delete the current line
-          workspaceEdit.delete(document.uri, current_line.range);
-          //inset the new text
-          workspaceEdit.insert(document.uri, current_line.range.start, "  S: " + removeDone.trim());
-          //change text in file
-          let contents = fs.readFileSync(setMainDir() + "\\" + otherFilename, "utf-8");
-          contents = contents.replace("DONE " + replaceText, replaceText);
-          fs.writeFileSync(setMainDir() + "\\" + otherFilename, contents, "utf-8");
-
-          return vscode.workspace.applyEdit(workspaceEdit);
-        } else if (!current_line.text.includes("TODO")) {
-          let otherFilename: any = current_line.text.match(/\FILENAME:(.*)/);
-          otherFilename = otherFilename[1].trim();
-
-          let text = current_line.text.replace("S:", "S: TODO");
-          let mainText = current_line.text.replace(/\#\+(.*)/, "").trim();
-          mainText = mainText.replace("S:", "").trim();
-          workspaceEdit.delete(document.uri, current_line.range);
-          workspaceEdit.insert(document.uri, current_line.range.start, text);
-
-          let contents = fs.readFileSync(setMainDir() + "\\" + otherFilename, "utf-8");
-          contents = contents.replace(mainText, "TODO " + mainText);
-
-          fs.writeFileSync(setMainDir() + "\\" + otherFilename, contents, "utf-8");
-          return vscode.workspace.applyEdit(workspaceEdit);
-        } else {
-          let otherFilename: any = current_line.text.match(/\FILENAME:(.*)/);
-          otherFilename = otherFilename[1].trim();
-
-          let text = current_line.text.replace("S:", "");
-          text = text.replace("TODO", "");
-          let mainText = text.replace(/\#\+(.*)/, "").trim();
-          mainText = mainText.replace("S:", "").trim();
-
-          //delete the current line
-          workspaceEdit.delete(document.uri, current_line.range);
-          workspaceEdit.insert(document.uri, current_line.range.start, "  D: DONE " + text.trim());
-
-          let contents = fs.readFileSync(setMainDir() + "\\" + otherFilename, "utf-8");
-          contents = contents.replace("TODO " + mainText, "DONE " + mainText);
-          fs.writeFileSync(setMainDir() + "\\" + otherFilename, contents, "utf-8");
-
-          return vscode.workspace.applyEdit(workspaceEdit);
+          vscode.window.showInformationMessage("You can edit the tasks in the original file.")
         }
       }
     }

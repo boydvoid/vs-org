@@ -64,75 +64,7 @@ module.exports = function() {
       }
     } else {
       if (document.fileName.includes("agenda.vsorg")) {
-        if (current_line.text.includes("TODO")) {
-          //remove keywords if there are any
-          let otherFilename: any = current_line.text.match(/^[^:]+/);
-          otherFilename = otherFilename[0].trim();
-          let removeTodo = current_line.text.replace(/\b(TODO)\b/, "").trim();
-          removeTodo = removeTodo.replace("SCHED:", "");
-          removeTodo = removeTodo.replace(otherFilename + ":", "").trim();
-          //delete the current line
-          workspaceEdit.delete(document.uri, current_line.range);
-          //inset the new text
-          workspaceEdit.insert(
-            document.uri,
-            current_line.range.start,
-            " " + otherFilename + ": " + "SCHED: " + removeTodo.trim()
-          );
-
-          //change text in file
-          let contents = fs.readFileSync(setMainDir() + "\\" + otherFilename, "utf-8");
-          contents = contents.replace("TODO " + removeTodo, removeTodo);
-          fs.writeFileSync(setMainDir() + "\\" + otherFilename, contents, "utf-8");
-
-          return vscode.workspace.applyEdit(workspaceEdit);
-        } else if (!current_line.text.includes("DONE")) {
-          let testingLine: any;
-          let otherFilename: any = current_line.text.match(/\FILENAME:(.*)/);
-          otherFilename = otherFilename[1].trim();
-
-          let text = current_line.text.replace("SCHED:", "SCHED: DONE");
-          let mainText = current_line.text.replace(/\#\+(.*)/, "").trim();
-          mainText = mainText.replace("SCHED:", "").trim();
-          workspaceEdit.delete(document.uri, current_line.range);
-          workspaceEdit.insert(document.uri, current_line.range.start, text);
-
-          //get date
-          let scheduledDate;
-          for (let i = 0; i < current_line.lineNumber; i++) {
-            testingLine = document.lineAt(position - i);
-            if (testingLine.text[0] !== " ") {
-              scheduledDate = testingLine.text.match(/\[(.*)\]/);
-              break;
-            }
-          }
-          let contents = fs
-            .readFileSync(setMainDir() + "\\" + otherFilename)
-            .toString()
-            .split(/[\r\n]/);
-          contents = contents.replace(mainText, "DONE " + mainText + "    COMPLETED:" + "[" + date + "]");
-
-          fs.writeFileSync(setMainDir() + "\\" + otherFilename, contents, "utf-8");
-          return vscode.workspace.applyEdit(workspaceEdit);
-        } else {
-          let otherFilename: any = current_line.text.match(/\FILENAME:(.*)/);
-          otherFilename = otherFilename[1].trim();
-
-          let text = current_line.text.replace("SCHED: DONE", "SCHED: TODO");
-          let mainText = text.replace(/\#\+(.*)/, "").trim();
-          mainText = mainText.replace("SCHED: TODO", "").trim();
-
-          //get date scheduled
-
-          workspaceEdit.delete(document.uri, current_line.range);
-          workspaceEdit.insert(document.uri, current_line.range.start, text);
-
-          let contents: any = fs.readFileSync(setMainDir() + "\\" + otherFilename, "utf-8");
-          contents = contents.replace("DONE " + mainText, "TODO " + mainText);
-
-          fs.writeFileSync(setMainDir() + "\\" + otherFilename, contents, "utf-8");
-          return vscode.workspace.applyEdit(workspaceEdit);
-        }
+        vscode.window.showInformationMessage("You can edit the tasks in the original file.");
       }
     }
 
