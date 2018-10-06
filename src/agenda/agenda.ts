@@ -63,7 +63,7 @@ module.exports = function() {
               convertedDateArray = [];
               if (new Date(getDate[1]) >= new Date()) {
                 convertedDateArray.push({
-                  date: getDate[0] + "," + nameOfDay,
+                  date: getDate[0] + ", " + nameOfDay.toUpperCase(),
                   text: datelessText
                 });
               }
