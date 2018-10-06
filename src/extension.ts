@@ -15,6 +15,7 @@ const increment = require("./incrementHeadings");
 const decrement = require("./decrementHeadings");
 const scheduling = require("./scheduling");
 const agenda = require("./agenda/agenda");
+const updateAgenda = require("./agenda/update");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   public provideOnTypeFormattingEdits(
@@ -83,7 +84,11 @@ function numOfSpaces(asterisk: number) {
 export function activate(ctx: vscode.ExtensionContext): void {
   //add a folder path
   vscode.commands.registerCommand("extension.viewAgenda", agenda);
+  vscode.commands.registerCommand("extension.updateAgenda", updateAgenda);
   vscode.commands.registerCommand("extension.setFolderPath", changeDirectory);
+  vscode.workspace.onDidChangeTextDocument(() => {
+    vscode.commands.executeCommand("extension.updateAgenda");
+  });
   //create a new file
   vscode.commands.registerCommand("extension.createVsoFile", newFile);
   //list tags
