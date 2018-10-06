@@ -67,6 +67,10 @@
       {
         "command": "extension.viewAgenda",
         "title": "VS-Org: Agenda View"
+      },
+      {
+        "command": "extension.updateAgenda",
+        "title": "VS-Org: Update Agenda"
       }
     ],
     "keybindings": [
