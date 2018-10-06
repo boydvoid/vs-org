@@ -26,16 +26,19 @@ module.exports = function() {
         //make sure its a vsorg file
         if (items[i].includes(".vsorg")) {
           //check for SCHEDULED
-          let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
-          if (fileText.includes("SCHEDULED")) {
-            let getTextBeforeScheduled: any = fileText.match(/.*SCHEDULED.*/g);
-            getTextBeforeScheduled.forEach(element => {
+          let fileText = fs
+            .readFileSync(setMainDir() + "\\" + items[i])
+            .toString()
+            .split(/[\r\n]/);
+
+          fileText.forEach(element => {
+            if (element.includes("SCHEDULED")) {
               datelessText = element.trim().match(/.*(?=.*SCHEDULED)/g);
               datelessText = datelessText[0].replace("⊙", "");
               datelessText = datelessText.replace("⊘", "");
               datelessText = datelessText.replace("⊖", "");
               datelessText = datelessText.trim();
-              datelessText = "S: " + datelessText + "    #+FILENAME: " + items[i];
+              datelessText = items[i] + ": " + "SCHED: " + datelessText;
 
               getDate = element.match(/\[(.*)\]/);
 
