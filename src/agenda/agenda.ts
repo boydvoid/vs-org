@@ -61,7 +61,7 @@ module.exports = function() {
                 nameOfDay = "Saturday";
               }
               convertedDateArray = [];
-              if (new Date(getDate[1]) >= new Date()) {
+              if (new Date(getDate[1]).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)) {
                 convertedDateArray.push({
                   date: getDate[0] + ", " + nameOfDay.toUpperCase(),
                   text: datelessText
@@ -98,7 +98,9 @@ module.exports = function() {
         console.log(test);
         fs.appendFileSync(agendaFile, "#+Upcoming Tasks\n\n" + test, "utf-8");
         vscode.workspace.openTextDocument(vscode.Uri.file(checkFolder + "\\agendas\\agenda.vsorg")).then(doc => {
-          vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, true);
+          vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, false).then(() => {
+            vscode.commands.executeCommand("editor.foldAll");
+          });
         });
       }
     });
