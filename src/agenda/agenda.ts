@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as os from 'os';
-
+import * as moment from 'moment';
+import * as path from 'path';
 module.exports = function() {
   let config = vscode.workspace.getConfiguration('vsorg');
   let checkFolder = config.get('folderPath');
@@ -35,12 +36,13 @@ module.exports = function() {
             .split(/[\r\n]/);
 
           fileText.forEach(element => {
-            if (element.includes('SCHEDULED')) {
+            if (element.includes('SCHEDULED') && !element.includes('DONE')) {
               taskPureText = element.trim().match(/.*(?=.*SCHEDULED)/g);
               taskTextGetTodo = element.match(/\bTODO\b/);
               taskTextGetDone = element.match(/\bDONE\b/);
               taskPureText = taskPureText[0].replace('⊙', '');
               taskPureText = taskPureText.replace('TODO', '');
+              taskPureText = taskPureText.replace('DONE', '');
               taskPureText = taskPureText.replace('⊘', '');
               taskPureText = taskPureText.replace('⊖', '');
               taskPureText = taskPureText.trim();
@@ -52,7 +54,7 @@ module.exports = function() {
                   ':</span> ' +
                   '<span class="todo"> ' +
                   taskTextGetTodo +
-                  ' </span>' +
+                  '</span>' +
                   '<span class="taskText">' +
                   taskPureText +
                   '</span>' +
@@ -105,12 +107,16 @@ module.exports = function() {
                   date:
                     '<div class="heading' +
                     nameOfDay +
-                    '"><h4>' +
+                    ' ' +
+                    getDate[0] +
+                    '"><h4 class="' +
+                    getDate[0] +
+                    '">' +
                     getDate[0] +
                     ', ' +
                     nameOfDay.toUpperCase() +
                     '</h4></div>',
-                  text: '<div class="panel"><p>' + taskPureText + '</p></div>'
+                  text: '<div class="panel ' + getDate[0] + '">' + taskPureText + '</div>'
                 });
               } else {
                 //todays date for late items
@@ -150,7 +156,15 @@ module.exports = function() {
                     date:
                       '<div class="heading' +
                       overdue +
-                      '"><h4>' +
+                      ' ' +
+                      '[' +
+                      today +
+                      ']' +
+                      '"><h4 class="' +
+                      '[' +
+                      today +
+                      ']' +
+                      '">' +
                       '[' +
                       today +
                       ']' +
@@ -158,11 +172,15 @@ module.exports = function() {
                       overdue.toUpperCase() +
                       '</h4></div>',
                     text:
-                      '<div class="panel"><p>' +
+                      '<div class="panel ' +
+                      '[' +
+                      today +
+                      ']' +
+                      '">' +
                       taskPureText +
                       '<span class="late">LATE: ' +
                       getDate[1] +
-                      '</span></p></div>'
+                      '</span></div>'
                   });
                 }
               }
@@ -177,7 +195,9 @@ module.exports = function() {
             }
           });
           Object.keys(unsortedObject)
-            .sort()
+            .sort(function(a: any, b: any) {
+              return moment(a, 'MM-DD-YYYY').toDate() - moment(b, 'MM-DD-YYYY').toDate();
+            })
             .forEach(function(key) {
               sortedObject[key] = unsortedObject[key];
             });
@@ -205,16 +225,23 @@ module.exports = function() {
           }
         );
 
+        //reload on save
+        vscode.workspace.onDidSaveTextDocument(fullAgendaView.dispose);
+
         // And set its HTML content
         fullAgendaView.webview.html = getWebviewContent(sortedObject);
 
-        // fs.appendFileSync(agendaFile, "#+Upcoming Tasks\n\n" + test, "utf-8");
-        // vscode.workspace.openTextDocument(vscode.Uri.file(checkFolder + "\\agendas\\agenda.vsorg")).then(doc => {
-        //   vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, false).then(() => {
-        //     vscode.commands.executeCommand("editor.foldAll");
-        //   });
-
-        // });
+        // Handle messages from the webview
+        fullAgendaView.webview.onDidReceiveMessage(message => {
+          switch (message.command) {
+            case 'open':
+              let fullPath = path.join(setMainDir(), message.text);
+              vscode.workspace.openTextDocument(vscode.Uri.file(fullPath)).then(doc => {
+                vscode.window.showTextDocument(doc, vscode.ViewColumn.One, false);
+              });
+              return;
+          }
+        });
       }
     });
   }
@@ -236,92 +263,85 @@ module.exports = function() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cat Coding</title>
-    
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,700" rel="stylesheet">
 </head>
 <style>
+body{
+  font-family: 'Roboto', sans-serif;
+}
 .headingSunday {
   background-color: #2f6999;
-  /* color: #444; */
+  color: #ffffff;
   cursor: pointer;
-  padding: 5px;
-  /* width: 100%; */
+  padding: 1px;
+  padding-left: 10px;
   border: none;
   text-align: left;
   outline: none;
-  /* font-size: 15px; */
-  transition: 0.4s;
+  
 }
 .headingMonday {
   background-color: #2f996e;
-  /* color: #444; */
   cursor: pointer;
-  padding: 5px;
-  /* width: 100%; */
+  padding: 1px;
+  padding-left: 10px;
   border: none;
   text-align: left;
   outline: none;
-  /* font-size: 15px; */
-  transition: 0.4s;
+  color: #ffffff;
 }
 .headingTuesday {
   background-color: #802f99;
-  /* color: #444; */
+
   cursor: pointer;
-  padding: 5px;
-  /* width: 100%; */
+  padding: 1px;
+  padding-left: 10px;
   border: none;
   text-align: left;
   outline: none;
-  /* font-size: 15px; */
-  transition: 0.4s;
+  color: #ffffff;
 }
 .headingWednesday {
   background-color: #992f2f;
-  /* color: #444; */
   cursor: pointer;
-  padding: 5px;
-  /* width: 100%; */
+  padding: 1px;
+  padding-left: 10px;
   border: none;
   text-align: left;
   outline: none;
-  /* font-size: 15px; */
-  transition: 0.4s;
+  color: #ffffff;
 }
 .headingThursday {
   background-color: #992f67;
-  /* color: #444; */
+ 
   cursor: pointer;
-  padding: 5px;
-  /* width: 100%; */
+  padding: 1px;
+  padding-left: 10px;
   border: none;
   text-align: left;
   outline: none;
-  /* font-size: 15px; */
-  transition: 0.4s;
+  color: #ffffff;
 }
 .headingFriday {
   background-color: #44992f;
-  /* color: #444; */
+  color: #ffffff;
   cursor: pointer;
-  padding: 5px;
-  /* width: 100%; */
+  padding: 1px;
+  padding-left: 10px;
   border: none;
   text-align: left;
   outline: none;
-  /* font-size: 15px; */
-  transition: 0.4s;
+
 }
 .headingSaturday {
   background-color: #3c2e96;
-  /* color: #444; */
+  color: #ffffff;
   cursor: pointer;
-  padding: 5px;
-  /* width: 100%; */
+  padding: 1px;
+  padding-left: 10px;
   border: none;
   text-align: left;
   outline: none;
-  /* font-size: 15px; */
-  transition: 0.4s;
 }
 
 .active, .accordion:hover {
@@ -329,83 +349,157 @@ module.exports = function() {
 }
 
 .panel {
-    padding: 0 18px;
-    display: flex;
-    background-color: white;
-    overflow: hidden;
-    color: #000000;
+  padding-right: 10px;
+  padding-bottom: 10px;    
+  padding-bottom: 10px;
+  background-color: white;
+  overflow: hidden;
+  color: #000000;
+  border-bottom: 1px solid black;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  display: none;
 }
 
 .todo{ 
-
-  background-color: #d12323;
+  color: #d12323;
   padding-left: 10px;
-  padding-right: 10px;
-  color: white;
- 
-  font-size: 9px;
+  font-weight: 700;
+  float: left;
+  padding-top: 13px;
+  padding-bottom: -10px;
+  height: 67%;
+  transition: all .5s ease;
+  cursor: pointer;
 }
 
+
+
 .done{
-  color: #4286f4;
-  font-weight: 700;
+color: #4286f4;
+padding-left: 10px;
+font-weight: 700;
+float: left;
+padding-top: 13px;
+padding-bottom: -10px;
+height: 67%;
+transition: all .5s ease;
+cursor: pointer;
 }
 
 .filename{
   font-size: 15px;
   font-weight: 700;
-}
-.scheduled{
-  background-color: blue;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: white;
-  border-radius: 27px;
-  font-size: 9px;
-  margin-left: auto;
+  float: left;
+  margin-left: 10px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
-p{
+.filename:hover{
+  color: #095fea;
+}
+.scheduled{
+  background-color: #76E6E6;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  color: #5d5d5d;
+  font-weight: 700;
+  border-radius: 27px;
+  font-size: 9px;
+  /* margin-left: auto; */
+  height: 15px;
+  float: right;
+  margin-left: 10px;
+  margin-top: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.textDiv{
   width: 100%;
-  display: flex;
+  margin: 0;
+  height: 40px;
 }
 
 .taskText{
-font-size:15px;
+  font-size: 15px;
+  float: left;
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 50%;
+  font-family: 'Roboto Mono', sans-serif;
+  font-weight: 400;
 }
 .late{
-  background-color: red;
+  background-color: #DF9930;
+
   padding-left: 10px;
   padding-right: 10px;
-  color: white;
+  padding-top: 5px;
+  color: #ffffff;
+  font-weight: 700;
   border-radius: 27px;
   font-size: 9px;
-  margin-left: auto; 
+  /* margin-left: auto; */
+  height: 15px;
+  float: right;
+  margin-left: 10px;
+  margin-top: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 </style>
 <body>
 
-<h1>Upcoming Tasks</h1>
+<h1>Agenda View</h1>
 <div id="display-agenda">
 ${test}
 </div>
   
 
 <script>
-var acc = document.getElementsByClassName("accordion");
+const vscode = acquireVsCodeApi();
+document.addEventListener('click', function(event) {
+  
+  let class0 = event.srcElement.classList[0];
+  let class1 = event.srcElement.classList[1];
+  let panels = document.getElementsByClassName('panel');
 
-
-for ( var i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        for(var j = 0; )
-        var panel = this.nextElementSibling;
-
-    
-
+  //show or hide panels
+  if (!event.srcElement.classList.contains('panel')) {
+    for (let i = 0; i < panels.length; i++) {
+      if (panels[i].classList.contains(class0) || panels[i].classList.contains(class1)) {
+        if (panels[i].style.display === 'block') {
+          panels[i].style.display = 'none';
+        } else {
+          panels[i].style.display = 'block';
+        }
+      }
+    }
+  }
+  //send filename to open file 
+  if (event.srcElement.classList.contains('filename')) {
+    //send message to open text file
+    vscode.postMessage({
+      command: 'open',
+      text: event.target.innerText.replace(':', "")
     });
-    
-}
+  }
+  //change TODO to DONE and vice versa
+  if(event.target.innerText === "TODO"){
+    event.target.innerText = "DONE"
+    event.srcElement.classList.add('done');
+    event.srcElement.classList.remove('todo');
+
+  } else if(event.target.innerText === "DONE") {
+    event.target.innerText = "TODO"
+    event.srcElement.classList.add('todo');
+    event.srcElement.classList.remove('done');
+
+  }
+});
+
+
+
 </script>
 </body>
 </html>`;
