@@ -13,6 +13,7 @@ module.exports = function() {
   let convertedDateArray: any = [];
   let unsortedObject: any = {};
   let sortedObject: any = {};
+  var test: any = "";
   readFiles();
 
   function readFiles() {
@@ -63,47 +64,62 @@ module.exports = function() {
               convertedDateArray = [];
               if (new Date(getDate[1]).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)) {
                 convertedDateArray.push({
-                  date: getDate[0] + ", " + nameOfDay.toUpperCase(),
-                  text: datelessText
+                  date:
+                    '<div class="heading" id=' +
+                    nameOfDay +
+                    "><h4>" +
+                    getDate[0] +
+                    ", " +
+                    nameOfDay.toUpperCase() +
+                    "</h4></div>",
+                  text: '<div class="panel"><p>' + datelessText + "</p></div>"
                 });
-              }
+              } else {
+                //todays date for late items
+                var today: any = new Date();
+                var dd: any = today.getDate();
+                var mm: any = today.getMonth() + 1;
+                var yyyy: any = today.getFullYear();
+                var getDayOverdue: any = today.getDay();
+                var overdue: any;
+                if (dd < 10) {
+                  dd = "0" + dd;
+                }
 
-              //todays date for late items
-              var today: any = new Date();
-              var dd: any = today.getDate();
-              var mm: any = today.getMonth() + 1; //January is 0!
-              var yyyy: any = today.getFullYear();
-              var getDayOverdue: any = today.getDay();
-              var overdue: any;
-              if (dd < 10) {
-                dd = "0" + dd;
-              }
+                if (mm < 10) {
+                  mm = "0" + mm;
+                }
 
-              if (mm < 10) {
-                mm = "0" + mm;
-              }
+                today = mm + "-" + dd + "-" + yyyy;
+                if (getDayOverdue === 0) {
+                  overdue = "Sunday";
+                } else if (getDayOverdue === 1) {
+                  overdue = "Monday";
+                } else if (getDayOverdue === 2) {
+                  overdue = "Tuesday";
+                } else if (getDayOverdue === 3) {
+                  overdue = "Wednesday";
+                } else if (getDayOverdue === 4) {
+                  overdue = "Thursday";
+                } else if (getDayOverdue === 5) {
+                  overdue = "Friday";
+                } else if (getDayOverdue === 6) {
+                  overdue = "Saturday";
+                }
 
-              today = mm + "-" + dd + "-" + yyyy;
-              if (getDayOverdue === 0) {
-                overdue = "Sunday";
-              } else if (getDayOverdue === 1) {
-                overdue = "Monday";
-              } else if (getDayOverdue === 2) {
-                overdue = "Tuesday";
-              } else if (getDayOverdue === 3) {
-                overdue = "Wednesday";
-              } else if (getDayOverdue === 4) {
-                overdue = "Thursday";
-              } else if (getDayOverdue === 5) {
-                overdue = "Friday";
-              } else if (getDayOverdue === 6) {
-                overdue = "Saturday";
-              }
-              if (datelessText.includes("TODO")) {
                 if (new Date(getDate[1]).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)) {
                   convertedDateArray.push({
-                    date: "[" + today + "]" + ", " + overdue.toUpperCase(),
-                    text: datelessText + "    #+LATE"
+                    date:
+                      '<div class="accordion id=' +
+                      overdue +
+                      "><h4>" +
+                      "[" +
+                      today +
+                      "]" +
+                      ", " +
+                      overdue.toUpperCase() +
+                      "</h4></div>",
+                    text: '<div class="panel"><p>' + datelessText + "    #+LATE: " + getDate[1] + "</p></div>"
                   });
                 }
               }
@@ -132,17 +148,30 @@ module.exports = function() {
 
       if (!fs.existsSync(agendaFile)) {
       } else {
-        var test: any = "";
         for (var property in sortedObject) {
-          test += property + "\n" + sortedObject[property] + "\n";
+          test += property + sortedObject[property] + "</br>";
         }
-        console.log(test);
-        fs.appendFileSync(agendaFile, "#+Upcoming Tasks\n\n" + test, "utf-8");
-        vscode.workspace.openTextDocument(vscode.Uri.file(checkFolder + "\\agendas\\agenda.vsorg")).then(doc => {
-          vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, false).then(() => {
-            vscode.commands.executeCommand("editor.foldAll");
-          });
-        });
+
+        let fullAgendaView = vscode.window.createWebviewPanel(
+          "fullAgenda",
+          "Full Agenda View",
+          vscode.ViewColumn.Beside,
+          {
+            // Enable scripts in the webview
+            enableScripts: true
+          }
+        );
+
+        // And set its HTML content
+        fullAgendaView.webview.html = getWebviewContent(sortedObject);
+
+        // fs.appendFileSync(agendaFile, "#+Upcoming Tasks\n\n" + test, "utf-8");
+        // vscode.workspace.openTextDocument(vscode.Uri.file(checkFolder + "\\agendas\\agenda.vsorg")).then(doc => {
+        //   vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, false).then(() => {
+        //     vscode.commands.executeCommand("editor.foldAll");
+        //   });
+
+        // });
       }
     });
   }
@@ -155,5 +184,67 @@ module.exports = function() {
       folder = checkFolder;
     }
     return folder;
+  }
+
+  function getWebviewContent(task: keyof typeof sortedObject) {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Coding</title>
+</head>
+<style>
+.heading {
+  background-color: #18b4c3;
+  /* color: #444; */
+  cursor: pointer;
+  padding: 5px;
+  /* width: 100%; */
+  border: none;
+  text-align: left;
+  outline: none;
+  /* font-size: 15px; */
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc; 
+}
+
+.panel {
+    padding: 0 18px;
+
+    background-color: white;
+    overflow: hidden;
+    color: #000000;
+}
+</style>
+<body>
+
+<h1>Upcoming Tasks</h1>
+<div id="display-agenda">
+${test}
+</div>
+  
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+
+
+for ( var i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        for(var j = 0; )
+        var panel = this.nextElementSibling;
+
+    
+
+    });
+    
+}
+</script>
+</body>
+</html>`;
   }
 };
