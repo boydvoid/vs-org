@@ -82,7 +82,10 @@ function numOfSpaces(asterisk: number) {
 }
 //activate function, format on space bar press
 export function activate(ctx: vscode.ExtensionContext): void {
+
+
   //add a folder path
+
   vscode.commands.registerCommand("extension.viewAgenda", agenda);
   vscode.commands.registerCommand("extension.updateAgenda", updateAgenda);
   vscode.commands.registerCommand("extension.setFolderPath", changeDirectory);
