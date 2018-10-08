@@ -17,6 +17,7 @@ module.exports = function () {
     let workspaceEdit = new vscode.WorkspaceEdit();
     //check if the char exists on the line
     if (current_line.text.includes(unicode_char)) {
+      vscode.commands.executeCommand("workbench.action.files.save");
       if (current_line.text.includes("TODO")) {
         //remove keywords if there are any
         let remove_todo = text_after_unicode_char.replace(/\b(TODO)\b/, "").trim();
@@ -28,7 +29,9 @@ module.exports = function () {
 
         //inset the new text
         workspaceEdit.insert(document.uri, current_line.range.start, line_leading_spaces + unicode_char + remove_todo);
-        return vscode.workspace.applyEdit(workspaceEdit);
+        return vscode.workspace.applyEdit(workspaceEdit).then(() => {
+          vscode.commands.executeCommand("workbench.action.files.save");
+        });
       } else if (!current_line.text.includes("DONE")) {
         //check if the line doesnt includes TODO
 
@@ -38,7 +41,9 @@ module.exports = function () {
           current_line.range.start,
           line_leading_spaces + unicode_char + "DONE " + text_after_unicode_char + "\n    COMPLETED:" + "[" + date + "]"
         );
-        return vscode.workspace.applyEdit(workspaceEdit);
+        return vscode.workspace.applyEdit(workspaceEdit).then(() => {
+          vscode.commands.executeCommand("workbench.action.files.save");
+        });
       } else if (!current_line.text.includes("TODO")) {
         let removeDone = text_after_unicode_char.replace(/\b(DONE)\b/, "").trim();
         let removeDate = removeDone.replace(/\b(COMPLETED)\b(.*)/, "").trim();
@@ -58,12 +63,11 @@ module.exports = function () {
         );
         workspaceEdit.replace(document.uri, new vscode.Range(current_line.range.end, nextLine.range.start), "");
 
-        return vscode.workspace.applyEdit(workspaceEdit);
+        return vscode.workspace.applyEdit(workspaceEdit).then(() => {
+          vscode.commands.executeCommand("workbench.action.files.save");
+        });
       }
-    } else {
-      if (document.fileName.includes("agenda.vsorg")) {
-        vscode.window.showInformationMessage("You can edit the tasks in the original file.");
-      }
+
     }
 
     function characterDecode(characterArray: any) {

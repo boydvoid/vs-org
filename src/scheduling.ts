@@ -76,7 +76,9 @@ module.exports = function () {
                     current_line.text + "    SCHEDULED: [" + month + "-" + day + "-" + year + "]"
                   );
 
-                  return vscode.workspace.applyEdit(workspaceEdit).then(() => { });
+                  return vscode.workspace.applyEdit(workspaceEdit).then(() => {
+                    vscode.commands.executeCommand("workbench.action.files.save");
+                  });
                 } else {
                   vscode.window.showWarningMessage("Full Date must be entered");
                 }

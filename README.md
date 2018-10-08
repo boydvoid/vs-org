@@ -11,6 +11,8 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 Check out the HOW-TO for all of the available featuers:</br>
 [How-To](https://github.com/robaboyd/vs-org/blob/master/howto.md)
 
+Introducing Agenda View! Schedule your tasks with `ctrl+alt+s`, run the `VS-Org: Agenda View` command and see all of your scheduled tasks in one clean interface, organized by date. Watch the Agenda View Demo: </br>
+
 Check out the recent changes in the [Change Log](https://github.com/robaboyd/vs-org/blob/master/CHANGELOG.md)
 
 For upcoming features view the [Roadmap](https://github.com/robaboyd/vs-org/blob/master/roadmap.md)
@@ -26,10 +28,6 @@ To install Vs-Org, open Visual Studio Code, launch VS Code quick open (Ctrl + p 
 
 Make sure you save your files with the .vsorg extension.
 
-## Extension Settings
-
-**IMPORTANT:** make sure you set `files.insertFinalNewline": true` in the settings, formatting will break if it's not set (working on a fix).
-
 ## Keybinds
 
 | Keys                  | Decription                         |
@@ -42,6 +40,7 @@ Make sure you save your files with the .vsorg extension.
 | `alt+leftArrow`       | Decrement the level of the heading |
 | `tab`                 | Fold                               |
 | `shift+tab`           | Unfold                             |
+| `ctrl+alt+s`          | Schedule an item                   |
 
 ## Snippets
 
@@ -56,11 +55,19 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.0.9]
+### [0.1.0]
 
-`Removed`
+`Added`
 
-- Numbers no longer have syntax highlighting.
+- Agenda View. Plan, and organize your taks in a easy to use interface.
+- `ctrl+alt+s` keybind to schedule an item, saves the document as well
+- `VS-Org: Agenda View` command
+- Scheduling auto saves a file
+
+`Changed`
+
+- Completed Text goes on a new line
+- Inserting `TODO` or `DONE`  auto saves the file
 
 ## Upcoming Features
 
