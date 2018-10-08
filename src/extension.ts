@@ -2,9 +2,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+
 const newFile = require("./newFile");
 const changeDirectory = require("./changeDirectory");
-const keywordRight = require("./insertKeywordRight");
+const keywordRight = require("./keywordRight");
 const keywordLeft = require("./keywordLeft");
 const moveUp = require("./moveUp");
 const moveDown = require("./moveDown");
@@ -12,6 +13,9 @@ const getTags = require("./tags");
 const titles = require("./titles");
 const increment = require("./incrementHeadings");
 const decrement = require("./decrementHeadings");
+const scheduling = require("./scheduling");
+const agenda = require("./agenda/agenda");
+const updateAgenda = require("./agenda/update");
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
   public provideOnTypeFormattingEdits(
@@ -27,13 +31,13 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
         const { document } = activeTextEditor;
 
         let currentLine = document.lineAt(position);
+        if (currentLine.text.indexOf("⊙") === -1 && currentLine.text.indexOf("⊘") === -1 && currentLine.text.indexOf("⊖") === -1) {
+          console.log(currentLine.text.indexOf("⊙"))
+          if (currentLine.text.indexOf("*") > -1) {
+            let numOfAsterisk = currentLine.text.split("*").length - 1;
 
-        if (currentLine.text.indexOf("*") > -1) {
-          let numOfAsterisk = currentLine.text.split("*").length - 1;
-
-          for (var i = 0; i < currentLine.text.length; i++) {
-            // TODO clean this up
-            if (!currentLine.text.includes("⊙") || !currentLine.text.includes("⊘") || !currentLine.text.includes("⊖")) {
+            for (var i = 0; i < currentLine.text.length; i++) {
+              // TODO clean this up
               resolve(textEdit(setUnicodeChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
             }
           }
@@ -78,8 +82,16 @@ function numOfSpaces(asterisk: number) {
 }
 //activate function, format on space bar press
 export function activate(ctx: vscode.ExtensionContext): void {
+
+
   //add a folder path
+
+  vscode.commands.registerCommand("extension.viewAgenda", agenda);
+  vscode.commands.registerCommand("extension.updateAgenda", updateAgenda);
   vscode.commands.registerCommand("extension.setFolderPath", changeDirectory);
+  vscode.workspace.onDidChangeTextDocument(() => {
+    vscode.commands.executeCommand("extension.updateAgenda");
+  });
   //create a new file
   vscode.commands.registerCommand("extension.createVsoFile", newFile);
   //list tags
@@ -91,6 +103,8 @@ export function activate(ctx: vscode.ExtensionContext): void {
   //add TODO or DONE left
   vscode.commands.registerCommand("extension.toggleStatusLeft", keywordLeft);
 
+  //schedule
+  vscode.commands.registerCommand("extension.scheduling", scheduling);
   //alt + shift + up
   vscode.commands.registerCommand("extension.moveBlockUp", moveUp);
   //alt + shift + down

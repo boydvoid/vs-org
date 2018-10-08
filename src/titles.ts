@@ -20,30 +20,32 @@ module.exports = function() {
   function readFiles() {
     fs.readdir(setMainDir(), (err: any, items: any) => {
       for (let i = 0; i < items.length; i++) {
-        let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
-        if (fileText.includes("#+TITLE:") && fileText.match(/\#\+TITLE.*/gi) !== null) {
-          let fileName: string = items[i];
-          let getTitle: any = fileText.match(/\#\+TITLE.*/gi);
-          splitTitle = getTitle
-            .join("")
-            .split("#+TITLE:")
-            .join("")
-            .trim();
+        if (items[i].includes(".vsorg")) {
+          let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
+          if (fileText.includes("#+TITLE:") && fileText.match(/\#\+TITLE.*/gi) !== null) {
+            let fileName: string = items[i];
+            let getTitle: any = fileText.match(/\#\+TITLE.*/gi);
+            splitTitle = getTitle
+              .join("")
+              .split("#+TITLE:")
+              .join("")
+              .trim();
 
-          titles.push(splitTitle);
+            titles.push(splitTitle);
 
-          for (let j = 0; j < titles.length; j++) {
-            if (listObject[titles[j]] === undefined) {
-              listObject[titles[j]] = "";
-            }
+            for (let j = 0; j < titles.length; j++) {
+              if (listObject[titles[j]] === undefined) {
+                listObject[titles[j]] = "";
+              }
 
-            if (listObject[titles[j]] === "") {
-              listObject[titles[j]] = fileName;
+              if (listObject[titles[j]] === "") {
+                listObject[titles[j]] = fileName;
+              }
             }
           }
         }
+        setQuickPick();
       }
-      setQuickPick();
     });
   }
 
