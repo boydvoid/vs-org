@@ -31,13 +31,13 @@ class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
         const { document } = activeTextEditor;
 
         let currentLine = document.lineAt(position);
+        if (currentLine.text.indexOf("⊙") === -1 && currentLine.text.indexOf("⊘") === -1 && currentLine.text.indexOf("⊖") === -1) {
+          console.log(currentLine.text.indexOf("⊙"))
+          if (currentLine.text.indexOf("*") > -1) {
+            let numOfAsterisk = currentLine.text.split("*").length - 1;
 
-        if (currentLine.text.indexOf("*") > -1) {
-          let numOfAsterisk = currentLine.text.split("*").length - 1;
-
-          for (var i = 0; i < currentLine.text.length; i++) {
-            // TODO clean this up
-            if (!currentLine.text.includes("⊙") || !currentLine.text.includes("⊘") || !currentLine.text.includes("⊖")) {
+            for (var i = 0; i < currentLine.text.length; i++) {
+              // TODO clean this up
               resolve(textEdit(setUnicodeChar(numOfAsterisk), position, document, numOfSpaces(numOfAsterisk)));
             }
           }
