@@ -22,33 +22,36 @@ module.exports = function() {
   function readFiles() {
     fs.readdir(setMainDir(), (err: any, items: any) => {
       for (let i = 0; i < items.length; i++) {
-        //check files for #+ TAGS:
-        let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
-        if (fileText.includes("#+TAGS:") && fileText.match(/\#\+TAGS.*/gi) !== null) {
-          let fileName: string = items[i];
-          let getTags: any = fileText.match(/\#\+TAGS.*/gi);
-          splitTags = getTags
-            .join("")
-            .split("#+TAGS:")
-            .join("")
-            .trim()
-            .split(",");
+        if (items[i].includes(".vsorg")) {
+          //check files for #+ TAGS:
+          let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf-8");
+          if (fileText.includes("#+TAGS:") && fileText.match(/\#\+TAGS.*/gi) !== null) {
+            let fileName: string = items[i];
+            let getTags: any = fileText.match(/\#\+TAGS.*/gi);
+            splitTags = getTags
+              .join("")
+              .split("#+TAGS:")
+              .join("")
+              .trim()
+              .split(",");
 
-          splitTags.forEach((element: any) => {
-            if (!formatTag.includes(element)) {
-              formatTag.push(element);
-            }
-          });
+            splitTags.forEach((element: any) => {
+              if (!formatTag.includes(element)) {
+                formatTag.push(element);
+              }
+            });
 
-          splitTags.forEach((element: any) => {
-            if (listObject[element] === undefined) {
-              listObject[element] = "";
-            }
-            listObject[element] = listObject[element] + fileName + ",";
-          });
+            splitTags.forEach((element: any) => {
+              if (listObject[element] === undefined) {
+                listObject[element] = "";
+              }
+              listObject[element] = listObject[element] + fileName + ",";
+            });
+          }
         }
+
+        setQuickPick();
       }
-      setQuickPick();
     });
   }
 

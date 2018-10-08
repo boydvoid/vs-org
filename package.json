@@ -2,7 +2,7 @@
   "name": "vs-org",
   "displayName": "Vs-Org",
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "icon": "Images/potentialLogo.PNG",
   "repository": "https://www.github.com/robaboyd/vs-org",
   "publisher": "BobbyBoyd",
@@ -18,6 +18,7 @@
     "onCommand:extension.getTags",
     "onCommand:extension.getTitles",
     "onCommand:extension.setFolderPath",
+    "onCommand:extension.viewAgenda",
     "onLanguage:vso"
   ],
   "keywords": [
@@ -32,7 +33,8 @@
     "configurationDefaults": {
       "[vso]": {
         "editor.formatOnType": true,
-        "files.insertFinalNewline": true
+        "files.insertFinalNewline": true,
+        "files.autoSave": "on"
       }
     },
     "configuration": {
@@ -43,6 +45,11 @@
           "type": "string",
           "default": "",
           "description": "Main folder"
+        },
+        "vsorg.showChangeMessage": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the read change log message after update."
         }
       }
     },
@@ -62,6 +69,10 @@
       {
         "command": "extension.getTitles",
         "title": "VS-Org: Open By Title "
+      },
+      {
+        "command": "extension.viewAgenda",
+        "title": "VS-Org: Agenda View"
       }
     ],
     "keybindings": [
@@ -103,6 +114,11 @@
       {
         "command": "editor.unfold",
         "key": "shift+tab",
+        "when": "editorLangId == 'vso' && editorTextFocus"
+      },
+      {
+        "command": "extension.scheduling",
+        "key": "ctrl+alt+s",
         "when": "editorLangId == 'vso' && editorTextFocus"
       }
     ],
@@ -150,6 +166,8 @@
   "dependencies": {
     "fs-extra": "^7.0.0",
     "gray-matter": "^4.0.1",
-    "klaw": "^3.0.0"
+    "klaw": "^3.0.0",
+    "moment": "^2.22.2",
+    "opn": "^5.4.0"
   }
 }

@@ -107,7 +107,12 @@
           <key>name</key>
           <string>comment.vso</string>
         </dict>   
-
+ <dict>
+          <key>match</key>
+          <string>(\bSCHEDULED\b(.*))</string>
+          <key>name</key>
+          <string>comment.vso</string>
+        </dict>   
        </array>
     </dict>
     <key>multi_line_comment</key>
@@ -150,12 +155,7 @@
     <dict>
       <key>patterns</key>
       <array> 
-        <dict>
-          <key>match</key>
-          <string>(\b\d+)</string>
-          <key>name</key>
-          <string>constant.numeric.vso</string>
-        </dict>
+      
        </array>
     </dict>
   </dict>
