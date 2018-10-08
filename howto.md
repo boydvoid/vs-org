@@ -31,6 +31,14 @@ You can open a file by either the `VS-Org: Open By Title` or `VS-Org: Open By Ta
 
 <img src="https://github.com/robaboyd/vs-org/blob/master/Images/openCommands.gif?raw=true" width="700" height="400" />
 
+
+## Agenda View and Scheduling
+
+To schedule an item use the `ctrl+alt+s` keybind. To view all of your scheduled items in all of your vsorg files use the `VS-Org: Agenda View` command.
+
+<img src="https://github.com/robaboyd/vs-org/blob/master/Images/openAgenda.gif?raw=true" width="700" height="400" />
+
+
 ## Full Demo
 
 <img src="https://github.com/robaboyd/vs-org/blob/master/Images/fullDemo.gif?raw=true" width="700" height="400" />

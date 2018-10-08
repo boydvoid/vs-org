@@ -1,6 +1,6 @@
 # VS-ORG (WIP)
 
-![Version](https://img.shields.io/badge/version-v0.0.8-blue.svg)
+![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)
 [![Install](https://img.shields.io/badge/Marketplace-Install-green.svg)](https://marketplace.visualstudio.com/items?itemName=BobbyBoyd.vs-org)</br></br>
 This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode](https://orgmode.org/) as much as possible.
 
@@ -8,10 +8,12 @@ This is a work in progress extension that will, in the end, try to emulate [Emac
 
 ## Features
 
+Introducing Agenda View! Schedule your tasks with `ctrl+alt+s`, run the `VS-Org: Agenda View` command and see all of your scheduled tasks in all of your VS-Org files, in one clean interface, organized by date. Watch the Agenda View Demo: </br>
+
+<img src="https://github.com/robaboyd/vs-org/blob/master/Images/openAgenda.gif?raw=true" width="700" height="400" />
+
 Check out the HOW-TO for all of the available featuers:</br>
 [How-To](https://github.com/robaboyd/vs-org/blob/master/howto.md)
-
-Introducing Agenda View! Schedule your tasks with `ctrl+alt+s`, run the `VS-Org: Agenda View` command and see all of your scheduled tasks in one clean interface, organized by date. Watch the Agenda View Demo: </br>
 
 Check out the recent changes in the [Change Log](https://github.com/robaboyd/vs-org/blob/master/CHANGELOG.md)
 
@@ -40,7 +42,7 @@ Make sure you save your files with the .vsorg extension.
 | `alt+leftArrow`       | Decrement the level of the heading |
 | `tab`                 | Fold                               |
 | `shift+tab`           | Unfold                             |
-| `ctrl+alt+s`          | Schedule an item                   |
+| `ctrl+alt+s`          | Schedule a task                    |
 
 ## Snippets
 
@@ -55,19 +57,19 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.1.0]
+### [0.1.0] (10-8-18)
 
 `Added`
 
-- Agenda View. Plan, and organize your taks in a easy to use interface.
-- `ctrl+alt+s` keybind to schedule an item, saves the document as well
-- `VS-Org: Agenda View` command
-- Scheduling auto saves a file
+* Agenda View. Plan, and organize your taks in a easy to use interface.
+* `ctrl+alt+s` keybind to schedule an item, saves the document as well
+* `VS-Org: Agenda View` command
+* Scheduling auto saves a file
 
 `Changed`
 
-- Completed Text goes on a new line
-- Inserting `TODO` or `DONE`  auto saves the file
+* Completed Text goes on a new line
+* Inserting `TODO` or `DONE`  auto saves the file
 
 ## Upcoming Features
 
