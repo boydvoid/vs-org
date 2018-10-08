@@ -33,8 +33,7 @@
     "configurationDefaults": {
       "[vso]": {
         "editor.formatOnType": true,
-        "files.insertFinalNewline": true,
-        "files.eol": "\n"
+        "files.insertFinalNewline": true
       }
     },
     "configuration": {

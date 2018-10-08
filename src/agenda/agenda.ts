@@ -148,9 +148,9 @@ module.exports = function () {
                             //converted array to object with date as keys 
                             convertedDateArray.forEach((element: any) => {
                                 if (!unsortedObject[element.date]) {
-                                    unsortedObject[element.date] = '  ' + element.text + '\n';
+                                    unsortedObject[element.date] = '  ' + element.text;
                                 } else {
-                                    unsortedObject[element.date] += '  ' + element.text + '\n';
+                                    unsortedObject[element.date] += '  ' + element.text;
                                 }
                             });
                         }
@@ -164,10 +164,7 @@ module.exports = function () {
 
                 }
             }
-            //prepare for html 
-            // for (var property in sortedObject) {
-            //     itemInSortedObject += property + sortedObject[property] + '</br>';
-            // }
+
 
             Object.keys(sortedObject).sort(function (a: any, b: any) {
                 return moment(a.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate() - moment(b.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate();
@@ -236,14 +233,14 @@ module.exports = function () {
                     let fileName = path.join(setMainDir(), textArray[1]);
                     let text = textArray[2];
                     let contents = fs.readFileSync(fileName, 'utf-8');
-                    let x = contents.split(/[\r\n]/);
+                    let x = contents.split(/\r?\n/);
 
                     for (let i = 0; i < x.length; i++) {
                         if (x[i].indexOf(text) > -1 && x[i].indexOf(textArray[3]) > -1) {
                             let removeSchedule: any = x[i].match(/\bSCHEDULED\b(.*)/g);
                             x[i] = x[i].replace(removeSchedule[0], "");
                             x[i] = x[i].replace('TODO ' + text, 'DONE ' + text + '    SCHEDULED: ' + textArray[3] + '\n   COMPLETED:' + '[' + new Date().toLocaleString() + ']');
-                            contents = x.join('\n');
+                            contents = x.join('\r\n');
                             fs.writeFileSync(fileName, contents, 'utf-8');
                             return;
                         }
@@ -254,7 +251,7 @@ module.exports = function () {
                     let fileNameD = path.join(setMainDir(), textArrayD[1]);
                     let textD = textArrayD[2];
                     let contentsD = fs.readFileSync(fileNameD, 'utf-8');
-                    let y = contentsD.split(/[\r\n]/);
+                    let y = contentsD.split(/\r?\n/);
 
                     for (let i = 0; i < y.length; i++) {
                         if (y[i].indexOf(textD) > -1 && y[i].indexOf(textArrayD[3]) > -1) {
@@ -262,7 +259,7 @@ module.exports = function () {
                             y[i] = y[i].replace(removeSchedule[0], "");
                             y[i] = y[i].replace('DONE ' + textD, 'TODO ' + textD + '    SCHEDULED: ' + textArrayD[3]);
                             y.splice(i + 1, 1);
-                            contentsD = y.join('\n');
+                            contentsD = y.join('\r\n');
                             fs.writeFileSync(fileNameD, contentsD, 'utf-8');
                             return;
                         }
