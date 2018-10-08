@@ -167,7 +167,9 @@ module.exports = function () {
 
 
                 Object.keys(sortedObject).sort(function (a: any, b: any) {
-                    return moment(a.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate() - moment(b.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate();
+                    let first: any = moment(a.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate();
+                    let second: any = moment(b.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate();
+                    return first - second
                 }).forEach(function (property) {
                     itemInSortedObject += property + sortedObject[property] + '</br>';
                 })
