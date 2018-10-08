@@ -81,23 +81,26 @@ module.exports = function () {
                                 }
 
                                 convertedDateArray = [];
-                                if (new Date(getDateFromTaskText[1]).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)) {
-                                    convertedDateArray.push({
-                                        date:
-                                            '<div class="heading' +
-                                            nameOfDay +
-                                            ' ' +
-                                            getDateFromTaskText[0] +
-                                            '"><h4 class="' +
-                                            getDateFromTaskText[0] +
-                                            '">' +
-                                            getDateFromTaskText[0] +
-                                            ', ' +
-                                            nameOfDay.toUpperCase() +
-                                            '</h4></div>',
-                                        text: '<div class="panel ' + getDateFromTaskText[0] + '">' + taskText + '</div>'
-                                    });
+                                if (nameOfDay !== undefined) {
 
+                                    if (new Date(getDateFromTaskText[1]).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)) {
+                                        convertedDateArray.push({
+                                            date:
+                                                '<div class="heading' +
+                                                nameOfDay +
+                                                ' ' +
+                                                getDateFromTaskText[0] +
+                                                '"><h4 class="' +
+                                                getDateFromTaskText[0] +
+                                                '">' +
+                                                getDateFromTaskText[0] +
+                                                ', ' +
+                                                nameOfDay.toUpperCase() +
+                                                '</h4></div>',
+                                            text: '<div class="panel ' + getDateFromTaskText[0] + '">' + taskText + '</div>'
+                                        });
+
+                                    }
                                 } else {
 
                                     //todays date for incomplete items in the past
@@ -167,7 +170,9 @@ module.exports = function () {
 
 
                 Object.keys(sortedObject).sort(function (a: any, b: any) {
-                    return moment(a.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate() - moment(b.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate();
+                    let first: any = moment(a.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate();
+                    let second: any = moment(b.match(/\[(.*)\]/), 'MM-DD-YYYY').toDate();
+                    return first - second
                 }).forEach(function (property) {
                     itemInSortedObject += property + sortedObject[property] + '</br>';
                 })
