@@ -1,5 +1,19 @@
 # Change Log
 
+# [0.1.0]
+
+`Added`
+
+- Agenda View. Plan, and organize your taks in a easy to use interface.
+- `ctrl+alt+s` keybind to schedule an item, saves the document as well
+- `VS-Org: Agenda View` command
+- Scheduling auto saves a file
+
+`Changed`
+
+- Completed Text goes on a new line
+- Inserting `TODO` or `DONE`  auto saves the file
+
 # [0.0.8]
 
 `Changed`
