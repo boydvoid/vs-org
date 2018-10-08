@@ -1,12 +1,10 @@
 import * as vscode from "vscode";
-import * as fs from "fs";
-module.exports = function() {
+
+module.exports = function () {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
     //get the date format from the settings
-    let config = vscode.workspace.getConfiguration("vsorg");
-
     //
     let position: number = activeTextEditor.selection.active.line;
     let current_line: vscode.TextLine = document.lineAt(position);
@@ -78,7 +76,7 @@ module.exports = function() {
                     current_line.text + "    SCHEDULED: [" + month + "-" + day + "-" + year + "]"
                   );
 
-                  return vscode.workspace.applyEdit(workspaceEdit).then(() => {});
+                  return vscode.workspace.applyEdit(workspaceEdit).then(() => { });
                 } else {
                   vscode.window.showWarningMessage("Full Date must be entered");
                 }

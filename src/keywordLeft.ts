@@ -1,13 +1,11 @@
 import * as vscode from "vscode";
-import * as fs from "fs";
-import * as os from "os";
-module.exports = function() {
+
+
+module.exports = function () {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
     const { document } = activeTextEditor;
-    let config = vscode.workspace.getConfiguration("vsorg");
-    let checkFolder = config.get("folderPath");
-    let folder: any;
+
     let characterArray: any = ["⊖ ", "⊙ ", "⊘ "];
     let position: number = activeTextEditor.selection.active.line;
     let current_line: vscode.TextLine = document.lineAt(position);
@@ -84,14 +82,6 @@ module.exports = function() {
         }
       }
     }
-    function setMainDir() {
-      if (checkFolder === "") {
-        let homeDir = os.homedir();
-        folder = homeDir + "\\VSOrgFiles";
-      } else {
-        folder = checkFolder;
-      }
-      return folder;
-    }
+
   }
 };

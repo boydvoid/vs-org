@@ -33,7 +33,8 @@
     "configurationDefaults": {
       "[vso]": {
         "editor.formatOnType": true,
-        "files.insertFinalNewline": true
+        "files.insertFinalNewline": true,
+        "files.eol": "\n"
       }
     },
     "configuration": {
@@ -67,10 +68,6 @@
       {
         "command": "extension.viewAgenda",
         "title": "VS-Org: Agenda View"
-      },
-      {
-        "command": "extension.updateAgenda",
-        "title": "VS-Org: Update Agenda"
       }
     ],
     "keybindings": [

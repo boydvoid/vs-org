@@ -2,10 +2,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import * as fs from "fs";
+
 const newFile = require("./newFile");
 const changeDirectory = require("./changeDirectory");
-const keywordRight = require("./insertKeywordRight");
+const keywordRight = require("./keywordRight");
 const keywordLeft = require("./keywordLeft");
 const moveUp = require("./moveUp");
 const moveDown = require("./moveDown");
