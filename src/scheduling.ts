@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-
+import * as moment from 'moment';
+import { WindowMessage } from './showMessage';
 module.exports = function () {
   const { activeTextEditor } = vscode.window;
   if (activeTextEditor && activeTextEditor.document.languageId === "vso") {
@@ -9,9 +10,12 @@ module.exports = function () {
     let position: number = activeTextEditor.selection.active.line;
     let current_line: vscode.TextLine = document.lineAt(position);
     let year: string | undefined;
-    let fullDate: string;
     let month: string | undefined;
     let workspaceEdit = new vscode.WorkspaceEdit();
+
+    //messages
+    let fullDateMessage = new WindowMessage('warning', "Full date must be entered", false, false);
+    let notADateMessage = new WindowMessage('warning', "That's not a valid date. ", false, false);
 
     if (current_line.text.includes("SCHEDULED:")) {
       let removeScheduled = current_line.text.replace(/\b(SCHEDULED)\b(.*)/, "").trim();
@@ -60,9 +64,17 @@ module.exports = function () {
                   if (day.length === 1) {
                     day = "0" + day;
                   }
-                  fullDate = month + "/" + day + "/" + year;
-                  if (isNaN(Date.parse(fullDate))) {
-                    return vscode.window.showWarningMessage("That's not a valid date.");
+
+                  let checkDate = year + "/" + month + "/" + day;
+
+                  //check to make sure the day number is the correct number
+                  if (daysInMonth(month, year).toString() >= day) {
+
+                    if (!moment(checkDate).isValid()) {
+                      return notADateMessage.showMessage();
+                    }
+                  } else {
+                    return notADateMessage.showMessage();
                   }
                   //add SCHEDULED: <DATE> TO THE LINE
                   //delete line
@@ -80,10 +92,13 @@ module.exports = function () {
                     vscode.commands.executeCommand("workbench.action.files.save");
                   });
                 } else {
-                  vscode.window.showWarningMessage("Full Date must be entered");
+                  fullDateMessage.showMessage();
                 }
               });
           });
       });
+  }
+  function daysInMonth(month: any, year: any) {
+    return new Date(year, month, 0).getDate();
   }
 };
