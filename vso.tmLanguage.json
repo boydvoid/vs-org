@@ -1,0 +1,114 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "vso",
+  "scopeName": "source.vso",
+  "patterns": [
+    {
+      "name": "markup.heading.vso",
+      "comment": "Heading 1",
+      "begin": "[⊙]",
+      "end": "$",
+      "patterns": [
+        {
+          "include": "#todo"
+        },
+        {
+          "include": "#done"
+        },
+        {
+          "include": "#sched"
+        }
+      ]
+    },
+    {
+      "name": "keyword.other.vso",
+      "comment": "Heading 2",
+      "begin": "[⊘]",
+      "end": "$",
+      "patterns": [
+        {
+          "include": "#todo"
+        },
+        {
+          "include": "#done"
+        },
+        {
+          "include": "#sched"
+        }
+      ]
+    },
+    {
+      "name": "keyword.operator.vso",
+      "comment": "Heading 3",
+      "begin": "[⊖]",
+      "end": "$",
+      "patterns": [
+        {
+          "include": "#todo"
+        },
+        {
+          "include": "#done"
+        },
+        {
+          "include": "#sched"
+        }
+      ]
+    },
+    {
+      "name": "markup.heading.vso",
+      "comment": "Heading 1 unformatted",
+      "begin": "[*]",
+      "end": "$"
+    },
+    {
+      "name": "keyword.other.vso",
+      "comment": "Heading 2 unformatted",
+      "begin": "(\\*{2})",
+      "end": "$"
+    },
+    {
+      "name": "keyword.operator.vso",
+      "comment": "Heading 3 unformatted",
+      "begin": "(\\*{3})",
+      "end": "$"
+    },
+    {
+      "name": "comment.vso",
+      "comment": "Heading 3 unformatted",
+      "begin": "(\\#\\+)",
+      "end": "$"
+    },
+    {
+      "name": "comment.vso",
+      "comment": "Heading 3 unformatted",
+      "begin": "([\bCOMPLETED\b])",
+      "end": "$"
+    }
+  ],
+  "repository": {
+    "todo": {
+      "patterns": [
+        {
+          "name": "markup.bold.vso",
+          "match": "\\bTODO\\b"
+        }
+      ]
+    },
+    "done": {
+      "patterns": [
+        {
+          "name": "entity.name.function.vso",
+          "match": "\\bDONE\\b"
+        }
+      ]
+    },
+    "sched": {
+      "patterns": [
+        {
+          "name": "comment.vso",
+          "match": "\\bSCHEDULED\\b(.*)"
+        }
+      ]
+    }
+  }
+}
