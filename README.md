@@ -1,4 +1,4 @@
-# VS-ORG (WIP)
+# VS-ORG
 
 ![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)
 [![Install](https://img.shields.io/badge/Marketplace-Install-green.svg)](https://marketplace.visualstudio.com/items?itemName=BobbyBoyd.vs-org)</br></br>
@@ -57,19 +57,19 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.1.0] (10-8-18)
+### [0.1.0](10-8-18)
 
 `Added`
 
-* Agenda View. Plan, and organize your taks in a easy to use interface.
-* `ctrl+alt+s` keybind to schedule an item, saves the document as well
-* `VS-Org: Agenda View` command
-* Scheduling auto saves a file
+- Agenda View. Plan, and organize your taks in a easy to use interface.
+- `ctrl+alt+s` keybind to schedule an item, saves the document as well
+- `VS-Org: Agenda View` command
+- Scheduling auto saves a file
 
 `Changed`
 
-* Completed Text goes on a new line
-* Inserting `TODO` or `DONE`  auto saves the file
+- Completed Text goes on a new line
+- Inserting `TODO` or `DONE` auto saves the file
 
 ## Upcoming Features
 

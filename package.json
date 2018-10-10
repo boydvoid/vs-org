@@ -1,6 +1,6 @@
 {
   "name": "vs-org",
-  "displayName": "Vs-Org",
+  "displayName": "VS-Org",
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
   "version": "0.1.0",
   "repository": "https://www.github.com/robaboyd/vs-org",
@@ -139,7 +139,7 @@
       {
         "language": "vso",
         "scopeName": "source.vso",
-        "path": "vso.tmLanguage"
+        "path": "vso.tmLanguage.json"
       }
     ],
     "snippets": [
