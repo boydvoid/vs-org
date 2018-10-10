@@ -1,6 +1,6 @@
 # VS-ORG
 
-![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-v0.1.1-blue.svg)
 [![Install](https://img.shields.io/badge/Marketplace-Install-green.svg)](https://marketplace.visualstudio.com/items?itemName=BobbyBoyd.vs-org)</br></br>
 This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode](https://orgmode.org/) as much as possible.
 
@@ -57,19 +57,11 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.1.0](10-8-18)
-
-`Added`
-
-- Agenda View. Plan, and organize your taks in a easy to use interface.
-- `ctrl+alt+s` keybind to schedule an item, saves the document as well
-- `VS-Org: Agenda View` command
-- Scheduling auto saves a file
+### [0.1.1](10-10-18)
 
 `Changed`
 
-- Completed Text goes on a new line
-- Inserting `TODO` or `DONE` auto saves the file
+-Syntax Highlighting update. The text on the line is now the same color as the heading
 
 ## Upcoming Features
 
