@@ -57,7 +57,7 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.1.1](10-10-18)
+### [0.1.1] 10-10-18
 
 `Changed`
 
