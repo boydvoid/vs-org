@@ -1,12 +1,18 @@
 # Change Log
 
-## [0.1.1](10-10-18)
+## [0.1.2] 10-12-18
+
+`Fixed`
+
+- Agenda view not showing on Mac. 
+
+## [0.1.1]10-10-18
 
 `Changed`
 
 -Syntax Highlighting update. The text on the line is now the same color as the heading
 
-## [0.1.0](10-8-18)
+## [0.1.0] 10-8-18
 
 `Added`
 
@@ -20,7 +26,7 @@
 - Completed Text goes on a new line
 - Inserting `TODO` or `DONE` auto saves the file
 
-## [0.0.8](9-30-18)
+## [0.0.8] 9-30-18
 
 `Changed`
 
@@ -31,14 +37,14 @@
 - Vs-Org will now properly format the \* when the are typed (`editor.formatOnType` needed to be true, the extension sets this for .vsorg files automatically)
 - Users no longer need to set `editor.inserFileNewline` to true, the extension does this by default
 
-## [0.0.7](9-28-18)
+## [0.0.7] 9-28-18
 
 `Changed`
 
 - Syntax highlighting for `COMPLETED: DATE` is now the comment syntax (depending on your theme it's not so cluttered)
 - `COMPLETED: DATE` is now appended to the end of the task that is completed
 
-## [0.0.6](9-27-18)
+## [0.0.6] 9-27-18
 
 `Changed`
 
@@ -49,7 +55,7 @@
 
 - Switching from DONE or TODO no longer removes other done or todos on the line
 
-## [0.0.5](9-27-18)
+## [0.0.5] 9-27-18
 
 `Changed`
 
@@ -63,13 +69,13 @@
 - VS-Org Keybinds are only active when the file extension is .vsorg or .vso
 - Fixed issue with `#` acting like a comment, `#+` is now a comment
 
-## [0.0.4](9-26-18)
+## [0.0.4] 9-26-18
 
 `Changed`
 
 - Changed to proper version number
 
-## [0.0.3](9-25-18)
+## [0.0.3] 9-25-18
 
 `Added`
 
@@ -79,7 +85,7 @@
 
 - Changed syntax highlighting for the TODO keyword. Only highlights TODO, not the rest of the line.
 
-## [0.0.2](9-25-18)
+## [0.0.2] 9-25-18
 
 `Added`
 

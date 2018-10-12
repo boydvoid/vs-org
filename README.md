@@ -1,6 +1,6 @@
 # VS-ORG
 
-![Version](https://img.shields.io/badge/version-v0.1.1-blue.svg)
+![Version](https://img.shields.io/badge/version-v0.1.2-blue.svg)
 [![Install](https://img.shields.io/badge/Marketplace-Install-green.svg)](https://marketplace.visualstudio.com/items?itemName=BobbyBoyd.vs-org)</br></br>
 This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode](https://orgmode.org/) as much as possible.
 
@@ -57,11 +57,11 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.1.1] 10-10-18
+### [0.1.2] 10-12-18
 
-`Changed`
+`Fixed`
 
--Syntax Highlighting update. The text on the line is now the same color as the heading
+- Agenda view not showing on Mac. 
 
 ## Upcoming Features
 
