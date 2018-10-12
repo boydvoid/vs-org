@@ -334,7 +334,7 @@ module.exports = function () {
             }
         }
       });
-      errorMessage4.showMessage();
+      
     }
 
     function getWebviewContent(task: keyof typeof sortedObject) {
