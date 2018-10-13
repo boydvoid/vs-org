@@ -3,9 +3,9 @@ import * as path from "path";
 import * as fs from "fs";
 import * as os from "os";
 
-module.exports = function() {
+module.exports = function () {
   let config = vscode.workspace.getConfiguration("vsorg");
-  let checkFolder = config.get("folderPath");
+  let folderPath = config.get("folderPath");
   let folder: any;
   let titles: any[] = [];
 
@@ -21,7 +21,14 @@ module.exports = function() {
     fs.readdir(setMainDir(), (err: any, items: any) => {
       for (let i = 0; i < items.length; i++) {
         if (items[i].includes(".vsorg")) {
-          let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
+          let fileText;
+
+          if (os.platform() === 'darwin') {
+            fileText = fs.readFileSync(setMainDir() + "/" + items[i], "utf8");
+          } else {
+            fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
+          }
+
           if (fileText.includes("#+TITLE:") && fileText.match(/\#\+TITLE.*/gi) !== null) {
             let fileName: string = items[i];
             let getTitle: any = fileText.match(/\#\+TITLE.*/gi);
@@ -59,12 +66,20 @@ module.exports = function() {
       }
     });
   }
+  /**
+   * Get the Main Directory
+   */
   function setMainDir() {
-    if (checkFolder === "") {
+    if (folderPath === "") {
       let homeDir = os.homedir();
-      folder = homeDir + "\\VSOrgFiles";
+      if (os.platform() === "darwin" || os.platform() === "linux") {
+        folder = homeDir + "/VSOrgFiles";
+      } else {
+
+        folder = homeDir + "\\VSOrgFiles";
+      }
     } else {
-      folder = checkFolder;
+      folder = folderPath;
     }
     return folder;
   }

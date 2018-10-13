@@ -4,7 +4,7 @@ import * as os from "os";
 import * as moment from "moment";
 import * as path from "path";
 import { WindowMessage } from "../showMessage";
-module.exports = function() {
+module.exports = function () {
   vscode.commands.executeCommand("workbench.action.files.save").then(() => {
     let config = vscode.workspace.getConfiguration("vsorg");
     let folderPath = config.get("folderPath");
@@ -17,10 +17,6 @@ module.exports = function() {
     let sortedObject: any = {};
     var itemInSortedObject: any = "";
 
-    let errorMessage1 = new WindowMessage("information", "Message 1: Agenda View Loading", false, false);
-    let errorMessage2 = new WindowMessage("information", "Message 2: Setting Date", false, false);
-    let errorMessage3 = new WindowMessage("information", "Message 3: Creating Webview", false, false);
-    let errorMessage4 = new WindowMessage("information", "Message 4: Webview Loaded", false, false);
 
     //call the function
     readFiles();
@@ -28,16 +24,25 @@ module.exports = function() {
     function readFiles() {
       //read the directory
       fs.readdir(setMainDir(), (err, items: any) => {
-        errorMessage1.showMessage();
+
         //loop through all of the files in the directory
         for (let i = 0; i < items.length; i++) {
           //make sure its a vsorg file
           if (items[i].includes(".vsorg")) {
             //read the file and puth the text in an array
-            let fileText = fs
-              .readFileSync(setMainDir() + "\\" + items[i])
-              .toString()
-              .split(/\r?\n/);
+            let fileText
+            if (os.platform() === "darwin" || os.platform() === "linux") {
+              fileText = fs
+                .readFileSync(setMainDir() + "/" + items[i])
+                .toString()
+                .split(/\r?\n/);
+            } else {
+
+              fileText = fs
+                .readFileSync(setMainDir() + "\\" + items[i])
+                .toString()
+                .split(/\r?\n/);
+            }
 
             fileText.forEach(element => {
               // for each element check for scheduled and not done
@@ -107,7 +112,7 @@ module.exports = function() {
 
                 convertedDateArray = [];
                 if (new Date(getDateFromTaskText[1]).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)) {
-                  errorMessage2.showMessage();
+
                   if (nameOfDay !== undefined) {
                     convertedDateArray.push({
                       date:
@@ -160,7 +165,7 @@ module.exports = function() {
                   }
                   //if date is a day in the past
                   if (new Date(getDateFromTaskText[1]).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)) {
-                    errorMessage2.showMessage();
+
                     convertedDateArray.push({
                       date:
                         '<div class="heading' +
@@ -204,19 +209,19 @@ module.exports = function() {
               }
             });
             //sort the object by date
-            Object.keys(unsortedObject).forEach(function(key) {
+            Object.keys(unsortedObject).forEach(function (key) {
               sortedObject[key] = unsortedObject[key];
             });
           }
         }
 
         Object.keys(sortedObject)
-          .sort(function(a: any, b: any) {
+          .sort(function (a: any, b: any) {
             let first: any = moment(a.match(/\[(.*)\]/), "MM-DD-YYYY").toDate();
             let second: any = moment(b.match(/\[(.*)\]/), "MM-DD-YYYY").toDate();
             return first - second;
           })
-          .forEach(function(property) {
+          .forEach(function (property) {
             itemInSortedObject += property + sortedObject[property] + "</br>";
           });
 
@@ -230,7 +235,12 @@ module.exports = function() {
     function setMainDir() {
       if (folderPath === "") {
         let homeDir = os.homedir();
-        folder = homeDir + "\\VSOrgFiles";
+        if (os.platform() === "darwin" || os.platform() === "linux") {
+          folder = homeDir + "/VSOrgFiles";
+        } else {
+
+          folder = homeDir + "\\VSOrgFiles";
+        }
       } else {
         folder = folderPath;
       }
@@ -238,7 +248,7 @@ module.exports = function() {
     }
 
     function createWebview() {
-      errorMessage3.showMessage();
+
       let reload = false;
       let fullAgendaView = vscode.window.createWebviewPanel(
         "fullAgenda",
@@ -290,13 +300,13 @@ module.exports = function() {
                 x[i] = x[i].replace(
                   "TODO " + text,
                   "DONE " +
-                    text +
-                    "    SCHEDULED: " +
-                    textArray[3] +
-                    "\n   COMPLETED:" +
-                    "[" +
-                    new Date().toLocaleString() +
-                    "]"
+                  text +
+                  "    SCHEDULED: " +
+                  textArray[3] +
+                  "\n   COMPLETED:" +
+                  "[" +
+                  new Date().toLocaleString() +
+                  "]"
                 );
                 contents = x.join("\r\n");
                 fs.writeFileSync(fileName, contents, "utf-8");
@@ -324,7 +334,7 @@ module.exports = function() {
             }
         }
       });
-      errorMessage4.showMessage();
+
     }
 
     function getWebviewContent(task: keyof typeof sortedObject) {
