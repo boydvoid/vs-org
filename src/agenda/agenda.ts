@@ -33,7 +33,7 @@ module.exports = function () {
             let fileText
             if (os.platform() === "darwin") {
               fileText = fs
-                .readFileSync(setMainDir() + "\\" + items[i])
+                .readFileSync(setMainDir() + "/" + items[i])
                 .toString()
                 .split(/\r?\n/);
             } else {
@@ -334,7 +334,7 @@ module.exports = function () {
             }
         }
       });
-      errorMessage4.showMessage();
+
     }
 
     function getWebviewContent(task: keyof typeof sortedObject) {
