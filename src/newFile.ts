@@ -7,7 +7,7 @@ module.exports = function () {
 
   //get the name of the new file
   let config = vscode.workspace.getConfiguration("vsorg");
-  let checkFolder = config.get("folderPath");
+  let folderPath = config.get("folderPath");
   let extension = ".vsorg";
   let folder: any;
 
@@ -67,11 +67,11 @@ module.exports = function () {
 
   //check to see if the folder path in settings was changed
   function setMainDir() {
-    if (checkFolder === "") {
+    if (folderPath === "") {
       let homeDir = os.homedir();
       folder = homeDir + "\\VSOrgFiles";
     } else {
-      folder = checkFolder;
+      folder = folderPath;
     }
     return folder;
   }
