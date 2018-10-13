@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as os from "os";
 import * as moment from "moment";
 import * as path from "path";
-import { WindowMessage } from "../showMessage";
+
 module.exports = function () {
   vscode.commands.executeCommand("workbench.action.files.save").then(() => {
     let config = vscode.workspace.getConfiguration("vsorg");

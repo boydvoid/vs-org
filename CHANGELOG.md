@@ -4,7 +4,7 @@
 
 `Fixed`
 
-- Agenda view now shows on mac
+- Agenda view now shows on mac [Issue #65](https://github.com/robaboyd/vs-org/issues/65)
 
 ## [0.1.1] 10-10-18
 
