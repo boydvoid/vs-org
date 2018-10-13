@@ -4,7 +4,7 @@
 
 `Fixed`
 
-- Agenda view not showing on Mac. 
+- Agenda view now shows on mac
 
 ## [0.1.1] 10-10-18
 
