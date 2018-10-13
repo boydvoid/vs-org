@@ -236,7 +236,7 @@ module.exports = function () {
       if (folderPath === "") {
         let homeDir = os.homedir();
         if (os.platform() === "darwin") {
-          folder = homeDir + "//VSOrgFiles";
+          folder = homeDir + "/VSOrgFiles";
         } else {
 
           folder = homeDir + "\\VSOrgFiles";

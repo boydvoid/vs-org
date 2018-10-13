@@ -21,9 +21,9 @@ module.exports = function () {
     fs.readdir(setMainDir(), (err: any, items: any) => {
       for (let i = 0; i < items.length; i++) {
         if (items[i].includes(".vsorg")) {
-          let fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
+          let fileText;
 
-          if (os.platform() === 'dawrin') {
+          if (os.platform() === 'darwin') {
             fileText = fs.readFileSync(setMainDir() + "/" + items[i], "utf8");
           } else {
             fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
