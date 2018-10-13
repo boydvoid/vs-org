@@ -72,7 +72,7 @@ module.exports = function () {
   function setMainDir() {
     if (folderPath === "") {
       let homeDir = os.homedir();
-      if (os.platform() === "darwin") {
+      if (os.platform() === "darwin" || os.platform() === "linux") {
         folder = homeDir + "/VSOrgFiles";
       } else {
 

@@ -31,7 +31,7 @@ module.exports = function () {
           if (items[i].includes(".vsorg")) {
             //read the file and puth the text in an array
             let fileText
-            if (os.platform() === "darwin") {
+            if (os.platform() === "darwin" || os.platform() === "linux") {
               fileText = fs
                 .readFileSync(setMainDir() + "/" + items[i])
                 .toString()
@@ -235,7 +235,7 @@ module.exports = function () {
     function setMainDir() {
       if (folderPath === "") {
         let homeDir = os.homedir();
-        if (os.platform() === "darwin") {
+        if (os.platform() === "darwin" || os.platform() === "linux") {
           folder = homeDir + "/VSOrgFiles";
         } else {
 

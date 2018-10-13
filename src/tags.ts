@@ -25,7 +25,7 @@ module.exports = function () {
         if (items[i].includes(".vsorg")) {
           //check files for #+ TAGS:'
           let fileText;
-          if (os.platform() === "darwin") {
+          if (os.platform() === "darwin" || os.platform() === "linux") {
             fileText = fs.readFileSync(setMainDir() + "/" + items[i], "utf-8");
           } else {
             fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf-8");
@@ -83,7 +83,7 @@ module.exports = function () {
   function setMainDir() {
     if (folderPath === "") {
       let homeDir = os.homedir();
-      if (os.platform() === "darwin") {
+      if (os.platform() === "darwin" || os.platform() === "linux") {
         folder = homeDir + "/VSOrgFiles";
       } else {
 
