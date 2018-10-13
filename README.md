@@ -61,7 +61,7 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 `Fixed`
 
-- Agenda view not showing on Mac. 
+- Agenda view now shows on Mac 
 
 ## Upcoming Features
 

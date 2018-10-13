@@ -2,7 +2,7 @@
   "name": "vs-org",
   "displayName": "VS-Org",
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": "https://www.github.com/robaboyd/vs-org",
   "icon": "potentialLogo.png",
   "publisher": "BobbyBoyd",
@@ -52,8 +52,7 @@
         }
       }
     },
-    "commands": [
-      {
+    "commands": [{
         "command": "extension.setFolderPath",
         "title": "VS-Org: Change VS-Org Directory"
       },
@@ -74,8 +73,7 @@
         "title": "VS-Org: Agenda View"
       }
     ],
-    "keybindings": [
-      {
+    "keybindings": [{
         "command": "extension.toggleStatusRight",
         "key": "shift+right",
         "when": "editorLangId == 'vso' && editorTextFocus"
@@ -121,33 +119,27 @@
         "when": "editorLangId == 'vso' && editorTextFocus"
       }
     ],
-    "languages": [
-      {
-        "id": "vso",
-        "aliases": [
-          "VSOrg",
-          "vsorg",
-          "vso"
-        ],
-        "extensions": [
-          ".vsorg",
-          ".vso"
-        ]
-      }
-    ],
-    "grammars": [
-      {
-        "language": "vso",
-        "scopeName": "source.vso",
-        "path": "vso.tmLanguage.json"
-      }
-    ],
-    "snippets": [
-      {
-        "language": "vso",
-        "path": "./snippets/vso.json"
-      }
-    ]
+    "languages": [{
+      "id": "vso",
+      "aliases": [
+        "VSOrg",
+        "vsorg",
+        "vso"
+      ],
+      "extensions": [
+        ".vsorg",
+        ".vso"
+      ]
+    }],
+    "grammars": [{
+      "language": "vso",
+      "scopeName": "source.vso",
+      "path": "vso.tmLanguage.json"
+    }],
+    "snippets": [{
+      "language": "vso",
+      "path": "./snippets/vso.json"
+    }]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
