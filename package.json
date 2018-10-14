@@ -45,10 +45,24 @@
           "default": "",
           "description": "Main folder"
         },
-        "vsorg.showChangeMessage": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show the read change log message after update."
+        "vsorg.showTodoNotification": {
+          "type": "string",
+          "default": [
+
+            "60"
+          ],
+
+          "enum": [
+            "30",
+            "60",
+            "120",
+            "180",
+            "Don't Show Notification"
+          ],
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "description": "How often do you want to see the Scheduled TODO notification. In Minutes."
         }
       }
     },
