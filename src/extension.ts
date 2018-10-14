@@ -15,6 +15,7 @@ const increment = require("./incrementHeadings");
 const decrement = require("./decrementHeadings");
 const scheduling = require("./scheduling");
 const agenda = require("./agenda/agenda");
+const todoNotification = require("./todoNotification");
 
 const GO_MODE: vscode.DocumentFilter = { language: "vso", scheme: "file" };
 class GoOnTypingFormatter implements vscode.OnTypeFormattingEditProvider {
@@ -83,12 +84,24 @@ function numOfSpaces(asterisk: number) {
 //activate function, format on space bar press
 export function activate(ctx: vscode.ExtensionContext): void {
 
+  //show todo notifications and set status bar
+  vscode.commands.registerCommand("extension.todoNotification", todoNotification);
 
-  //add a folder path
+  let config: any = vscode.workspace.getConfiguration("vsorg");
+  let todoNotificationMin: string = config.get("showTodoNotification");
+
+  //show the todo notifications
+  if (todoNotificationMin !== "Don't Show Notification") {
+    vscode.commands.executeCommand("extension.todoNotification");
+    setInterval(function () {
+      vscode.commands.executeCommand("extension.todoNotification");
+    }, parseInt(todoNotificationMin) * 60000);
+  }
 
   vscode.commands.registerCommand("extension.viewAgenda", agenda);
- 
+
   vscode.commands.registerCommand("extension.setFolderPath", changeDirectory);
+
   vscode.workspace.onDidChangeTextDocument(() => {
     vscode.commands.executeCommand("extension.updateAgenda");
   });
