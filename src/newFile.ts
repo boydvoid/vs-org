@@ -1,16 +1,14 @@
 import * as vscode from "vscode";
 import * as path from 'path';
-import * as os from 'os';
+
 const fs = require('fs-extra');
 import { WindowMessage } from "./showMessage";
+import { SetDir } from './setMainDir';
+
 module.exports = function () {
 
-  //get the name of the new file
-  let config = vscode.workspace.getConfiguration("vsorg");
-  let folderPath = config.get("folderPath");
   let extension = ".vsorg";
-  let folder: any;
-
+  let getDirectory: any = new SetDir().setMainDir();
 
   //all messages
   // let changeLogMessage = new WindowMessage("information", "VS-Org was just updated to v0.1.0, view the change log here.", true,
@@ -36,7 +34,7 @@ module.exports = function () {
       let fileName = setName;
 
       //create new file
-      createFile(setMainDir(), fileName)
+      createFile(getDirectory, fileName)
         .then(path => {
           if (typeof path !== "string") {
             return false;
@@ -63,17 +61,6 @@ module.exports = function () {
         resolve(fullPath);
       });
     });
-  }
-
-  //check to see if the folder path in settings was changed
-  function setMainDir() {
-    if (folderPath === "") {
-      let homeDir = os.homedir();
-      folder = homeDir + "\\VSOrgFiles";
-    } else {
-      folder = folderPath;
-    }
-    return folder;
   }
 
 };

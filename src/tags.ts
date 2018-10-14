@@ -2,12 +2,10 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import * as os from "os";
+import { SetDir } from './setMainDir';
 
 module.exports = function () {
-  let config = vscode.workspace.getConfiguration("vsorg");
-  let folderPath = config.get("folderPath");
-  let folder: any;
-
+  let getDirectory: any = new SetDir().setMainDir();
   let listObject: TagObject = {};
   let splitTags: string[];
   let formatTag: any = [];
@@ -20,15 +18,15 @@ module.exports = function () {
   }
   //get tags
   function readFiles() {
-    fs.readdir(setMainDir(), (err: any, items: any) => {
+    fs.readdir(getDirectory, (err: any, items: any) => {
       for (let i = 0; i < items.length; i++) {
         if (items[i].includes(".vsorg")) {
           //check files for #+ TAGS:'
           let fileText;
           if (os.platform() === "darwin" || os.platform() === "linux") {
-            fileText = fs.readFileSync(setMainDir() + "/" + items[i], "utf-8");
+            fileText = fs.readFileSync(getDirectory + "/" + items[i], "utf-8");
           } else {
-            fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf-8");
+            fileText = fs.readFileSync(getDirectory + "\\" + items[i], "utf-8");
           }
 
           if (fileText.includes("#+TAGS:") && fileText.match(/\#\+TAGS.*/gi) !== null) {
@@ -67,7 +65,7 @@ module.exports = function () {
         if (tag in listObject) {
           let getFileName = listObject[tag].split(",");
           vscode.window.showQuickPick(getFileName).then((filePath: any) => {
-            let fullpath: any = path.join(setMainDir(), filePath);
+            let fullpath: any = path.join(getDirectory, filePath);
             vscode.workspace.openTextDocument(vscode.Uri.file(fullpath)).then(doc => {
               vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, true);
             });
@@ -77,22 +75,6 @@ module.exports = function () {
       }
     });
   }
-  /**
-   * Get the Main Directory
-   */
-  function setMainDir() {
-    if (folderPath === "") {
-      let homeDir = os.homedir();
-      if (os.platform() === "darwin" || os.platform() === "linux") {
-        folder = homeDir + "/VSOrgFiles";
-      } else {
 
-        folder = homeDir + "\\VSOrgFiles";
-      }
-    } else {
-      folder = folderPath;
-    }
-    return folder;
-  }
 
 };

@@ -2,11 +2,10 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import * as os from "os";
+import { SetDir } from './setMainDir';
 
 module.exports = function () {
-  let config = vscode.workspace.getConfiguration("vsorg");
-  let folderPath = config.get("folderPath");
-  let folder: any;
+  let getDirectory: any = new SetDir().setMainDir();
   let titles: any[] = [];
 
   let listObject: TitleObject = {};
@@ -18,15 +17,15 @@ module.exports = function () {
   }
 
   function readFiles() {
-    fs.readdir(setMainDir(), (err: any, items: any) => {
+    fs.readdir(getDirectory, (err: any, items: any) => {
       for (let i = 0; i < items.length; i++) {
         if (items[i].includes(".vsorg")) {
           let fileText;
 
           if (os.platform() === 'darwin') {
-            fileText = fs.readFileSync(setMainDir() + "/" + items[i], "utf8");
+            fileText = fs.readFileSync(getDirectory + "/" + items[i], "utf8");
           } else {
-            fileText = fs.readFileSync(setMainDir() + "\\" + items[i], "utf8");
+            fileText = fs.readFileSync(getDirectory + "\\" + items[i], "utf8");
           }
 
           if (fileText.includes("#+TITLE:") && fileText.match(/\#\+TITLE.*/gi) !== null) {
@@ -59,28 +58,12 @@ module.exports = function () {
   function setQuickPick() {
     vscode.window.showQuickPick(titles).then((title: any) => {
       if (title in listObject) {
-        let fullpath: any = path.join(setMainDir(), listObject[title]);
+        let fullpath: any = path.join(getDirectory, listObject[title]);
         vscode.workspace.openTextDocument(vscode.Uri.file(fullpath)).then(doc => {
           vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside, true);
         });
       }
     });
   }
-  /**
-   * Get the Main Directory
-   */
-  function setMainDir() {
-    if (folderPath === "") {
-      let homeDir = os.homedir();
-      if (os.platform() === "darwin" || os.platform() === "linux") {
-        folder = homeDir + "/VSOrgFiles";
-      } else {
 
-        folder = homeDir + "\\VSOrgFiles";
-      }
-    } else {
-      folder = folderPath;
-    }
-    return folder;
-  }
 };
