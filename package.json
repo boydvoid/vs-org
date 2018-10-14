@@ -14,12 +14,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.createVsoFile",
-    "onCommand:extension.getTags",
-    "onCommand:extension.getTitles",
-    "onCommand:extension.setFolderPath",
-    "onCommand:extension.viewAgenda",
-    "onLanguage:vso"
+    "*"
   ],
   "keywords": [
     "todo",
