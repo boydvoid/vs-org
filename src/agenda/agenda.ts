@@ -3,12 +3,11 @@ import * as fs from "fs";
 import * as os from "os";
 import * as moment from "moment";
 import * as path from "path";
+import { SetDir } from './../setMainDir';
 
 module.exports = function () {
   vscode.commands.executeCommand("workbench.action.files.save").then(() => {
-    let config = vscode.workspace.getConfiguration("vsorg");
-    let folderPath = config.get("folderPath");
-    let folder: any;
+
     let taskText: any;
     let taskTextGetTodo: any = "";
     let getDateFromTaskText: any;
@@ -16,30 +15,30 @@ module.exports = function () {
     let unsortedObject: any = {};
     let sortedObject: any = {};
     var itemInSortedObject: any = "";
-
+    let getDirectory: any = new SetDir().setMainDir();
 
     //call the function
     readFiles();
 
     function readFiles() {
       //read the directory
-      fs.readdir(setMainDir(), (err, items: any) => {
+      fs.readdir(getDirectory, (err, items: any) => {
 
         //loop through all of the files in the directory
         for (let i = 0; i < items.length; i++) {
           //make sure its a vsorg file
           if (items[i].includes(".vsorg")) {
             //read the file and puth the text in an array
-            let fileText
+            let fileText;
             if (os.platform() === "darwin" || os.platform() === "linux") {
               fileText = fs
-                .readFileSync(setMainDir() + "/" + items[i])
+                .readFileSync(getDirectory + "/" + items[i])
                 .toString()
                 .split(/\r?\n/);
             } else {
 
               fileText = fs
-                .readFileSync(setMainDir() + "\\" + items[i])
+                .readFileSync(getDirectory + "\\" + items[i])
                 .toString()
                 .split(/\r?\n/);
             }
@@ -229,24 +228,6 @@ module.exports = function () {
       });
     }
 
-    /**
-     * Get the Main Directory
-     */
-    function setMainDir() {
-      if (folderPath === "") {
-        let homeDir = os.homedir();
-        if (os.platform() === "darwin" || os.platform() === "linux") {
-          folder = homeDir + "/VSOrgFiles";
-        } else {
-
-          folder = homeDir + "\\VSOrgFiles";
-        }
-      } else {
-        folder = folderPath;
-      }
-      return folder;
-    }
-
     function createWebview() {
 
       let reload = false;
@@ -280,7 +261,7 @@ module.exports = function () {
       fullAgendaView.webview.onDidReceiveMessage(message => {
         switch (message.command) {
           case "open":
-            let fullPath = path.join(setMainDir(), message.text);
+            let fullPath = path.join(getDirectory, message.text);
             vscode.workspace.openTextDocument(vscode.Uri.file(fullPath)).then(doc => {
               vscode.window.showTextDocument(doc, vscode.ViewColumn.One, false);
             });
@@ -288,7 +269,7 @@ module.exports = function () {
 
           case "changeTodo":
             let textArray = message.text.split(",");
-            let fileName = path.join(setMainDir(), textArray[1]);
+            let fileName = path.join(getDirectory, textArray[1]);
             let text = textArray[2];
             let contents = fs.readFileSync(fileName, "utf-8");
             let x = contents.split(/\r?\n/);
@@ -316,7 +297,7 @@ module.exports = function () {
 
           case "changeDone":
             let textArrayD = message.text.split(",");
-            let fileNameD = path.join(setMainDir(), textArrayD[1]);
+            let fileNameD = path.join(getDirectory, textArrayD[1]);
             let textD = textArrayD[2];
             let contentsD = fs.readFileSync(fileNameD, "utf-8");
             let y = contentsD.split(/\r?\n/);
