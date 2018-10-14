@@ -42,7 +42,7 @@ export class WindowMessage {
           opn(this.urlText);
         })
       } else {
-        vscode.window.showErrorMessage(this.message)
+        vscode.window.showInformationMessage(this.message)
       }
     } else if (this.type === "warning") {
       //open in browswer
@@ -53,7 +53,7 @@ export class WindowMessage {
           opn(this.urlText);
         })
       } else {
-        vscode.window.showErrorMessage(this.message)
+        vscode.window.showWarningMessage(this.message)
       }
     } else if (this.type === "error") {
       //open in browswer
