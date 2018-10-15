@@ -57,8 +57,13 @@ module.exports = function () {
             current_line.range.start,
             line_leading_spaces + unicode_char + 'DONE ' + text_without_todo + '\n   COMPLETED:' + '[' + date + ']'
           );
-
           return vscode.workspace.applyEdit(workspaceEdit).then(() => {
+              if (todoArray.length !== 0) {
+                  //set status bar
+                  const status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+                  status.text = "⏲: " + todoArray.length.toString();
+                  status.show();
+              }
             vscode.commands.executeCommand("workbench.action.files.save");
           });
         }
