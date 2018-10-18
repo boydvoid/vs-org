@@ -8,6 +8,10 @@
   - The setting can be changed under the VS-Org config in the Extension preferences
   - The already scheduled TODOs will update to the new format when the setting is changed
 
+`Changed`
+
+- DONE date format changed to `Day Month Name, Year` ex. 18th October, 2018
+
 ## [0.1.2] 10-12-18
 
 `Fixed`
