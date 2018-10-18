@@ -2,7 +2,7 @@
   "name": "vs-org",
   "displayName": "VS-Org",
   "description": "Quickly create todo lists, take notes, plan projects and organize your thoughts.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "repository": "https://www.github.com/robaboyd/vs-org",
   "icon": "potentialLogo.png",
   "publisher": "BobbyBoyd",
@@ -14,12 +14,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.createVsoFile",
-    "onCommand:extension.getTags",
-    "onCommand:extension.getTitles",
-    "onCommand:extension.setFolderPath",
-    "onCommand:extension.viewAgenda",
-    "onLanguage:vso"
+    "*"
   ],
   "keywords": [
     "todo",
@@ -45,11 +40,22 @@
           "default": "",
           "description": "Main folder"
         },
-        "vsorg.showChangeMessage": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show the read change log message after update."
+        "vsorg.dateFormat": {
+          "type": "string",
+          "default": [
+            "MM-DD-YYYY"
+          ],
+          "enum": [
+            "MM-DD-YYYY",
+            "DD-MM-YYYY"
+
+          ],
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "description": "The scheduled date format."
         }
+
       }
     },
     "commands": [{

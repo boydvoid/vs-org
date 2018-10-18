@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.1.3] 10-18-18
+
+`Added`
+
+- Added the `DD-MM-YYYY` date format [Issue #73](https://github.com/robaboyd/vs-org/issues/73)
+  - The setting can be changed under the VS-Org config in the Extension preferences
+  - The already scheduled TODOs will update to the new format when the setting is changed
+
 ## [0.1.2] 10-12-18
 
 `Fixed`
