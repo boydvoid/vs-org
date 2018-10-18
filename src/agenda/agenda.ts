@@ -8,6 +8,7 @@ module.exports = function () {
   vscode.commands.executeCommand("workbench.action.files.save").then(() => {
     let config = vscode.workspace.getConfiguration("vsorg");
     let folderPath = config.get("folderPath");
+    let dateFormat: any = config.get("dateFormat");
     let folder: any;
     let taskText: any;
     let taskTextGetTodo: any = "";
@@ -92,7 +93,7 @@ module.exports = function () {
                 }
 
                 //get the day of the week for items scheduled in the future
-                let d = new Date(getDateFromTaskText[1]).getDay();
+                let d = moment(getDateFromTaskText[1], dateFormat).day();
                 let nameOfDay;
                 if (d === 0) {
                   nameOfDay = "Sunday";
@@ -111,7 +112,7 @@ module.exports = function () {
                 }
 
                 convertedDateArray = [];
-                if (new Date(getDateFromTaskText[1]).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)) {
+                if (moment(getDateFromTaskText[1], dateFormat) >= moment(new Date(), dateFormat)) {
 
                   if (nameOfDay !== undefined) {
                     convertedDateArray.push({
@@ -145,8 +146,14 @@ module.exports = function () {
                   if (mm < 10) {
                     mm = "0" + mm;
                   }
+                  if (dateFormat === "MM-DD-YYYY") {
 
-                  today = mm + "-" + dd + "-" + yyyy;
+
+                    today = mm + "-" + dd + "-" + yyyy;
+                  } else {
+
+                    today = dd + "-" + mm + "-" + yyyy;
+                  }
 
                   if (getDayOverdue === 0) {
                     overdue = "Sunday";
@@ -164,7 +171,7 @@ module.exports = function () {
                     overdue = "Saturday";
                   }
                   //if date is a day in the past
-                  if (new Date(getDateFromTaskText[1]).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)) {
+                  if (moment(getDateFromTaskText[1], dateFormat) < moment(new Date().getDate(), dateFormat)) {
 
                     convertedDateArray.push({
                       date:
@@ -217,13 +224,19 @@ module.exports = function () {
 
         Object.keys(sortedObject)
           .sort(function (a: any, b: any) {
-            let first: any = moment(a.match(/\[(.*)\]/), "MM-DD-YYYY").toDate();
-            let second: any = moment(b.match(/\[(.*)\]/), "MM-DD-YYYY").toDate();
+
+            let first: any = moment(a.match(/\[(.*)\]/), dateFormat).toDate();
+
+            let second: any = moment(b.match(/\[(.*)\]/), dateFormat).toDate();
+
             return first - second;
           })
           .forEach(function (property) {
             itemInSortedObject += property + sortedObject[property] + "</br>";
           });
+
+
+
 
         createWebview();
       });
@@ -296,6 +309,8 @@ module.exports = function () {
             for (let i = 0; i < x.length; i++) {
               if (x[i].indexOf(text) > -1 && x[i].indexOf(textArray[3]) > -1) {
                 let removeSchedule: any = x[i].match(/\bSCHEDULED\b(.*)/g);
+                let date = moment().format('Do MMMM YYYY, h:mm:ss a');
+
                 x[i] = x[i].replace(removeSchedule[0], "");
                 x[i] = x[i].replace(
                   "TODO " + text,
@@ -305,7 +320,7 @@ module.exports = function () {
                   textArray[3] +
                   "\n   COMPLETED:" +
                   "[" +
-                  new Date().toLocaleString() +
+                  date +
                   "]"
                 );
                 contents = x.join("\r\n");
