@@ -12,13 +12,15 @@ module.exports = function () {
     let year: string | undefined;
     let month: string | undefined;
     let workspaceEdit = new vscode.WorkspaceEdit();
+    let config = vscode.workspace.getConfiguration("vsorg");
+    let dateFormat = config.get("dateFormat");
 
     //messages
     let fullDateMessage = new WindowMessage('warning', "Full date must be entered", false, false);
     let notADateMessage = new WindowMessage('warning', "That's not a valid date. ", false, false);
 
     if (current_line.text.includes("SCHEDULED:")) {
-      let removeScheduled = current_line.text.replace(/\b(SCHEDULED)\b(.*)/, "").trim();
+      let removeScheduled = current_line.text.replace(/\b(SCHEDULED)\b(.*)/, "").trimRight();
 
       workspaceEdit.delete(document.uri, current_line.range);
 
@@ -81,12 +83,22 @@ module.exports = function () {
                   workspaceEdit.delete(document.uri, current_line.range);
 
                   //insert based on date format
+                  if (dateFormat === "MM-DD-YYYY") {
 
-                  workspaceEdit.insert(
-                    document.uri,
-                    current_line.range.start,
-                    current_line.text + "    SCHEDULED: [" + month + "-" + day + "-" + year + "]"
-                  );
+                    workspaceEdit.insert(
+                      document.uri,
+                      current_line.range.start,
+                      current_line.text + "    SCHEDULED: [" + month + "-" + day + "-" + year + "]"
+                    );
+
+                  } else if (dateFormat === "DD-MM-YYYY") {
+                    workspaceEdit.insert(
+                      document.uri,
+                      current_line.range.start,
+                      current_line.text + "    SCHEDULED: [" + day + "-" + month + "-" + year + "]"
+                    );
+                  }
+
 
                   return vscode.workspace.applyEdit(workspaceEdit).then(() => {
                     vscode.commands.executeCommand("workbench.action.files.save");
