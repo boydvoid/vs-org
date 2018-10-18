@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-
+import * as moment from "moment";
 module.exports = function () {
   vscode.commands.executeCommand("workbench.action.files.save").then(() => {
     const { activeTextEditor } = vscode.window;
@@ -13,7 +13,8 @@ module.exports = function () {
       let unicode_char = characterDecode(characterArray);
       let line_leading_spaces: string = current_line.text.substr(0, current_line.text.indexOf(unicode_char));
       let text_after_unicode_char: string = current_line.text.replace(/[⊙⊘⊖\?]/g, '').trim();
-      let date = new Date().toLocaleString();
+      let date;
+
       let workspaceEdit = new vscode.WorkspaceEdit();
       //check if the char exists on the line
       if (current_line.text.includes(unicode_char)) {
@@ -47,6 +48,7 @@ module.exports = function () {
             vscode.commands.executeCommand("workbench.action.files.save");
           });
         } else if (!current_line.text.includes('DONE')) {
+          date = moment().format('Do MMMM YYYY, h:mm:ss a');
           // remove todo from the line
           let text_without_todo = text_after_unicode_char.replace(/\b(TODO)\b/, '').trim();
 
