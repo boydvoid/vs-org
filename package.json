@@ -110,16 +110,6 @@
         "when": "editorLangId == 'vso' && editorTextFocus"
       },
       {
-        "command": "editor.fold",
-        "key": "tab",
-        "when": "editorLangId == 'vso' && editorTextFocus"
-      },
-      {
-        "command": "editor.unfold",
-        "key": "shift+tab",
-        "when": "editorLangId == 'vso' && editorTextFocus"
-      },
-      {
         "command": "extension.scheduling",
         "key": "ctrl+alt+s",
         "when": "editorLangId == 'vso' && editorTextFocus"
