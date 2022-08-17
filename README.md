@@ -4,8 +4,6 @@
 ![Version](https://img.shields.io/badge/version-v0.1.3-blue.svg)
 [![Install](https://img.shields.io/badge/Marketplace-Install-green.svg)](https://marketplace.visualstudio.com/items?itemName=BobbyBoyd.vs-org)</br></br>
 
-Dev update: I am back from a long hiatus, and will be continuing to work on this project. Thanks 
-
 This is a work in progress extension that will, in the end, try to emulate [Emacs Org-Mode](https://orgmode.org/) as much as possible.
 
 > Quickly create todo lists, take notes, plan projects and organize your thoughts. Check out the full demo below.
