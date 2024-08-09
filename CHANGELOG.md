@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.1.4] 08-09-24
+
+`Fixed`
+
+- Fixed scheduling bug
+
+`Changed`
+
+- Changed the keybinds for folding to the default vscode keybinds ```Shift + Ctrl + [``` to fold and ```Shift + Ctrl + ]``` to unfold
+
+
 ## [0.1.3] 10-18-18
 
 `Added`

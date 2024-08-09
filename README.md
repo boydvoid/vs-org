@@ -42,8 +42,8 @@ Make sure you save your files with the .vsorg extension.
 | `shift+alt+downArrow` | Move Block of code down            |
 | `alt+rightArrow`      | Increment the level of the heading |
 | `alt+leftArrow`       | Decrement the level of the heading |
-| `tab`                 | Fold                               |
-| `shift+tab`           | Unfold                             |
+| `shift + ctrl + [`    | Fold                               |
+| `shift + ctrl + ]`    | Unfold                             |
 | `ctrl+alt+s`          | Schedule a task                    |
 
 ## Snippets
@@ -59,17 +59,15 @@ Submit an [Issue](https://github.com/robaboyd/vs-org/issues) if there is a bug y
 
 ## Release Notes
 
-### [0.1.3] 10-18-18
+## [0.1.4] 08-09-24
 
-`Added`
+`Fixed`
 
-- Added the `DD-MM-YYYY` date format [Issue #73](https://github.com/robaboyd/vs-org/issues/73)
-  - The setting can be changed under the VS-Org config in the Extension preferences
-  - The already scheduled TODOs will update to the new format when the setting is changed
+- Fixed scheduling bug
 
 `Changed`
 
-- DONE date format changed to `Day Month Name, Year` ex. 18th October, 2018
+- Changed the keybinds for folding to the default vscode keybinds ```Shift + Ctrl + [``` to fold and ```Shift + Ctrl + ]``` to unfold
 
 ## Upcoming Features
 
